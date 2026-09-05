@@ -1,0 +1,7 @@
+@import 'tailwindcss';
+
+body{
+    background-image: url('/public/main-background.jpg');
+    background-position: center;
+    backdrop-filter: blur(10px);
+}
