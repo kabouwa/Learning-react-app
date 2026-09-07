@@ -86,12 +86,13 @@ export default function Counter() {
 
         <h2 className="mb-10 text-4xl text-center">Custom seconds : </h2>
 
-        <section className='flex items-center justify-center gap-2'>
+        <section className='flex flex-col md:flex-row items-center justify-center gap-2'>
             <input id="input" type='number' ref={counterInput} placeholder="0"
-            className="border shadow-2xs rounded bg-gray-400 font-bold flex-1 h-10 outline-0 focus:scale-101 transition-all px-3"
+                className="form-control border shadow-2xs rounded bg-secondary text-white font-bold 
+                h-10 outline-0 focus:scale-101 transition-all px-3"
             />
             <button 
-                className='border rounded bg-gray-400 flex-1 cursor-pointer h-10 text-2xl'
+                className='btn btn-secondary border rounded bg-gray-400 w-full flex-1 cursor-pointer h-20 md:h-10 text-2xl'
                 onClick={handleChangeCounterValue}
             >Set seconds [0-1000]</button>
         </section>

@@ -29,7 +29,7 @@ export default function App() {
             </section>
 
             <Footer />
-            <DateTime fixed={true} />
+            <DateTime fixed={true} hiddenOnPhone={true} />
         </>
     )
 }

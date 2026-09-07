@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 
-export default function DateTime({fixed= false}) {
+export default function DateTime({fixed= false, hiddenOnPhone= false}) {
     const [date, setDate] = useState(new Date());
 
     useEffect(() => {
@@ -15,7 +15,9 @@ export default function DateTime({fixed= false}) {
 
     const dateTime = `${date.toDateString()} - ${date.toLocaleTimeString()} `
     return (
-        <div className={`font-bold text-white bg-white/4 backdrop-blur-md rounded-xl py-1 px-3${fixed ? " fixed bottom-3 right-3" : ''}` } >
+        <div className={`font-bold text-white bg-white/4 backdrop-blur-md rounded-xl py-1 px-3 text-sm md:text-md
+        ${fixed ? " fixed bottom-3 right-3" : ''}
+        ${hiddenOnPhone ? " hidden md:block" : ''}` } >
             {dateTime}
         </div>
     )

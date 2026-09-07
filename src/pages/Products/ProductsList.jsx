@@ -74,7 +74,6 @@ export default function ProductsList() {
             ? <p className="mt-4 text-gray-400">{filtredProducts.length} product(s) founded.</p>
             : null
         }
-        
 
         <Alerts alerts={alerts} />
 
