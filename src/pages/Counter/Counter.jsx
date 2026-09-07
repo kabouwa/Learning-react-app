@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from "react"
-import Alert from '../../components/Alerts/Alert'
+import {  useRef, useState } from "react"
+import Alerts from '../../components/Alerts/Alerts'
 
 export default function Counter() {
     const [counter,setCounter] = useState(0),
@@ -7,19 +7,6 @@ export default function Counter() {
     counterInput = useRef(null);
 
     const is_valid = (value) => value >= 0 && value <= 100;
-
-
-    const autoIncrement = () => {
-        setTimeout(()=> {
-            let value = counter + 1
-            setCounter(
-                is_valid(value) ? value : 0
-            )
-        },1000)
-    }
-    useEffect(() => {
-        autoIncrement()
-    }, [counter])
 
     const handleAddToCounterValue = () => {
         const value = counter + 1
@@ -109,19 +96,7 @@ export default function Counter() {
             >Set seconds [0-1000]</button>
         </section>
 
-        {
-            alerts.length ?  (
-                <section className="alerts my-6">
-                    {[...alerts].reverse().map(
-                        (error,index) => (
-                            <Alert key={index} type={error.type} accent={error.accent} > 
-                                {error.message} 
-                            </Alert>
-                        )
-                    )}
-                </section>
-            ) : null
-        }
+        <Alerts alerts={alerts} />
         </>
     )
 }
