@@ -20,7 +20,7 @@ export default function App() {
         <>
             <Header setActiveTab={setActiveTabHandler} />
 
-            <section className="flex-1 p-3">
+            <div className="flex-1 p-3">
                 {
                     activeTab === 'home' ? <Home />
                     : activeTab === 'counter' ? <Counter />
@@ -28,7 +28,7 @@ export default function App() {
                     : activeTab === 'auth' ? <Auth />
                     : <Home />
                 } 
-            </section>
+            </div>
 
             <Footer />
             <DateTime fixed={true} hiddenOnPhone={true} />

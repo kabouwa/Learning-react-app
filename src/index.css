@@ -13,6 +13,14 @@
     }
 }
 
+body {
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
+}
+
+.font-courier{
+    font-family: 'Courier New', Courier, monospace;
+}
+
 /* Scrollbar */
 ::-webkit-scrollbar {
     width: 10px;

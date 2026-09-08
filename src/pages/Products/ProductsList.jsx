@@ -64,7 +64,7 @@ export default function ProductsList() {
 
     return(
         <>
-        <h1 className="display-5 fw-bold mb-4">Discover Products</h1>
+        <h1 className="mb-4 text-center">Discover Products</h1>
 
         <ProductBar products={products} setFiltredProducts={setFiltredProducts} categories={categories} />
 
