@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react"
 import ProductCard from "../../components/Products/ProductCard"
 import { productsApi, categoriesApi} from "../../api/products"
-import { ApiError } from "../../api/client";
 import Alerts from "../../components/Alerts/Alerts";
 import Loading from "../../components/Loading/Loading";
 import ProductBar    from "../../components/Products/ProductBar";
@@ -31,7 +30,7 @@ export default function ProductsList() {
                         {
                             type : "error",
                             accent : "Error",
-                            message : error instanceof ApiError ?  "You're offline. Check you internet connection." : "Unable to connect with server.",
+                            message : error.message,
                         }
 
                     ].slice(-1))

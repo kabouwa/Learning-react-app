@@ -1,11 +1,11 @@
-import { api } from "./client";
+import { api, server } from "./client";
 
 const BASE = '/users';
 
 export const usersApi = {
     list : () => api.get(`${BASE}/`),
 
-    get : (id) => api.get(`${BASE}/${id}`),
+    get : (id) => server.get(`${BASE}/${id}`),
 
     create : (user) => api.post(`${BASE}/`, user),
 
@@ -13,12 +13,5 @@ export const usersApi = {
 
     delete : (id) => api.get(`${BASE}/${id}`),
 
-    login : async function (username, password) { 
-        const users = await this.list()
-        return users.find(
-            user => 
-                user.username === username
-                && user.password === password
-        );
-    }
+    login : (username, password) => server.post(`/login`, {username, password})
 };

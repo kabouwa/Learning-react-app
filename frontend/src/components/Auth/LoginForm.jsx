@@ -3,7 +3,8 @@ import ConfirmButton from "../Forms/ConfirmButton";
 import Alerts from "../Alerts/Alerts";
 import { useRef, useState } from "react";
 import { usersApi } from "../../api/users";
-import { ApiError } from "../../api/client";
+
+// david_r : 3478*#54D
 
 export default function LoginForm() {
     const [errors,setErrors] = useState([]);
@@ -34,17 +35,17 @@ export default function LoginForm() {
         setChecking(true);
         setErrors([]);
         
-        const data = validateFormData();
-        if(data) {
+        const form = validateFormData();
+        if(form) {
             try{
-                const user = await usersApi.login(data.username, data.password);
-                if(user){
+                const data = await usersApi.login(form.username, form.password);
+                if(data.success){
                     setErrors(prev => [
                         ...prev,
                         {
                             type : "success",
                             autoRemove: false,
-                            message: "Logged as : " + JSON.stringify(user),
+                            message: "Logged as : " + JSON.stringify(data),
                         }
         
                     ].slice(-1))
@@ -59,12 +60,13 @@ export default function LoginForm() {
                     ].slice(-1))
                 }
             }catch (error) { 
+                console.log(error.message)
                 setErrors(prev => [
                     ...prev,
                     {
                         type : "error",
                         accent : "Error",
-                        message : error instanceof ApiError ?  "You're offline. Check you internet connection." : "Unable to connect with server.",
+                        message : error.message,
                     }
         
                 ].slice(-1))

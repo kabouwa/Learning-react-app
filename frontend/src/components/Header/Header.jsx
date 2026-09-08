@@ -16,7 +16,7 @@ function HeaderLink({title, icon, active, name, setActiveTab, setTabsData}) {
     return (
         <button 
             className="px-1.5 md:px-3 py-1.5 md:py-1 hover:bg-white hover:text-indigo-500 disabled:text-indigo-500 
-            disabled:bg-white disabled:cursor-not-allowed rounded-4 cursor-pointer transition-all 
+            disabled:bg-white disabled:cursor-not-allowed rounded-4 cursor-pointer transition-all
             duration-200 outline-0 focus:bg-white focus:text-indigo-500"
             disabled={active}
             onClick={() => {handleChangeTab()}}>

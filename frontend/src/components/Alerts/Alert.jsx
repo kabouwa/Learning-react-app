@@ -8,7 +8,7 @@ export default function Alert({children, type, accent, autoRemove = true}) {
         if(!alertWillBeRemoved) return;
         const displayIimeout = setTimeout(() => {
             setShowAlert(false)
-        },5000)
+        },6000)
         
         return () => {
             clearTimeout(displayIimeout)
