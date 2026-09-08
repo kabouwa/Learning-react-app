@@ -4,8 +4,7 @@ import { productsApi, categoriesApi} from "../../api/products"
 import { ApiError } from "../../api/client";
 import Alerts from "../../components/Alerts/Alerts";
 import Loading from "../../components/Loading/Loading";
-import ProductBar from "../../components/Products/ProductBar";
-import Alert from "../../components/Alerts/Alert";
+import ProductBar    from "../../components/Products/ProductBar";
 
 export default function ProductsList() {
     const [products, setProducts] = useState([]);
