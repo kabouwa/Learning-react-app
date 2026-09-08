@@ -30,6 +30,7 @@ export default function Header({setActiveTab}) {
         {title: 'Home', icon: 'fa-house', name: 'home'},
         {title: 'Counter', icon: 'fa-stopwatch', name: 'counter'},
         {title: 'Products', icon: 'fa-store', name: 'products'},
+        {title: 'Authenticate', icon: 'fa-right-to-bracket', name: 'auth'},
     ].map(tab => {
         tab.active = tab.name === lastActiveTab
         return tab

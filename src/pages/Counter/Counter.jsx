@@ -92,7 +92,7 @@ export default function Counter() {
                 h-10 outline-0 focus:scale-101 transition-all px-3"
             />
             <button 
-                className='btn btn-secondary border rounded bg-gray-400 w-full flex-1 cursor-pointer h-20 md:h-10 text-2xl'
+                className='btn btn-secondary border rounded bg-gray-400 w-full flex-1 cursor-pointer min-w-50 h-20 md:h-10 text-2xl'
                 onClick={handleChangeCounterValue}
             >Set seconds [0-1000]</button>
         </section>

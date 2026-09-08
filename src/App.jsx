@@ -6,6 +6,7 @@ import Home from './pages/Home/Home'
 import Counter  from './pages/Counter/Counter'
 import ProductsList from './pages/Products/ProductsList'
 import DateTime from './components/DateTime/DateTime'
+import Auth from './pages/Auth/Auth'
 
 export default function App() {
     const [activeTab,setActiveTab] = useState(localStorage.getItem('tab') ?? 'home')
@@ -24,6 +25,7 @@ export default function App() {
                     activeTab === 'home' ? <Home />
                     : activeTab === 'counter' ? <Counter />
                     : activeTab === 'products' ? <ProductsList />
+                    : activeTab === 'auth' ? <Auth />
                     : <Home />
                 } 
             </section>

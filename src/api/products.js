@@ -11,9 +11,5 @@ export const productsApi = {
 };
 
 export const categoriesApi ={
-    list : async () => {
-        const data = await productsApi.list();
-        const allCategories = data.map(product => product.category);
-        return [...new Set(allCategories)]
-    }
+    list : () => api.get(`${BASE}/categories`), 
 }

@@ -100,13 +100,13 @@ export default function ProductBar({products, setFiltredProducts, categories}) {
             </button>
 
             {/* Filter Modal */}
-            <div className={`filter-modal absolute z-50 top-13 p-3 right-0 text-dark bg-white rounded-2xl w-full 
+            <div className={`filter-modal absolute z-50 top-27 md:top-13 p-3 right-0 text-dark bg-white rounded-2xl w-full 
             md:w-1/2 xl:w-1/3 overflow-hidden transition-all${!showFilterModal ? ' scale-0' : ''}`}>
                 <h4>
                     <i className="fa-solid fa-filter"></i> Filters  
                 </h4>
                 
-                <form className="grid grid-cols-1 md:grid-cols-2 gap-3 my-3" onSubmit={handleFilterForm}>
+                <form className="flex flex-col md:grid grid-cols-1 md:grid-cols-2 gap-3 my-3" onSubmit={handleFilterForm}>
 
                     <div>
                         <label htmlFor="min-price" className="form-label">Min price :</label>

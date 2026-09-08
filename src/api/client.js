@@ -38,7 +38,7 @@ async function request(path, options={}) {
         );
     }
 
-    const randomDelay = 500 + Math.floor( Math.random() * 1000 )
+    const randomDelay = 250 + Math.floor( Math.random() * 350 )
     await new Promise(resolve => setTimeout(resolve, randomDelay));
 
     return body;
