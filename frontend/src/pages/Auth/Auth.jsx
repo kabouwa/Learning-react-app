@@ -4,12 +4,6 @@ import RegisterForm from "../../components/Auth/RegisterForm";
 
 export default function Auth({ showLogin=true }) {
     const [login,setLogin] = useState(showLogin);
-    const loginRadio = useRef(null);
-    const handleSwitchForm = () => {
-        setLogin(
-            loginRadio.current.checked
-        )
-    }
 
     return (
         <>
@@ -20,8 +14,8 @@ export default function Auth({ showLogin=true }) {
         </p>
 
         <div className="bg-gray-500 max-w-xl mx-auto p-1 rounded-xl flex gap-2">
-            <input  onChange={handleSwitchForm} type="radio" name="form-toggler" id="login-form" ref={loginRadio} className="hidden" />
-            <input  onChange={handleSwitchForm} type="radio" name="form-toggler" id="register-form" className="hidden" />
+            <input onChange={() => setLogin(true)} type="radio" name="form-toggler" id="login-form" checked={login} className="hidden" />
+            <input onChange={() => setLogin(false)} type="radio" name="form-toggler" id="register-form" checked={!login} className="hidden" />
 
             <label htmlFor="login-form"
                 className={"flex-1 py-2 text-center font-bold cusror-pointer text-white rounded-xl cursor-pointer transition-all duration-300" + (login ? " bg-indigo-500" : '')}
@@ -32,11 +26,10 @@ export default function Auth({ showLogin=true }) {
             >Register</label>
         </div>
 
-        {
-            login 
-            ? <LoginForm />
-            : <RegisterForm />
-        }
+        <div className="relative">
+            <LoginForm setLogin={setLogin} classes={login ? 'animate-fade-in relative' : 'hidden'} />
+            <RegisterForm setLogin={setLogin} classes={!login ? 'animate-fade-in relative' : 'hidden'} />
+        </div>
         </>
     )
 }

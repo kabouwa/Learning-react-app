@@ -37,12 +37,11 @@ async function request(path, options={}, server=false) {
     let body = null;
     try{
         body = await response.json()
-        console.log(body)
     } catch (error) {
         error
     }
 
-    if(!response.ok) {
+    if(!response.ok) {        
         throw new ApiError(
             body?.message || "Unable to attribute connection with server.",
             response.status,
@@ -50,7 +49,7 @@ async function request(path, options={}, server=false) {
         );
     }
 
-    const randomDelay = 250 + Math.floor( Math.random() * 350 )
+    const randomDelay = 100 + Math.floor( Math.random() * 200 )
     await new Promise(resolve => setTimeout(resolve, randomDelay));
 
     return body;

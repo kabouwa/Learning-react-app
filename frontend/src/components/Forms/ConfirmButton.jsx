@@ -1,8 +1,8 @@
-export default function ConfirmButton({label, type = 'submit', disabled = false, onClick=()=>{} }) {
+export default function ConfirmButton({label, type = 'submit', disabled = false, classes='', onClick=()=>{} }) {
 
     return (
         <button type={type} disabled={disabled} onClick={onClick}
-                className="bg-indigo-500 py-2.5 px-1 rounded-1 fs-5 disabled:brightness-70 disabled:cursor-wait">
+                className={"bg-indigo-500 py-2.5 px-1 rounded-1 fs-5 disabled:brightness-70 disabled:cursor-wait " + classes}>
                 {label}
         </button>
     )

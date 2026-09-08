@@ -6,12 +6,13 @@ import { usersApi } from "../../api/users";
 
 // david_r : 3478*#54
 
-export default function LoginForm() {
+export default function LoginForm({setLogin, classes = ''}) {
     const [errors,setErrors] = useState([]);
     const [checking, setChecking] = useState(false);
     const userInput = useRef(null);
     const passInput = useRef(null);
 
+    const capitalize = (text) => text.slice(0,1).toUpperCase() + text.slice(1);
     const validateFormData = () => {
         const data = {
             username: userInput.current.value.trim().toLowerCase(),
@@ -39,16 +40,19 @@ export default function LoginForm() {
         if(form) {
             try{
                 const data = await usersApi.login(form.username, form.password);
-                if(data.success){
+            
+                if(data?.success){
+                    const user = data.user
                     setErrors(prev => [
                         ...prev,
                         {
                             type : "success",
                             autoRemove: false,
-                            message: "Logged as : " + JSON.stringify(data),
+                            message: `Logged as [${user.username}] ${capitalize(user.name.firstname)} ${capitalize(user.name.lastname)}`,
                         }
         
                     ].slice(-1))
+                    localStorage.setItem('token', data.token);
                 }else{
                     setErrors(prev => [
                         ...prev,
@@ -60,13 +64,12 @@ export default function LoginForm() {
                     ].slice(-1))
                 }
             }catch (error) { 
-                console.log(error.message)
+                
                 setErrors(prev => [
                     ...prev,
                     {
                         type : "error",
-                        accent : "Error",
-                        message : error.message,
+                        message : error?.message,
                     }
         
                 ].slice(-1))
@@ -76,16 +79,25 @@ export default function LoginForm() {
     }
 
     return (
-        <>
-        <form onSubmit={handleFormSubmit} className="flex flex-col justify-center align-center gap-4 max-w-xl mx-auto my-4">
-            
-            <InputField label="Username" reference={userInput} />
-            <InputField label="Password" reference={passInput} password={true} />
+        <div className={"transition-all overflow-hidden " + classes}>
+            <form onSubmit={handleFormSubmit} 
+                className="flex flex-col justify-center align-center gap-4 max-w-xl mx-auto mt-4 mb-20 transition-all">
+                
+                <InputField label="Username" reference={userInput} />
+                <InputField label="Password" reference={passInput} password={true} />
 
-            <ConfirmButton label="Login" type="submit" disabled={checking} />
-        </form>
+                <ConfirmButton label="Login" type="submit" disabled={checking} />
+            </form>
 
-        <Alerts alerts={errors} classes=" max-w-xl mx-auto" />
-        </>
+            <p className="text-center">
+                Haven't an account yet ? 
+                <button type="button" onClick={() => {setLogin(false)}}
+                    className="inline-block ms-2 underline text-indigo-500 hover:text-white transition-colors">
+                    Create account
+                </button>
+            </p>
+
+            <Alerts alerts={errors} classes=" max-w-xl mx-auto" />
+        </div>
     )
 }
