@@ -4,7 +4,7 @@ import Alerts from "../Alerts/Alerts";
 import { useRef, useState } from "react";
 import { usersApi } from "../../api/users";
 
-// david_r : 3478*#54D
+// david_r : 3478*#54
 
 export default function LoginForm() {
     const [errors,setErrors] = useState([]);
@@ -80,7 +80,7 @@ export default function LoginForm() {
         <form onSubmit={handleFormSubmit} className="flex flex-col justify-center align-center gap-4 max-w-xl mx-auto my-4">
             
             <InputField label="Username" reference={userInput} />
-            <InputField label="Password" reference={passInput} />
+            <InputField label="Password" reference={passInput} password={true} />
 
             <ConfirmButton label="Login" type="submit" disabled={checking} />
         </form>

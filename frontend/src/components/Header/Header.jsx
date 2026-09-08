@@ -17,10 +17,12 @@ function HeaderLink({title, icon, active, name, setActiveTab, setTabsData}) {
         <button 
             className="px-1.5 md:px-3 py-1.5 md:py-1 hover:bg-white hover:text-indigo-500 disabled:text-indigo-500 
             disabled:bg-white disabled:cursor-not-allowed rounded-4 cursor-pointer transition-all
-            duration-200 outline-0 focus:bg-white focus:text-indigo-500"
+            duration-200 outline-0 focus:bg-white focus:text-indigo-500 flex-1 flex justify-center items-center gap-2"
             disabled={active}
             onClick={() => {handleChangeTab()}}>
-        <i className={"fa-solid " + icon}></i> {title}</button>
+                <i className={"fa-solid " + icon}></i>
+                <span className="hidden md:inline">{title}</span>
+        </button>
     )
 }
 
@@ -46,7 +48,7 @@ export default function Header({setActiveTab}) {
 
             <DateTime />
 
-            <nav className="bg-gray-400/75 rounded-4xl md:rounded-2xl p-1 flex gap-2 text-sm md:text-xl">
+            <nav className="bg-gray-400/75 rounded-4xl md:rounded-2xl p-1 flex gap-2 w-full md:w-auto">
                 {tabsData.map((tab,index) => (
                     <HeaderLink key={index} title={tab.title} icon={tab.icon} active={tab.active} name={tab.name} setActiveTab={setActiveTab} setTabsData={setTabsData} />
                 ))}
