@@ -84,8 +84,8 @@ export default function ProductBar({products, setFiltredProducts, categories}) {
     }
 
     return (
-        <div className="relative d-flex justify-between items-stretch gap-3">
-            <div className="text-white w-36 px-3 py-2 bg-indigo-500 rounded-3 transition-all text-center">
+        <div className="relative d-flex flex-col md:flex-row justify-between items-stretch gap-3">
+            <div className="text-white hidden md:block w-36 px-3 py-2 bg-indigo-500 rounded-3 transition-all text-center">
                 <i className="fa-solid fa-magnifying-glass mr-1"></i> Search
             </div>
 
@@ -94,7 +94,7 @@ export default function ProductBar({products, setFiltredProducts, categories}) {
             />
 
             <button type="button"
-                className="filter-modal-toggler text-white w-36 px-3 py-2 bg-indigo-500 rounded-3 transition-all text-center"
+                className="filter-modal-toggler text-white md:w-36 px-3 py-2 bg-indigo-500 rounded-3 transition-all text-center"
                 onClick={() => {setShowFilterModal(prev => !prev)}}
             > <i className="fa-solid fa-filter"></i> Filter
             </button>
