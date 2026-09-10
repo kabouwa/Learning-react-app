@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import ProductCard from "../../components/Products/ProductCard"
 import { productsApi, categoriesApi} from "../../api/products"
 import Alerts from "../../components/Alerts/Alerts";
-import Loading from "../../components/Loading/Loading";
+import Loading from "../../components/Utilities/Loading";
 import ProductBar    from "../../components/Products/ProductBar";
 
 export default function ProductsList() {
@@ -79,9 +79,9 @@ export default function ProductsList() {
             loading 
             ? <Loading /> 
             : (
-                <div className="animate-fade-in grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 
+                <div className="animate-fade-in grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-5 
                     gap-3 my-6"> 
-                    {/* overflow-auto overflow-y-auto h-[calc(100vh-250px)]"> */}
+                    {/* overflow-auto   max-h-full overflow-y-auto h-[calc(100vh-250px)]"> */}
                     {
                         filtredProducts.map(
                             (product,index) => <ProductCard key={index} product={product} />

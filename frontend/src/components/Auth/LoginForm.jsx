@@ -81,13 +81,14 @@ export default function LoginForm({setLogin, classes = ''}) {
     return (
         <div className={"transition-all overflow-hidden " + classes}>
             <form onSubmit={handleFormSubmit} 
-                className="flex flex-col justify-center align-center gap-4 max-w-xl mx-auto mt-4 mb-20 transition-all">
+                className="flex flex-col justify-center align-center gap-4 max-w-xl mx-auto my-4 transition-all">
                 
                 <InputField label="Username" reference={userInput} />
                 <InputField label="Password" reference={passInput} password={true} />
 
                 <ConfirmButton label="Login" type="submit" disabled={checking} />
             </form>
+            <Alerts alerts={errors} classes=" max-w-xl mx-auto" />
 
             <p className="text-center">
                 Haven't an account yet ? 
@@ -96,8 +97,6 @@ export default function LoginForm({setLogin, classes = ''}) {
                     Create account
                 </button>
             </p>
-
-            <Alerts alerts={errors} classes=" max-w-xl mx-auto" />
         </div>
     )
 }

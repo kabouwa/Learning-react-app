@@ -3,7 +3,7 @@ import ConfirmButton from "../Forms/ConfirmButton";
 import Alerts from "../Alerts/Alerts";
 import { useRef, useState } from "react";
 import { usersApi } from "../../api/users";
-import Divider from "../Divider/Divider";
+import Divider from "../Utilities/Divider";
 import CountrySelect from "../CountrySelect/CountrySelect";
 
 // david_r : 3478*#54

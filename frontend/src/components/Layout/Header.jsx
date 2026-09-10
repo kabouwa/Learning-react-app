@@ -1,5 +1,5 @@
 import { useState } from "react"
-import DateTime from "../DateTime/DateTime"
+import DateTime from "../Utilities/DateTime"
 
 function HeaderLink({title, icon, active, name, setActiveTab, setTabsData}) {
 
@@ -27,32 +27,33 @@ function HeaderLink({title, icon, active, name, setActiveTab, setTabsData}) {
 }
 
 export default function Header({setActiveTab}) {
-    const lastActiveTab = localStorage.getItem('tab') ?? 'home'
-    const [tabsData,setTabsData] = useState([
-        {title: 'Home', icon: 'fa-house', name: 'home'},
-        {title: 'Counter', icon: 'fa-stopwatch', name: 'counter'},
-        {title: 'Products', icon: 'fa-store', name: 'products'},
-        {title: 'Authenticate', icon: 'fa-right-to-bracket', name: 'auth'},
-    ].map(tab => {
-        tab.active = tab.name === lastActiveTab
-        return tab
-    }))
+    // const lastActiveTab = localStorage.getItem('tab') ?? 'home'
+    // const [tabsData,setTabsData] = useState([
+    //     {title: 'Home', icon: 'fa-house', name: 'home'},
+    //     {title: 'Counter', icon: 'fa-stopwatch', name: 'counter'},
+    //     {title: 'Products', icon: 'fa-store', name: 'products'},
+    //     {title: 'Authenticate', icon: 'fa-right-to-bracket', name: 'auth'},
+    // ].map(tab => {
+    //     tab.active = tab.name === lastActiveTab
+    //     return tab
+    // }))
 
     return (
         <>
-        <header className="sticky  md:h-18 top-4 z-50 w-full bg-gray-800/75 flex flex-col md:flex-row justify-between 
+        <header className="sticky md:h-18 top-4 z-50 w-full bg-gray-800/75 flex flex-col md:flex-row justify-between 
             items-center gap-2 md:gap-0 py-2.5 md:py-0 px-6 rounded-2xl mb-3 shadow-sm backdrop-blur-md">
+
             <div className="text-center text-xl md:text-3xl capitalize font-bold">
                 Javascript - React Library
             </div>
 
             <DateTime />
 
-            <nav className="bg-gray-400/75 rounded-4xl md:rounded-2xl p-1 flex gap-2 w-full md:w-auto">
+            {/* <nav className="bg-gray-400/75 rounded-4xl md:rounded-2xl p-1 flex gap-2 w-full md:w-auto">
                 {tabsData.map((tab,index) => (
                     <HeaderLink key={index} title={tab.title} icon={tab.icon} active={tab.active} name={tab.name} setActiveTab={setActiveTab} setTabsData={setTabsData} />
                 ))}
-            </nav>
+            </nav> */}
         </header>
         </>
     )
