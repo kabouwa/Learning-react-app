@@ -10,7 +10,14 @@ import Auth from './pages/Auth/Auth'
 import SideBar from './components/Layout/SiderBar'
 
 function AppContent() {
-    const [activeTab,setActiveTab] = useState(localStorage.getItem('tab') ?? 'home')
+    const [activeTab,setActiveTab] = useState(localStorage.getItem('tab') ?? 'home');
+    const tabs = [
+        {component: <Home/>,         name: 'home'},
+        {component: <Counter/>,      name: 'counter'},
+        {component: <ProductsList/>, name: 'products'},
+        {component: <Auth/>,         name: 'auth'},
+    ]
+
     const [sideBarOpened, setSideBarOpened] = useState(true);
 
     const setActiveTabHandler = (value) => {
@@ -34,13 +41,16 @@ function AppContent() {
                 
                 <main className="my-14">
                     {
-                        activeTab === 'home' ? <Home />
-                        : activeTab === 'counter' ? <Counter />
-                        : activeTab === 'products' ? <ProductsList />
-                        : activeTab === 'auth' ? <Auth />
-                        : <Home />
-                    } 
+                        tabs.map(
+                            tab => (
+                                <div className={activeTab != tab.name &&  'hidden'}>
+                                    {tab.component}
+                                </div>
+                            )
+                        )
+                    }
                 </main>
+
                 <Footer />
             </div>
 
@@ -48,7 +58,6 @@ function AppContent() {
         </div>
     )
 }
-
 
 
 export default function App() {
