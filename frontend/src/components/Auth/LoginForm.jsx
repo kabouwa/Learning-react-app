@@ -3,16 +3,16 @@ import ConfirmButton from "../Forms/ConfirmButton";
 import Alerts from "../Alerts/Alerts";
 import { useRef, useState } from "react";
 import { usersApi } from "../../api/users";
+import { Link } from "react-router-dom" 
 
-// david_r : 3478*#54
 
-export default function LoginForm({setLogin, classes = ''}) {
+export default function LoginForm({ classes = ''}) {
     const [errors,setErrors] = useState([]);
     const [checking, setChecking] = useState(false);
     const userInput = useRef(null);
     const passInput = useRef(null);
 
-    const capitalize = (text) => text.slice(0,1).toUpperCase() + text.slice(1);
+    const capitalize = (text) => text.slice(0,1).toUpperCase() + text.slice(1).toLowerCase();
     const validateFormData = () => {
         const data = {
             username: userInput.current.value.trim().toLowerCase(),
@@ -83,8 +83,8 @@ export default function LoginForm({setLogin, classes = ''}) {
             <form onSubmit={handleFormSubmit} 
                 className="flex flex-col justify-center align-center gap-4 max-w-xl mx-auto my-4 transition-all">
                 
-                <InputField label="Username" reference={userInput} />
-                <InputField label="Password" reference={passInput} password={true} />
+                <InputField label="Username" reference={userInput} value="david_r"/>
+                <InputField label="Password" reference={passInput} password={true} value="3478*#54" />
 
                 <ConfirmButton label="Login" type="submit" disabled={checking} />
             </form>
@@ -92,10 +92,9 @@ export default function LoginForm({setLogin, classes = ''}) {
 
             <p className="text-center">
                 Haven't an account yet ? 
-                <button type="button" onClick={() => {setLogin(false)}}
-                    className="inline-block ms-2 underline text-indigo-500 hover:text-white transition-colors">
+                <Link to="/store/register" className="inline-block ms-2 text-decoration-underline text-indigo-500 hover:text-white transition-colors">
                     Create account
-                </button>
+                </Link>
             </p>
         </div>
     )

@@ -5,7 +5,7 @@ const BASE = '/users';
 export const usersApi = {
     list : () => api.get(`${BASE}/`),
 
-    get : (id) => server.get(`${BASE}/${id}`),
+    get : (id) => api.get(`${BASE}/${id}`),
 
     create : (user) => api.post(`${BASE}/`, user),
 

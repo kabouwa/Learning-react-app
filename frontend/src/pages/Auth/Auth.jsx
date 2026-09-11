@@ -1,9 +1,18 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import LoginForm from "../../components/Auth/LoginForm";
 import RegisterForm from "../../components/Auth/RegisterForm";
+import { Link } from "react-router-dom" 
+
 
 export default function Auth({ showLogin=true }) {
     const [login,setLogin] = useState(showLogin);
+
+    useEffect(() => {
+        const route = location.pathname
+        setLogin(
+            route.startsWith('/store/login')
+        )
+    })
 
     return (
         <>
@@ -14,21 +23,18 @@ export default function Auth({ showLogin=true }) {
         </p>
 
         <div className="bg-gray-500 max-w-xl mx-auto rounded-xl flex gap-2 overflow-hidden text-center font-semibold text-white">
-            <input onChange={() => setLogin(true)} type="radio" name="form-toggler" id="login-form" checked={login} className="hidden" />
-            <input onChange={() => setLogin(false)} type="radio" name="form-toggler" id="register-form" checked={!login} className="hidden" />
+            <Link to="/store/login" className={"flex-1 py-2 cursor-pointer transition-all duration-300" + (login ? " bg-indigo-500" : '')}>
+                Login
+            </Link>
 
-            <label htmlFor="login-form"
-                className={"flex-1 py-2 cusror-pointer transition-all duration-300" + (login ? " bg-indigo-500" : '')}
-            >Login</label>
-
-            <label htmlFor="register-form"
-                className={"flex-1 py-2 cusror-pointer transition-all duration-300" + (!login ? " bg-indigo-500" : '')}
-            >Register</label>
+            <Link to="/store/register" className={"flex-1 py-2 cursor-pointer transition-all duration-300" + (!login ? " bg-indigo-500" : '')}>
+                Register
+            </Link>
         </div>
 
         <div className="relative">
-            <LoginForm setLogin={setLogin} classes={login ? 'animate-fade-in relative' : 'hidden'} />
-            <RegisterForm setLogin={setLogin} classes={!login ? 'animate-fade-in relative' : 'hidden'} />
+            <LoginForm classes={login ? 'animate-fade-in relative' : 'hidden'} />
+            <RegisterForm classes={!login ? 'animate-fade-in relative' : 'hidden'} />
         </div>
         </>
     )

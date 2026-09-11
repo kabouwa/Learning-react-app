@@ -16,7 +16,7 @@ export default function DateTime({fixed= false, hiddenOnPhone= false}) {
     const dateTime = `${date.toDateString()} - ${date.toLocaleTimeString()} `
     return (
         <div className={`font-bold text-white bg-white/4 backdrop-blur-md rounded-xl py-1 px-3 text-sm md:text-md
-        ${fixed ? " fixed bottom-3 right-3" : ''}
+        ${fixed ? " fixed bottom-3 right-6" : ''}
         ${hiddenOnPhone ? " hidden md:block" : ''}` } >
             {dateTime}
         </div>

@@ -11,9 +11,6 @@ export default function ProductBar({products, setFiltredProducts, categories}) {
             const elem = e.target;
             if(showFilterModal && !elem.closest('.filter-modal') && !elem.closest('.filter-modal-toggler')) {
                 setShowFilterModal(false);
-                console.log('Hidden success')
-            }else{
-                console.log('no valid clic')
             }
         }
 
