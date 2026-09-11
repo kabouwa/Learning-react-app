@@ -6,7 +6,7 @@ export default function Counter() {
     [alerts, setAlerts] = useState([]),
     counterInput = useRef(null);
 
-    const is_valid = (value) => value >= 0 && value <= 100;
+    const is_valid = (value) => value >= 0 && value <= 10000;
 
     const handleAddToCounterValue = () => {
         const value = counter + 1
@@ -20,7 +20,7 @@ export default function Counter() {
                 {
                     type : "error",
                     accent : "Error",
-                    message : "value cannot execced 100",
+                    message : "value cannot execced 10000",
                 }
             ].slice(-3))
         }
@@ -44,7 +44,8 @@ export default function Counter() {
         }
     }
 
-    const handleChangeCounterValue = () => {
+    const handleChangeCounterValue = (e) => {
+        e.preventDefault()
         const value = parseInt(counterInput.current.value)
         if(value == counter) return ;
         if( is_valid(value) ) {
@@ -60,44 +61,46 @@ export default function Counter() {
                 {
                     type : "error",
                     accent : "Error",
-                    message : "Seconds be between 0 and 1000",
+                    message : "Seconds be between 0 and 10000",
                 }
             ].slice(-3))
         }
     }
 
     return (
-        <>
-        <h1 className="text-4xl text-center font-bold mb-8">State & Event management : </h1>
+        <div className="max-w-7xl mx-auto">
+            <h1 className="text-4xl text-center font-bold mb-8">State & Event management : </h1>
 
 
-        <h1 className="text-4xl text-center">Counter is : <strong>{counter}</strong></h1>
-        <section className='flex items-center justify-center gap-2 my-10'>
-            <button 
-                className='block border rounded bg-gray-400 font-bold flex-1 cursor-pointer h-10 pb-1 text-2xl'
-                onClick={handleAddToCounterValue}
-            >+1</button>
+            <h1 className="text-4xl text-center">Counter is : <strong>{counter}</strong></h1>
+            <section className='flex items-center justify-center gap-2 my-10'>
+                <button 
+                    className='block border rounded bg-gray-400 font-bold flex-1 cursor-pointer h-10 pb-1 text-2xl'
+                    onClick={handleAddToCounterValue}
+                >+1</button>
 
-            <button 
-                className='block border rounded bg-gray-400 font-bold flex-1 cursor-pointer h-10 pb-1 text-2xl'
-                onClick={handleSubtractFromCounterValue}
-            >-1</button>
-        </section>
+                <button 
+                    className='block border rounded bg-gray-400 font-bold flex-1 cursor-pointer h-10 pb-1 text-2xl'
+                    onClick={handleSubtractFromCounterValue}
+                >-1</button>
+            </section>
 
-        <h2 className="mb-10 text-4xl text-center">Custom seconds : </h2>
+            <h2 className="mb-10 text-4xl text-center">Custom seconds : </h2>
 
-        <section className='flex flex-col md:flex-row items-center justify-center gap-2'>
-            <input id="input" type='number' ref={counterInput} placeholder="0"
-                className="form-control border shadow-2xs rounded bg-secondary text-white font-bold 
-                h-10 outline-0 focus:scale-101 transition-all px-3"
-            />
-            <button 
-                className='btn btn-secondary border rounded bg-gray-400 w-full flex-1 cursor-pointer min-w-50 h-20 md:h-10 text-2xl'
-                onClick={handleChangeCounterValue}
-            >Set seconds [0-1000]</button>
-        </section>
+            <form className="flex flex-col md:flex-row items-center justify-center gap-2">
+                <input id="input" type='number' ref={counterInput} placeholder="0"
+                    className="form-control shadow-2xs font-bold 
+                    h-10 outline-0 focus:ring-4 focus:ring-indigo-500 transition-all px-3 "
+                />
 
-        <Alerts alerts={alerts} />
-        </>
+                <button type="submit"
+                    className='btn btn-secondary border rounded  w-full flex-1 cursor-pointer min-w-50 h-20 md:h-10 text-2xl'
+                    onClick={handleChangeCounterValue}
+                >Set seconds [0-10000]</button>
+
+            </form>
+
+            <Alerts alerts={alerts} />
+        </div>
     )
 }

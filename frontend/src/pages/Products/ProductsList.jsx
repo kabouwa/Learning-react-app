@@ -62,34 +62,34 @@ export default function ProductsList() {
    
 
     return(
-        <>
-        <h1 className="mb-4 text-center">Discover Products</h1>
+        <div className="max-w-7xl mx-auto">
+            <h1 className="mb-4 text-center">Discover Products</h1>
 
-        <ProductBar products={products} setFiltredProducts={setFiltredProducts} categories={categories} />
+            <ProductBar products={products} setFiltredProducts={setFiltredProducts} categories={categories} />
 
-        {
-            filtredProducts.length
-            ? <p className="mt-4 text-gray-400">{filtredProducts.length} product(s) founded.</p>
-            : null
-        }
+            {
+                filtredProducts.length
+                ? <p className="mt-4 text-gray-400">{filtredProducts.length} product(s) founded.</p>
+                : null
+            }
 
-        <Alerts alerts={alerts} />
+            <Alerts alerts={alerts} />
 
-        {
-            loading 
-            ? <Loading /> 
-            : (
-                <div className="animate-fade-in grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-5 
-                    gap-3 my-6"> 
-                    {/* overflow-auto   max-h-full overflow-y-auto h-[calc(100vh-250px)]"> */}
-                    {
-                        filtredProducts.map(
-                            (product,index) => <ProductCard key={index} product={product} />
-                        )
-                    }
-                </div>
-            )
-        }
-        </>
+            {
+                loading 
+                ? <Loading /> 
+                : (
+                    <div className="animate-fade-in grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 
+                        gap-3 my-6"> 
+                        {/* overflow-auto   max-h-full overflow-y-auto h-[calc(100vh-250px)]"> */}
+                        {
+                            filtredProducts.map(
+                                (product,index) => <ProductCard key={index} product={product} />
+                            )
+                        }
+                    </div>
+                )
+            }
+        </div>
     )
 }
