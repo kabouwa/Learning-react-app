@@ -32,10 +32,10 @@ export default function Alert({children, type, accent, autoRemove = true, remove
     },[])
 
     const tailwind = {
-        info    : {class: 'ring ring-indigo-500 bg-indigo-500/20 text-blue-900',       icon: 'fa-circle-info'},
-        success : {class: 'ring ring-green-400 bg-green-300/75 text-green-900',    icon: 'fa-check'},
-        error   : {class: 'ring ring-red-400 bg-red-300/75 text-red-900',          icon: 'fa-circle-exclamation'},
-        warning : {class: 'ring ring-yellow-400 bg-yellow-300/75 text-yellow-900', icon: 'fa-triangle-exclamation'}
+        info    : {class: 'ring ring-indigo-500 bg-indigo-500/20 text-blue-900',   icon: 'fa-circle-info'},
+        success : {class: 'ring ring-green-400 bg-green-500/20 text-green-900',    icon: 'fa-check'},
+        error   : {class: 'ring ring-red-400 bg-red-500/20 text-red-900',          icon: 'fa-circle-exclamation'},
+        warning : {class: 'ring ring-yellow-400 bg-yellow-500/20 text-yellow-900', icon: 'fa-triangle-exclamation'}
     }
 
     const bootstrap = {
@@ -47,10 +47,7 @@ export default function Alert({children, type, accent, autoRemove = true, remove
 
     const alertClass = tailwind[type?.toLowerCase()]?.class ?? tailwind.info.class
     const iconClass = tailwind[type?.toLowerCase()]?.icon ?? tailwind.info.icon
-
-
     
-
     return (
         <>
         {
