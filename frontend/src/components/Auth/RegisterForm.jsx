@@ -21,7 +21,7 @@ export default function RegisterForm({ classes='' }) {
             if ( !seen.includes(c.dial)) {
                 seen.push(c.dial)
                 return true
-            } 
+            }
         }) 
         .map(country => country.dial)   
 

@@ -3,6 +3,8 @@
 @theme {
     --animate-fade-in: fade-in 0.2s ease-in-out;
     --animate-fade-out: fade-out 0.2s ease-in-out;
+    --animate-fade-in-to-left: fade-in-to-left 0.2s ease-in-out;
+    --animate-fade-out-to-right: fade-out-to-right 0.2s ease-in-out forwards;
 
     @keyframes fade-in {
         from { opacity: 0; }
@@ -12,6 +14,28 @@
     @keyframes fade-out {
         from { opacity: 1; }
         to { opacity: 0; }
+    }
+
+    @keyframes fade-in-to-left {
+        from { 
+            transform : translateX(100px) ;
+            opacity: 0; 
+        }
+        to { 
+            transform : translateX(0px) ;
+            opacity: 1; 
+        }
+    }
+
+    @keyframes fade-out-to-right {
+        from { 
+            transform : translateX(0px) ;
+            opacity: 1; 
+        }
+        to { 
+            transform : translateX(250px) ;
+            opacity: 0; 
+        }
     }
 }
 

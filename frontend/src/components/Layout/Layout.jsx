@@ -5,14 +5,35 @@ import Header from './Header'
 import SideBar from './SiderBar';
 import Footer from './Footer'
 import DateTime from '../Utilities/DateTime';
+import Alerts from '../Alerts/Alerts';
+import InputField from '../Forms/InputField';
+import ConfirmButton from '../Forms/ConfirmButton';
 
 export default function Layout() {
     const [sideBarOpened, setSideBarOpened] = useState(true);
+    const [alerts, setAlerts] = useState([]);
+
+    const addAlertHandler = (e) => {
+        e.preventDefault()
+        // const newAlert = document.getElementById('new-alert').value.trim()
+        setAlerts(prev => [
+            ...prev,
+            {
+                message : 'Creation of account was realized successfully !',
+                type : 'info',
+                accent : 'Done',
+                autoRemove : false,
+
+            }
+        ])
+    }   
 
     return (
         <div className='relative text-white mx-auto bg-gray-900/90 h-screen max-h-screen overflow-hidden px-1.5 py-2.5'>
 
             <SideBar sideBarOpened={sideBarOpened} setSideBarOpened={setSideBarOpened} />
+
+            
 
             <button onClick={() => setSideBarOpened(prev => !prev)}
                 className="aside-toggle w-7 h-7 bg-white/90 rounded-circle flex md:hidden justify-center items-center backdrop-blur-2xl fixed left-4 top-3.5 z-70">
@@ -23,11 +44,19 @@ export default function Layout() {
                 <Header />
                 
                 <main className="my-14 flex-1">
+                    <form onSubmit={addAlertHandler} className='flex gap-3'>
+                        <InputField label={'Alert message'} id='new-alert' />
+                        <ConfirmButton label={'Alert'} classes='w-40' />
+                    </form>
+
                     <Outlet />
                 </main>
 
+
                 <Footer />
             </div>
+
+            <Alerts alerts={alerts} />
 
             <DateTime fixed={true} hiddenOnPhone={true} />
         </div>

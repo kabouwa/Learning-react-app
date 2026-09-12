@@ -215,12 +215,13 @@ export default function Home() {
                     }
                 </div>
 
-                <p className='my-10 min-h-40 flex flex-col justify-center items-center'>
-                    The goal is not just to build an application, but
-                    <div className='inline-block font-bold ml-2'>
+                <div className='my-10 min-h-40 flex flex-col justify-center items-center'>
+                    <p className="inline-block m-0">The goal is not just to build an application, but</p>
+                    
+                    <p className='inline-block font-bold ml-2 p-0'>
                         to understand how React works and how to build applications with it step by step.
-                    </div>
-                </p>
+                    </p>
+                </div>
 
                 <ScrollButton to="" down={false} startOfPage={true} />
 
