@@ -52,7 +52,7 @@ export default function ProductBar({products, setFiltredProducts, categories}) {
         setFiltredProducts([
             ...products
         ].filter(
-            product => product.category.includes(category)  
+            product => product.category === category
         ));
         
         // ========= Min price filter : 

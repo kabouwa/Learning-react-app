@@ -6,6 +6,7 @@ import ProductsList from './pages/Products/ProductsList'
 import Auth from './pages/Auth/Auth'
 import Layout from './components/Layout/Layout'
 import NotFound from './pages/Errors/NotFound'
+import ProductDetail from './pages/Product/ProductDetail'
 
 
 function AppContent() {
@@ -23,6 +24,7 @@ function AppContent() {
                 <Route path="/store" element={ <Layout /> }>
                     <Route path="login" element={ <Auth /> } />
                     <Route path="register" element={ <Auth /> } />
+                    <Route path="product" element={ <ProductDetail /> } />
                     <Route path="products" element={ <ProductsList /> } />
                 </Route>
 

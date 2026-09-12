@@ -11,7 +11,6 @@ export default function ProductsList() {
     const [filtredProducts,setFiltredProducts] = useState([]);
     const [loading,setLoading] = useState(true);
     const [alerts,setAlerts] = useState([]);
-    // const [cart,setCart] = useState([]);
 
     useEffect(() => {
         async function load() {
@@ -52,6 +51,7 @@ export default function ProductsList() {
                     type : "info",
                     message : "No product founded.",
                     autoRemove : false,
+                    removeButton : false,
                 }
             ].slice(-1))
             
@@ -68,7 +68,7 @@ export default function ProductsList() {
             <ProductBar products={products} setFiltredProducts={setFiltredProducts} categories={categories} />
 
             {
-                filtredProducts.length
+                !loading && filtredProducts.length
                 ? <p className="mt-4 text-gray-400">{filtredProducts.length} product(s) founded.</p>
                 : null
             }
