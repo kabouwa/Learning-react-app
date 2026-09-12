@@ -1,18 +1,19 @@
 import InputField from "../Forms/InputField";
 import ConfirmButton from "../Forms/ConfirmButton";
-import Alerts from "../Alerts/Alerts";
 import { useRef, useState } from "react";
 import { usersApi } from "../../api/users";
 import { Link } from "react-router-dom" 
+import { useAlerts } from "../../Context/AlertsContext";
 
 
 export default function LoginForm({ classes = ''}) {
-    const [errors,setErrors] = useState([]);
     const [checking, setChecking] = useState(false);
+    const { clearAlerts, pushAlert } = useAlerts();
     const userInput = useRef(null);
     const passInput = useRef(null);
 
     const capitalize = (text) => text.slice(0,1).toUpperCase() + text.slice(1).toLowerCase();
+
     const validateFormData = () => {
         const data = {
             username: userInput.current.value.trim().toLowerCase(),
@@ -20,11 +21,11 @@ export default function LoginForm({ classes = ''}) {
         }
         for(const key in data){
             if(!data[key].length) {
-                setErrors([{
-                    type: 'error',
+                pushAlert({
+                    type : 'error',
                     message: 'All field are required.',
                     autoRemove: false,
-                }]);
+                });
                 return false;
             }
         }
@@ -34,7 +35,6 @@ export default function LoginForm({ classes = ''}) {
     const handleFormSubmit = async (e) => {
         e.preventDefault();
         setChecking(true);
-        setErrors([]);
         
         const form = validateFormData();
         if(form) {
@@ -43,36 +43,27 @@ export default function LoginForm({ classes = ''}) {
             
                 if(data?.success){
                     const user = data.user
-                    setErrors(prev => [
-                        ...prev,
-                        {
-                            type : "success",
-                            autoRemove: false,
-                            message: `Logged as [${user.username}] ${capitalize(user.name.firstname)} ${capitalize(user.name.lastname)}`,
-                        }
-        
-                    ].slice(-1))
+                    pushAlert({
+                        type : 'success',
+                        message: `Logged as [${user.username}] ${capitalize(user.name.firstname)} ${capitalize(user.name.lastname)}`,
+                        autoRemove: false,
+                        cleanAlerts: true
+                    });
                     localStorage.setItem('token', data.token);
                 }else{
-                    setErrors(prev => [
-                        ...prev,
-                        {
-                            type : "error",
-                            message: "Invalid username or password.",
-                        }
-        
-                    ].slice(-1))
+                    pushAlert({
+                        type : 'error',
+                        message: "Invalid username or password.",
+                        autoRemove: true,
+                        cleanAlerts: true
+                    });
                 }
             }catch (error) { 
-                
-                setErrors(prev => [
-                    ...prev,
-                    {
-                        type : "error",
-                        message : error?.message,
-                    }
-        
-                ].slice(-1))
+                pushAlert({
+                    type : 'error',
+                    message: error?.message,
+                    cleanAlerts: true
+                });
             }
         }
         setChecking(false)
@@ -88,7 +79,6 @@ export default function LoginForm({ classes = ''}) {
 
                 <ConfirmButton label="Login" type="submit" disabled={checking} />
             </form>
-            <Alerts alerts={errors} classes=" max-w-xl mx-auto" />
 
             <p className="text-center">
                 Haven't an account yet ? 

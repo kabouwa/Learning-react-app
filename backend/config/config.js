@@ -31,3 +31,6 @@ const env = loadConfig();
 const config = (key) => env[key];
 
 module.exports = config;
+
+// Generate JWT Code
+// openssl rand -hex 32

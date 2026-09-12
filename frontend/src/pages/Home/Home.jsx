@@ -195,7 +195,7 @@ export default function Home() {
 
 
 
-            <section className="relative my-8 md:my-0 md:h-screen flex flex-col justify-center items-center gap-10" id='store'>
+            <section className="relative my-8 md:h-screen flex flex-col justify-center items-center gap-8" id='store'>
 
                 <p className="display-6">
                     Demo Store

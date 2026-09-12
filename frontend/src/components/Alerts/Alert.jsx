@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react"
+import { useAlerts } from "../../Context/AlertsContext";
 
-export default function Alert({children, type, accent, autoRemove = true, removeButton = true}) {
+export default function Alert({children, index, type, accent, autoRemove = true, removeButton = true}) {
     const alertWillBeRemoved =  typeof autoRemove == "boolean" ? autoRemove : true
     const showRemoveButton =  typeof removeButton == "boolean" ? removeButton : true
     const [animateOut, setAnimateOut] = useState(false);
     const [deleteAlert, setDeleteAlert] = useState(false);
+    const { removeAlert } = useAlerts();
 
-    const removeAlert = (after = 0) => {
+    const hideAlert = (after = 0) => {
         if(!after) {
             setAnimateOut(true);
             setDeleteAlert(true);
@@ -18,6 +20,7 @@ export default function Alert({children, type, accent, autoRemove = true, remove
 
             setTimeout(() => {
                 setDeleteAlert(true);
+                removeAlert(index)
             }, 500)
 
         }, after);
@@ -28,8 +31,8 @@ export default function Alert({children, type, accent, autoRemove = true, remove
     }
 
     useEffect(() => {
-        if(alertWillBeRemoved) removeAlert(3500);
-    },[])
+        if(alertWillBeRemoved) hideAlert(5000);
+    },[]);
 
     const tailwind = {
         info    : {class: 'ring ring-indigo-500 bg-indigo-500/20 text-blue-900',   icon: 'fa-circle-info'},
@@ -58,14 +61,14 @@ export default function Alert({children, type, accent, autoRemove = true, remove
                         showRemoveButton  && (
                         <button type="button" 
                                 className="absolute top-1.5 right-3" 
-                                onClick={removeAlert}
+                                onClick={hideAlert}
                             >
                                 <i className="fa-solid fa-xmark"></i>
                             </button> 
                         )
                     }
 
-                    <div className="inline-block m-0 w-[95%]">
+                    <div className="inline-block m-0 w-[94%]">
                         <i className={"fa-solid mr-2 " + iconClass}></i>
                         {accent && (<strong>{accent} : </strong>)}  {children}
                     </div>

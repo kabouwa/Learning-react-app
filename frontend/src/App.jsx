@@ -7,9 +7,11 @@ import Auth from './pages/Auth/Auth'
 import Layout from './components/Layout/Layout'
 import NotFound from './pages/Errors/NotFound'
 import ProductDetail from './pages/Product/ProductDetail'
+import { AlertsProvider } from './Context/AlertsContext'
 
 
 function AppContent() {
+
     return (
         <BrowserRouter>
 
@@ -37,8 +39,8 @@ function AppContent() {
 
 export default function App() {
     return (
-        <>
+        <AlertsProvider>
             <AppContent />
-        </>
+        </AlertsProvider>
     )
 }
