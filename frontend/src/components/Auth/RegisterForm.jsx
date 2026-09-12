@@ -1,16 +1,16 @@
 import InputField from "../Forms/InputField";
 import SelectField from "../Forms/SelectField";
 import ConfirmButton from "../Forms/ConfirmButton";
-import Alerts from "../Alerts/Alerts";
 import { useRef, useState } from "react";
 import { usersApi } from "../../api/users";
 import Divider from "../Utilities/Divider";
 import countries from '../../data/countries.json'
 import { Link } from "react-router-dom" 
+import { useAlerts } from "../../Context/AlertsContext";
 
 
 export default function RegisterForm({ classes='' }) {
-    const [errors,setErrors] = useState([]);
+    const { pushAlert } = useAlerts();
     const [loading,setLoading] = useState(false);
     const form = useRef(null);
 
@@ -68,21 +68,21 @@ export default function RegisterForm({ classes='' }) {
                 city : capitalize(f.city.trim()),
                 country: f.country
             }
-        }
+        }        
 
         // Required field !
         for(const key1 in data){
             if(!['name','phone'].includes(key1) && !data[key1].length) {
-                setErrors([{
+                pushAlert({
                     type: 'error',
                     message: 'All field are required.',
                     autoRemove: false,
-                }]);
+                });
                 return false;
             }else{
                 for(const key2 in data[key1]){
                     if(!data[key1][key2].length) {
-                        setErrors([{
+                        pushAlert([{
                         type: 'error',
                             message: 'All field are required.',
                             autoRemove: false,
@@ -95,11 +95,12 @@ export default function RegisterForm({ classes='' }) {
 
         // Email : 
         if ( ! /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(data.email)){
-            setErrors([{
+            pushAlert({
                 type: 'error',
                 message: 'Invalid Email address.',
                 autoRemove: false,
-            }]);
+                clearAlerts : true
+            });
             return false;
         }
 
@@ -109,48 +110,34 @@ export default function RegisterForm({ classes='' }) {
     const handleFormSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-        setErrors([]);
 
         const user = validateFormData();
         
-        if(user) {
-            console.log(user);
-            
+        if(user) {          
             try{
                 const data = await usersApi.create(form);
 
                 if(data.id){
-                    form.current.reset()
-                    setErrors(prev => [
-                        ...prev,
-                        {
-                            type : "success",
-                            autoRemove: false,
-                            message: `Account created successfuly id: ${user.id} - [${user.username}] Name :${capitalize(user.name.firstname)} ${capitalize(user.name.lastname)}.`,
-                        }
-        
-                    ].slice(-1))
+                    form.current.reset();
+                    pushAlert({
+                        type : "success",
+                        message: `Account created successfuly id: ${user.id} - [${user.username}] Name :${capitalize(user.name.firstname)} ${capitalize(user.name.lastname)}.`,
+                        autoRemove: false,
+                        clearAlerts: true
+                    });
                 }else{
-                    setErrors(prev => [
-                        ...prev,
-                        {
-                            type : "error",
-                            message: "An error occurred while creating your account. Please try again later." ,
-                        }
-        
-                    ].slice(-1))
-                }
-            }catch (error) { 
-                console.log(error.message)
-                setErrors(prev => [
-                    ...prev,
-                    {
+                    pushAlert({
                         type : "error",
-                        accent : "Error",
-                        message : error.message,
-                    }
-        
-                ].slice(-1))
+                        message: "An error occurred while creating your account. Please try again later." ,
+                    });
+                } 
+            }catch (error) { 
+                pushAlert({
+                    type : "error",
+                    accent : "Error",
+                    message : error.message,
+                    autoRemove : false
+                });
             }
         }
         setLoading(false);
@@ -201,8 +188,6 @@ export default function RegisterForm({ classes='' }) {
                     </Link>
                 </p>
             </form>
-
-            <Alerts alerts={errors} classes=" max-w-xl mx-auto" />
         </div>
     )
 }

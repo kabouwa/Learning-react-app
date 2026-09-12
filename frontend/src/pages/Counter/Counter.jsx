@@ -1,47 +1,45 @@
-import {  useRef, useState } from "react"
-import Alerts from '../../components/Alerts/Alerts'
+import {  useEffect, useRef, useState } from "react"
+import { useAlerts } from "../../Context/AlertsContext";
+import style from './counter.module.css';  
+
 
 export default function Counter() {
-    const [counter,setCounter] = useState(0),
-    [alerts, setAlerts] = useState([]),
-    counterInput = useRef(null);
+    const [counter,setCounter] = useState(0);
+    const { clearAlerts, pushAlert } = useAlerts();
+    const counterInput = useRef(null);
 
     const is_valid = (value) => value >= 0 && value <= 10000;
 
-    const handleAddToCounterValue = () => {
-        const value = counter + 1
-        
-        if( is_valid(value) ) {
-            setCounter(counter + 1)
-            setAlerts([])
-        }else {
-            setAlerts(prev => [
-                ...prev,
-                {
+    const incrementCounter = () => {
+        setCounter(prev => {
+            if(is_valid(prev + 1)) {
+                clearAlerts()
+                return prev + 1
+            }else{
+                pushAlert({
                     type : "error",
                     accent : "Error",
                     message : "value cannot execced 10000",
-                }
-            ].slice(-3))
-        }
+               })
+            }
+            
+        })
     };
 
-    const handleSubtractFromCounterValue = () => {
-        const value = counter - 1
-
-        if( is_valid(value) ) {
-            setCounter(counter - 1)
-            setAlerts([])
-        }else {
-            setAlerts(prev => [
-                ...prev,
-                {
+    const decrementCounter = () => {
+        setCounter(prev => {
+            if(is_valid(prev - 1)) {
+                clearAlerts()
+                return prev - 1
+            }else{
+                pushAlert({
                     type : "error",
                     accent : "Error",
                     message : "Seconds cannot be less than 0",
-                }
-            ].slice(-3))
-        }
+               })
+            }
+            
+        })
     }
 
     const handleChangeCounterValue = (e) => {
@@ -50,57 +48,74 @@ export default function Counter() {
         if(value == counter) return ;
         if( is_valid(value) ) {
            setCounter(value)
-           setAlerts([{
+           pushAlert({
                 type : "success",
                 accent : "Done",
                 message : `Seconds is changed succesffuly to ${value} !`,
-            }])
+                clearAlerts : true,
+            })
         }else{
-            setAlerts(prev => [
-                ...prev,
-                {
-                    type : "error",
-                    accent : "Error",
-                    message : "Seconds be between 0 and 10000",
-                }
-            ].slice(-3))
+            pushAlert({
+                type : "error",
+                accent : "Error",
+                message : "Seconds be between 0 and 10000",
+            })
         }
     }
 
+    useEffect(() => {
+        const handleKeyDown = (e) => {
+            switch(e.key) {
+                case 'ArrowUp' :
+                    incrementCounter();
+                    break;
+                case 'ArrowDown' :
+                    decrementCounter();
+                    break;
+            }
+        }
+
+        document.addEventListener('keydown', handleKeyDown)
+
+        return () => document.removeEventListener('keydown', handleKeyDown)
+    }, [])
+
     return (
-        <div className="max-w-7xl mx-auto">
-            <h1 className="text-4xl text-center font-bold mb-8">State & Event management : </h1>
+        <div className="max-w-4xl mx-auto">
+            <h1 className="display-4 text-center font-bold mb-8">State & Event management : </h1>
 
-
-            <h1 className="text-4xl text-center">Counter is : <strong>{counter}</strong></h1>
-            <section className='flex items-center justify-center gap-2 my-10'>
+            <section className='flex items-center justify-center gap-20 my-10'>
                 <button 
-                    className='block border rounded bg-gray-400 font-bold flex-1 cursor-pointer h-10 pb-1 text-2xl'
-                    onClick={handleAddToCounterValue}
-                >+1</button>
-
-                <button 
-                    className='block border rounded bg-gray-400 font-bold flex-1 cursor-pointer h-10 pb-1 text-2xl'
-                    onClick={handleSubtractFromCounterValue}
+                    className='block ring ring-indigo-500 rounded-4 bg-gray-400/20 fs-2 font-bold  cursor-pointer
+                        transition-all hover:bg-gray-400/25 hover:ring-2 active:bg-indigo-500/50 p-5 flex jusitfy-center items-center'
+                    onClick={decrementCounter}
                 >-1</button>
+
+                    <strong className="text-white/95 text-9xl text-shadow-lg text-shadow-indigo-500/20">{counter}</strong>
+
+                <button 
+                    className='block ring ring-indigo-500 rounded-4 bg-gray-400/20 fs-2 font-bold cursor-pointer
+                        transition-all hover:bg-gray-400/25 hover:ring-2 active:bg-indigo-500/50 p-5 flex jusitfy-center items-center'
+                    onClick={incrementCounter}
+                >+1</button>
             </section>
 
-            <h2 className="mb-10 text-4xl text-center">Custom seconds : </h2>
+            <h2 className="mb-10 fs-1 text-center">Custom seconds : </h2>
 
             <form className="flex flex-col md:flex-row items-center justify-center gap-2">
                 <input id="input" type='number' ref={counterInput} placeholder="0"
-                    className="form-control shadow-2xs font-bold 
-                    h-10 outline-0 focus:ring-4 focus:ring-indigo-500 transition-all px-3 "
+                    className="shadow-2xs font-bold display-1 text-center text-white
+                    h-40 w-30 outline-0 transition-all "
                 />
 
                 <button type="submit"
-                    className='btn btn-secondary border rounded  w-full flex-1 cursor-pointer min-w-50 h-20 md:h-10 text-2xl'
+                    className='btn btn-secondary border rounder cursor-pointer h-40 w-30 text-2xl'
                     onClick={handleChangeCounterValue}
-                >Set seconds [0-10000]</button>
+                >
+                    <i class="fa-solid fa-pen-to-square me-2"></i>
+                </button>
 
             </form>
-
-            <Alerts alerts={alerts} />
         </div>
     )
 }
