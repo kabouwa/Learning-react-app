@@ -1,0 +1,62 @@
+[
+    { 
+        "title": "Components and JSX", 
+        "icon": "fa-cubes",
+        "description": "Build UI as reusable pieces using JSX syntax that blends HTML and JavaScript."
+    },
+    { 
+        "title": "Props and state", 
+        "icon": "fa-arrows-turn-to-dots",
+        "description": "Pass data into components with props, and manage internal data that changes with state."
+    },
+    { 
+        "title": "Event handling", 
+        "icon": "fa-hand-pointer",
+        "description": "Respond to user interactions like clicks, input changes, and form submissions."
+    },
+    { 
+        "title": "Conditional rendering", 
+        "icon": "fa-code-branch",
+        "description": "Show or hide UI elements based on logic, state, or props."
+    },
+    { 
+        "title": "Lists and dynamic data", 
+        "icon": "fa-list-ul",
+        "description": "Render collections of data dynamically using map and unique keys."
+    },
+    { 
+        "title": "React Hooks", 
+        "icon": "fa-link",
+        "description": "Tap into React features like state and lifecycle from function components."
+    },
+    { 
+        "title": "Forms and user input", 
+        "icon": "fa-keyboard",
+        "description": "Capture and control user input with controlled and uncontrolled form elements."
+    },
+    { 
+        "title": "useState, useRef, useEffect, and other hooks", 
+        "icon": "fa-plug",
+        "description": "Manage state, references, and side effects with React's core built-in hooks."
+    },
+    { 
+        "title": "Component organization", 
+        "icon": "fa-folder-tree",
+        "description": "Structure files and folders for scalable, maintainable component architecture."
+    },
+    { 
+        "title": "API communication", 
+        "icon": "fa-satellite-dish",
+        "description": "Fetch and send data to external APIs using fetch, axios, or similar tools."
+    },
+    { 
+        "title": "React Router", 
+        "icon": "fa-route",
+        "description": "Handle client-side navigation and route matching between different pages."
+    },
+    { 
+        "title": "Reusable components", 
+        "icon": "fa-puzzle-piece",
+        "description": "Design components that can be composed and reused across the app."
+    }
+]

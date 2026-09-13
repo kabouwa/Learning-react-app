@@ -12,3 +12,4 @@ export default function Divider({label = '', classes='', color='border-gray-500'
         </div>
     )
 }
+

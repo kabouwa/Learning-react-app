@@ -1,5 +1,6 @@
+import { memo } from "react";
 
-export default function SelectField({ label='', id='', classes='', defaultValue = '', reference, options, valueIndex, showIndex, onChange= ()=>{}, emptyOption=true  }) {
+function SelectField({ label='', id='', classes='', defaultValue = '', reference, options, valueIndex, showIndex, onChange= ()=>{}, emptyOption=true  }) {
     
     return (
         <div className={"flex-1 form-group relative flex flex-col items-stretch " + classes}>
@@ -30,3 +31,5 @@ export default function SelectField({ label='', id='', classes='', defaultValue 
         </div>
     );
 }
+
+export default memo(SelectField);

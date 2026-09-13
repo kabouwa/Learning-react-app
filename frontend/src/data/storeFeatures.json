@@ -1,0 +1,22 @@
+[
+    { 
+        "title": "Product Catalog", 
+        "icon": "fa-store",
+        "description": "Browse a full catalog of products with dynamic filtering and search."
+    },
+    { 
+        "title": "Cart & Checkout", 
+        "icon": "fa-cart-shopping",
+        "description": "Add items to cart, adjust quantities, and simulate a checkout flow."
+    },
+    { 
+        "title": "Authentication", 
+        "icon": "fa-user-lock",
+        "description": "Register and log in with protected routes for account-only pages."
+    },
+    { 
+        "title": "State Management", 
+        "icon": "fa-diagram-project",
+        "description": "Cart and user session persisted across pages using React state and context."
+    }
+]

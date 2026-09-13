@@ -47,7 +47,7 @@ export default function LoginForm({ classes = ''}) {
                         type : 'success',
                         message: `Logged as [${user.username}] ${capitalize(user.name.firstname)} ${capitalize(user.name.lastname)}`,
                         autoRemove: false,
-                        cleanAlerts: true
+                        clearAlerts: true
                     });
                     localStorage.setItem('token', data.token);
                 }else{
@@ -55,14 +55,14 @@ export default function LoginForm({ classes = ''}) {
                         type : 'error',
                         message: "Invalid username or password.",
                         autoRemove: true,
-                        cleanAlerts: true
+                        clearAlerts: true
                     });
                 }
             }catch (error) { 
                 pushAlert({
                     type : 'error',
                     message: error?.message,
-                    cleanAlerts: true
+                    clearAlerts: true
                 });
             }
         }

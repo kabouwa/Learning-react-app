@@ -1,18 +1,19 @@
 import { useEffect, useState } from "react"
 import LoginForm from "../../components/Auth/LoginForm";
 import RegisterForm from "../../components/Auth/RegisterForm";
-import { Link } from "react-router-dom" 
+import { Link, useLocation } from "react-router-dom" 
 
 
 export default function Auth({ showLogin=true }) {
     const [login,setLogin] = useState(showLogin);
+    const location = useLocation();
 
     useEffect(() => {
         const route = location.pathname
         setLogin(
             route.startsWith('/store/login')
         )
-    })
+    }, [location]);
 
     return (
         <>

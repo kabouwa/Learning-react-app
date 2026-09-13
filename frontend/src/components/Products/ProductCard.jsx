@@ -31,7 +31,7 @@ export default function ProductCard({product}) {
                 </div>
             </div>
 
-            <div className="card-footer flex gap-2 ">
+            <div className="card-footer flex gap-2">
                 <button className="text-white py-1 px-3 bg-indigo-500 rounded-3 hover:brightness-90 focus:brightness-90 focus:outline-blue-600 transition-all">
                     Add to cart
                 </button>

@@ -8,9 +8,7 @@ export default function DateTime({fixed= false, hiddenOnPhone= false}) {
             setDate(new Date())
         },1000)
 
-        return () => {
-            clearInterval(dateInterval)
-        } 
+        return () => clearInterval(dateInterval);
     },[])
 
     const dateTime = `${date.toDateString()} - ${date.toLocaleTimeString()} `

@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import Header from './Header'
 import SideBar from './SiderBar';
@@ -8,8 +8,23 @@ import DateTime from '../Utilities/DateTime';
 import Alerts from '../Alerts/Alerts';
 
 export default function Layout() {
-    const [sideBarOpened, setSideBarOpened] = useState(true);
+    const [sideBarOpened, setSideBarOpened] = useState(false);
 
+    useEffect(() => {
+        const handleResize = () => {
+            const w = window.innerWidth;
+            setSideBarOpened(
+                w > 1350 ? true : false
+            )
+        }
+
+        handleResize();
+        window.addEventListener('resize', handleResize);
+        
+        return () => window.removeEventListener('resize', handleResize)
+        
+    }, [])
+    
     return (
        <div className='relative text-white mx-auto bg-gray-900/90 h-screen max-h-screen overflow-hidden px-1.5 py-2.5'>
 

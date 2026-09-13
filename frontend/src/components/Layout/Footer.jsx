@@ -1,21 +1,19 @@
 import { useEffect, useState } from "react"
 
 export default function Footer() {
-    const [seconds,setSseconds] = useState(0)
+    const [seconds, setSeconds] = useState(0);
    
     useEffect(() => {
         const addSecondsInterval = setInterval(() => {
-            setSseconds(prev => prev + 1)
-        },1000)
-        return () => {
-            clearInterval(addSecondsInterval)
-        }
+            setSeconds(prev => prev + 1)
+        },1000);
+
+        return () => clearInterval(addSecondsInterval);
     },[])
 
-
-    const hours = Math.floor( seconds / 3600 )
-    const minutes = Math.floor( (seconds % 3600) / 60 )
-    const secs = seconds % 60
+    const hours = Math.floor( seconds / 3600 );
+    const minutes = Math.floor( (seconds % 3600) / 60 );
+    const secs = seconds % 60;
 
     return (
         <footer className="bg-gray-800 flex flex-col items-center py-2 px-4 md:px-0 rounded-2xl md:rounded-4xl mb-3">

@@ -1,14 +1,13 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import './App.css'  
+import { AlertsProvider } from './Context/AlertsContext'
 import Home from './pages/Home/Home'
 import Counter  from './pages/Counter/Counter'
 import ProductsList from './pages/Products/ProductsList'
+import ProductDetail from './pages/Products/ProductDetail'
 import Auth from './pages/Auth/Auth'
 import Layout from './components/Layout/Layout'
 import NotFound from './pages/Errors/NotFound'
-import ProductDetail from './pages/Product/ProductDetail'
-import { AlertsProvider } from './Context/AlertsContext'
-
 
 function AppContent() {
 

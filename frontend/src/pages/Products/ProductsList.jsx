@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react"
 import ProductCard from "../../components/Products/ProductCard"
 import { productsApi, categoriesApi} from "../../api/products"
-import Alerts from "../../components/Alerts/Alerts";
 import Loading from "../../components/Utilities/Loading";
-import ProductBar    from "../../components/Products/ProductBar";
+import ProductBar from "../../components/Products/ProductBar";
+import { useAlerts } from "../../Context/AlertsContext";
 
 export default function ProductsList() {
     const [products, setProducts] = useState([]);
     const [categories, setCategories] = useState([]);
     const [filtredProducts,setFiltredProducts] = useState([]);
     const [loading,setLoading] = useState(true);
-    const [alerts,setAlerts] = useState([]);
+    const { clearAlerts, pushAlert } = useAlerts()
 
     useEffect(() => {
         async function load() {
@@ -18,51 +18,45 @@ export default function ProductsList() {
             
             try{
                 let data = await productsApi.list();   
-                setProducts(data)
-                setFiltredProducts(data)
+                setProducts(data);
+                setFiltredProducts(data);
 
                 data = await categoriesApi.list();                 
-                setCategories(data)
+                setCategories(data);
             }catch (error) { 
-                    setAlerts(prev => [
-                        ...prev,
-                        {
-                            type : "error",
-                            accent : "Error",
-                            message : error.message,
-                        }
-
-                    ].slice(-1))
+                pushAlert({
+                    type : "error",
+                    accent : "Error",
+                    message : error.message,
+                    autoRemove : false
+                });
             } finally {
-                setLoading(false)
+                setLoading(false);
             }
         }
 
         load(); 
-    },[])
+    },[pushAlert])
 
     useEffect(() => {
         if(loading) return;
 
         if(!filtredProducts.length) {
-            setAlerts(prev => [
-                ...prev,
-                {
-                    type : "info",
-                    message : "No product founded.",
-                    autoRemove : false,
-                    removeButton : false,
-                }
-            ].slice(-1))
+            pushAlert({
+                type : "info",
+                message : "No product founded.",
+                autoRemove : true,
+                clearAlerts : true
+            });
             
         }else{
-            setAlerts([])
+            clearAlerts()
         }
-    },[filtredProducts, loading])
+    },[filtredProducts, loading, pushAlert, clearAlerts]);
    
 
     return(
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-7xl mx-auto overflow-hidden">
             <h1 className="mb-4 text-center">Discover Products</h1>
 
             <ProductBar products={products} setFiltredProducts={setFiltredProducts} categories={categories} />
@@ -73,19 +67,18 @@ export default function ProductsList() {
                 : null
             }
 
-            <Alerts alerts={alerts} />
-
             {
                 loading 
-                ? <Loading /> 
+                ? <Loading />
                 : (
                     <div className="animate-fade-in grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 
                         gap-3 my-6"> 
-                        {/* overflow-auto   max-h-full overflow-y-auto h-[calc(100vh-250px)]"> */}
                         {
-                            filtredProducts.map(
-                                (product,index) => <ProductCard key={index} product={product} />
+                            filtredProducts.length
+                            ? filtredProducts.map(
+                                product => <ProductCard key={product.id} product={product} />
                             )
+                            : ( <p className="text-center text-gray-400 col-span-4 text-2xl">No product founded.</p> )
                         }
                     </div>
                 )

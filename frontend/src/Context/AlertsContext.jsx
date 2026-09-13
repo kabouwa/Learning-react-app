@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import {  useCallback, useEffect } from "react";
 import { createContext, useContext, useState } from "react";
 
 const AlertsContext = createContext(null);
@@ -6,32 +6,35 @@ const AlertsContext = createContext(null);
 export function AlertsProvider({ children }) {
     const [alerts, setAlerts] = useState([]);
 
-    const removeAlert = index => {
+    const removeAlert = useCallback( index => {
         setAlerts(
-            prev => [...prev].splice(index,1)
+            prev => [
+                ... prev.slice(0,index),
+                ... prev.slice(index + 1)
+            ]
         )
-    }
+    }, []);
 
-    const pushAlert = ({message, type = 'info', accent = '', autoRemove = true, cleanAlerts = false}) => {
+    const pushAlert = useCallback( ({message, type = 'info', accent = '', autoRemove = true, clearAlerts = false}) => {
         const removeButton = !autoRemove;
 
         const newAlert = { type, accent, message, autoRemove, removeButton };
         
-        if(cleanAlerts) {
+        if(clearAlerts) {
             setAlerts([newAlert])
         }else{
             setAlerts(
                 prev => [...prev, newAlert].slice(-6)
             )
         }
-    }
+    }, [])
 
-    const clearAlerts = () => {
+    const clearAlerts = useCallback( () => {
         setAlerts([]);
-    }
+    }, [])
 
     useEffect(() => {
-        clearAlerts()
+        clearAlerts();
     },[location.pathname])
 
 
@@ -48,4 +51,4 @@ export function useAlerts() {
         throw new Error("useAlerts must be used within AlertsProvider.")
     }
     return context;
-}   
+}

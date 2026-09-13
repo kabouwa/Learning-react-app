@@ -5,6 +5,8 @@
     --animate-fade-out: fade-out 0.2s ease-in-out;
     --animate-fade-in-to-left: fade-in-to-left 0.2s ease-in-out;
     --animate-fade-out-to-right: fade-out-to-right 0.2s ease-in-out forwards;
+    --animate-fade-in-to-bottom: fade-in-to-bottom 0.2s ease-in-out forwards;
+    --animate-fade-out-to-top: fade-out-to-top 0.2s ease-in-out forwards;
 
     @keyframes fade-in {
         from { opacity: 0; }
@@ -24,6 +26,7 @@
         to { 
             transform : translateX(0px) ;
             opacity: 1; 
+            pointer-events: all;
         }
     }
 
@@ -34,7 +37,31 @@
         }
         to { 
             transform : translateX(250px) ;
+            opacity: 0;
+            pointer-events: none; 
+        }
+    }
+
+    @keyframes fade-in-to-bottom {
+        from { 
+            transform : translateY(-100px) ;
             opacity: 0; 
+        }
+        to { 
+            transform : translateY(0px) ;
+            opacity: 1; 
+            pointer-events: all;
+        }
+    }
+    @keyframes fade-out-to-top {
+        from { 
+            transform : translateY(0px) ;
+            opacity: 1; 
+        }
+        to { 
+            transform : translateY(-100px) ;
+            opacity: 0;
+            pointer-events: none; 
         }
     }
 }

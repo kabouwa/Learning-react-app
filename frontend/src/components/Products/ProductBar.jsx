@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 
-export default function ProductBar({products, setFiltredProducts, categories}) {
+function ProductBar({products, setFiltredProducts, categories}) {
     const searchInp = useRef(null);
     const minPriceInp = useRef(null);
     const maxPriceInp = useRef(null);
@@ -15,11 +15,9 @@ export default function ProductBar({products, setFiltredProducts, categories}) {
         }
 
         document.addEventListener('click', hideFilterModal);
-        document.addEventListener('scroll', hideFilterModal);
 
         return () => {
             document.removeEventListener('click',hideFilterModal);   
-            document.removeEventListener('scroll',hideFilterModal);   
         } 
     },[showFilterModal])
 
@@ -82,23 +80,23 @@ export default function ProductBar({products, setFiltredProducts, categories}) {
 
     return (
         <div className="relative d-flex flex-col md:flex-row justify-between items-stretch gap-3">
-            <div className="text-white hidden md:block w-36 px-3 py-2 bg-indigo-500 rounded-3 transition-all text-center">
+            <div className="text-white hidden md:block w-36 px-3 py-2 bg-indigo-500 rounded-3 transition-all text-center relative z-30">
                 <i className="fa-solid fa-magnifying-glass mr-1"></i> Search
             </div>
 
             <input type="search" placeholder="Search..." ref={searchInp} name="search" id="search"
-                className="form-control rounded-3 focus:shadow-0" onChange={handleSearch}
+                className="form-control rounded-3 focus:shadow-0 relative z-30" onChange={handleSearch}
             />
 
             <button type="button"
-                className="filter-modal-toggler text-white md:w-36 px-3 py-2 bg-indigo-500 rounded-3 transition-all text-center"
+                className="filter-modal-toggler relative z-30 text-white md:w-36 px-3 py-2 bg-indigo-500 rounded-3 transition-all text-center"
                 onClick={() => {setShowFilterModal(prev => !prev)}}
             > <i className="fa-solid fa-filter"></i> Filter
             </button>
 
             {/* Filter Modal */}
-            <div className={`filter-modal absolute z-50 top-27 md:top-13 p-3 right-0 text-dark bg-white rounded-2xl w-full 
-            md:w-1/2 xl:w-1/3 overflow-hidden transition-all${!showFilterModal ? ' scale-0' : ''}`}>
+            <div className={`filter-modal absolute z-20 top-27 md:top-13 p-3 right-0 text-dark bg-white rounded-2xl w-full
+            md:w-1/2 xl:w-1/3 overflow-hidden transition-all ${(showFilterModal ? 'animate-fade-in-to-bottom' : 'scale-0')}`}>
                 <h4>
                     <i className="fa-solid fa-filter"></i> Filters  
                 </h4>
@@ -152,3 +150,6 @@ export default function ProductBar({products, setFiltredProducts, categories}) {
         </div>
     )
 }
+
+
+export default memo(ProductBar)

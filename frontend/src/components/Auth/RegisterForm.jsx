@@ -1,7 +1,7 @@
 import InputField from "../Forms/InputField";
 import SelectField from "../Forms/SelectField";
 import ConfirmButton from "../Forms/ConfirmButton";
-import { useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { usersApi } from "../../api/users";
 import Divider from "../Utilities/Divider";
 import countries from '../../data/countries.json'
@@ -42,13 +42,13 @@ export default function RegisterForm({ classes='' }) {
 
     const capitalize = (text) => text.slice(0,1).toUpperCase() + text.slice(1).toLowerCase();
 
-    const handleInputChange = (e) => {
+    const handleInputChange = useCallback( (e) => {
         const {id, value, type, checked} = e.target;
         formData.current = {
             ...formData.current,
             [id] : type == ' checkbox' ? checked : value
         }
-    }
+    }, [])
 
     const validateFormData = () => {
         const f = formData.current;
