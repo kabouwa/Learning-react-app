@@ -1,6 +1,7 @@
 import {  memo, useCallback, useEffect, useRef, useState } from "react"
 import { useAlerts } from "../../Context/AlertsContext";
 import './counter.module.css';  
+import { SquarePen } from "lucide-react";
 
 function Counter( { minimum = 0, maximum = 10000}) {
     const [counter,setCounter] = useState(0);
@@ -124,7 +125,8 @@ function Counter( { minimum = 0, maximum = 10000}) {
                         transition-all hover:bg-gray-400/25 hover:ring-2 active:bg-indigo-500/50 p-5 flex jusitfy-center items-center'
                     onClick={handleChangeCounterValue}
                 >
-                    <i class="fa-solid fa-pen-to-square mx-auto"></i>
+                    {/* <i class="fa-solid fa-pen-to-square mx-auto"></i> */}
+                    <SquarePen />
                 </button>
 
             </div>
