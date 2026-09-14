@@ -6,6 +6,7 @@ import SideBar from './SiderBar';
 import Footer from './Footer'
 import DateTime from '../Utilities/DateTime';
 import Alerts from '../Alerts/Alerts';
+import { Menu, X } from 'lucide-react';
 
 export default function Layout() {
     const [sideBarOpened, setSideBarOpened] = useState(false);
@@ -30,11 +31,17 @@ export default function Layout() {
 
            <SideBar sideBarOpened={sideBarOpened} setSideBarOpened={setSideBarOpened} />
 
+            {/* Sidebar phone toggler */}
            <button onClick={() => setSideBarOpened(prev => !prev)}
-               className="aside-toggle w-7 h-7 bg-white/90 rounded-circle flex md:hidden justify-center items-center backdrop-blur-2xl fixed left-4 top-3.5 z-70">
-               <i className={`fa-solid fa-bars text-indigo-500 transition-all`}></i>
+               className="aside-toggle w-8 h-8 bg-white/80 rounded-circle flex md:hidden justify-center items-center backdrop-blur-2xl fixed right-6.5 top-3.5 z-70">
+               <span className='text-indigo-500 transition-all text-8xl'>
+                    {
+                        sideBarOpened ? <X size={20} /> : <Menu size={20} /> 
+                    }
+               </span>
            </button>
 
+            {/* Main Layout */}
            <div id='scrollable' className={`py-0 px-1.5 md:px-6 overflow-auto h-full flex flex-col ml-auto transiton-all duration-400 ${sideBarOpened ? 'md:w-[calc(100%-13.5rem)]' : 'md:w-[calc(100%-4.5rem)]'}` }>
                <Header />
                

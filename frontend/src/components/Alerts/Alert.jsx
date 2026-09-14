@@ -56,7 +56,7 @@ export default function Alert({children, index, type, accent, autoRemove = true,
         {
             !deleteAlert
             && (
-                <div className={`relative m-0 py-1 pe-6 animate-fade-in-to-left transition-all overflow-hidden rounded-2xl alert ${alertClass} ${animateOut ? 'animate-fade-out-to-right' : ''}`}>
+                <div className={`relative m-0 py-1 pe-6 animate-fade-in-to-left backdrop-blur-2xl transition-all overflow-hidden rounded-2xl alert ${alertClass} ${animateOut ? 'animate-fade-out-to-right' : ''}`}>
                     {
                         showRemoveButton  && (
                         <button type="button" 

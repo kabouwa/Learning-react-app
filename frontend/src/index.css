@@ -1,9 +1,9 @@
 @import 'tailwindcss';
 
 @theme {
-    --animate-fade-in: fade-in 0.2s ease-in-out;
-    --animate-fade-out: fade-out 0.2s ease-in-out;
-    --animate-fade-in-to-left: fade-in-to-left 0.2s ease-in-out;
+    --animate-fade-in: fade-in 0.2s ease-in-out forwards;
+    --animate-fade-out: fade-out 0.2s ease-in-out forwards;
+    --animate-fade-in-to-left: fade-in-to-left 0.2s ease-in-out forwards;
     --animate-fade-out-to-right: fade-out-to-right 0.2s ease-in-out forwards;
     --animate-fade-in-to-bottom: fade-in-to-bottom 0.2s ease-in-out forwards;
     --animate-fade-out-to-top: fade-out-to-top 0.2s ease-in-out forwards;
@@ -14,8 +14,13 @@
     }
 
     @keyframes fade-out {
-        from { opacity: 1; }
-        to { opacity: 0; }
+        from { 
+            opacity: 1; 
+        }
+        to { 
+            opacity: 0; 
+            pointer-events: none; 
+        }
     }
 
     @keyframes fade-in-to-left {
