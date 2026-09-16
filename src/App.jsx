@@ -11,6 +11,7 @@ import Layout from './components/Layout/Layout'
 import NotFound from './pages/Errors/NotFound'
 import Dashboard from './pages/Dashboard/Dashboard'
 import { useEffect } from 'react'
+import { authApi } from './api/auth'
 
 const guestRoutes = [
     '/auth/login',
@@ -22,6 +23,43 @@ function AppContent() {
     const { pushAlert } = useAlerts();
     const location = useLocation();
     const navigate = useNavigate();
+
+    useEffect(() => {
+        async function loadUser() {
+            const token = localStorage.getItem('token');
+            if (!token) return; 
+
+            try{
+                const data = await authApi.user();
+                
+                if(data?.errors){
+                    pushAlert({
+                        type : 'error',
+                        message: data.message,
+                        autoRemove: true,
+                        clearAlerts: true
+                    });
+                }else{
+                    const user = data.data;                    
+                    setUser(user); 
+                    pushAlert({
+                        type : 'success',
+                        message: "User loaded ",
+                        autoRemove: true,
+                        clearAlerts: true
+                    });               
+                }
+            }catch (error) { 
+                pushAlert({
+                    type : 'error',
+                    message: error?.message,
+                    clearAlerts: true
+                });
+            }
+        }
+
+        loadUser();
+    }, [pushAlert, setUser]);
 
     useEffect(() => {
         if ( !user && location.pathname.startsWith('/dashboard') ) {

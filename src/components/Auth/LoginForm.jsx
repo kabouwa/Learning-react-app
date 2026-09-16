@@ -47,7 +47,6 @@ export default function LoginForm({ classes = ''}) {
         if(user) {
             try{
                 const data = await authApi.login(user);
-                console.log(data);
                 
                 if(data?.errors){
                     if (data.message === 'The provided credentials are incorrect.') {
