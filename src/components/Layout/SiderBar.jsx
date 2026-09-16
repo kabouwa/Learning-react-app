@@ -3,6 +3,8 @@ import Divider from "../Utilities/Divider"
 import { NavLink } from "react-router-dom" 
 import { useEffect } from 'react';
 import { House, LayoutDashboard, LogIn, PanelLeftClose, PanelLeftOpen, Store, Timer, UserRoundPlus } from "lucide-react";
+import ThemeToggler from "../Utilities/ThemeToggler";
+
 
 function SideBarLink({routeData, sideBarOpened}) {
     const {title, link, icon} = routeData;
@@ -35,8 +37,8 @@ const routesData = [
     {title: 'Counter',      link: '/counter',              position: "top",     icon: <Timer />},
     {title: 'Dashboard',    link: '/dashboard',            position: "top",     icon: <LayoutDashboard />},
     {title: 'Products',     link: '/dashboard/products',   position: "top",     icon: <Store />},
-    {title: 'Login',        link: '/auth/login',      position: "bottom",  icon: <LogIn />},
-    {title: 'Register',     link: '/auth/register',   position: "bottom",  icon: <UserRoundPlus />},
+    {title: 'Login',        link: '/auth/login',           position: "bottom",  icon: <LogIn />},
+    {title: 'Register',     link: '/auth/register',        position: "bottom",  icon: <UserRoundPlus />},
 ]
 
 export default function SideBar({ sideBarOpened, setSideBarOpened }) {
@@ -51,7 +53,7 @@ export default function SideBar({ sideBarOpened, setSideBarOpened }) {
 
     return (
         <>
-        <aside className={`bg-gray-900/75 md:bg-gray-800/75  backdrop-blur-2xl rounded-2xl border fixed md:h-[calc(100vh-1.3rem)] flex flex-col z-80 opacity-100
+        <aside className={`bg-gray-300 dark:bg-gray-900/75 dark:md:bg-gray-800/75  backdrop-blur-2xl rounded-2xl border fixed md:h-[calc(100vh-1.3rem)] flex flex-col z-80 opacity-100
             shadow-md shadow-white/18 p-1.5 transition-all duration-400 
                 ${
                     sideBarOpened 
@@ -61,7 +63,7 @@ export default function SideBar({ sideBarOpened, setSideBarOpened }) {
             }>
             
             <button onClick={() => setSideBarOpened(prev => !prev)}
-                className="aside-toggle w-8 h-8 bg-gray-800/90 rounded-circle hidden md:flex justify-center items-center backdrop-blur-2xl absolute -right-4 top-6 z-50">
+                className="aside-toggle w-8 h-8 bg-gray-300/90 dark:bg-gray-800/90 rounded-circle hidden md:flex justify-center items-center backdrop-blur-2xl absolute -right-4 top-6 z-50">
                 <span className="transition-all">
                     {sideBarOpened ? <PanelLeftClose /> : <PanelLeftOpen />}
                 </span>
@@ -84,6 +86,8 @@ export default function SideBar({ sideBarOpened, setSideBarOpened }) {
 
                 <nav className="flex flex-col gap-2 w-full">
                     <Divider />
+                    <ThemeToggler sideBarOpened={sideBarOpened} />
+
                     {
                         routesData.filter(route  =>  route.position.toLowerCase() == 'bottom')
                         .map(routeData => (

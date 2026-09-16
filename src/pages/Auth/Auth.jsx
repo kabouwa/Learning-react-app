@@ -22,7 +22,7 @@ export default function Auth({ showLogin=true }) {
             Sign in to your account to enjoy a faster and more personalized shopping experience.
         </p>
 
-        <div className="bg-gray-500 max-w-xl mx-auto rounded-xl flex gap-2 overflow-hidden text-center font-semibold text-white">
+        <div className="bg-gray-400 dark:bg-gray-500 max-w-xl mx-auto rounded-xl flex gap-2 overflow-hidden text-center font-semibold text-white">
             <Link to="/auth/login" className={"flex-1 py-2 cursor-pointer transition-all duration-300" + (login ? " bg-indigo-500" : '')}>
                 Login
             </Link>

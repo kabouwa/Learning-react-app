@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes, useLocation, useNavigate } from 'react-ro
 import './App.css'  
 import { AlertsProvider, useAlerts } from './Context/AlertsContext'
 import { UserProvider, useUser } from './Context/UserContext'
+import { ThemeProvider } from './Context/ThemeContext'
 import Home from './pages/Home/Home'
 import Counter  from './pages/Counter/Counter'
 import ProductsList from './pages/Products/ProductsList'
@@ -15,7 +16,7 @@ import { authApi } from './api/auth'
 
 const guestRoutes = [
     '/auth/login',
-    '/auth/register',
+    '/auth/register'
 ]
 
 function AppContent() {
@@ -108,9 +109,11 @@ export default function App() {
     return (
         <BrowserRouter>
             <UserProvider>
-                <AlertsProvider>
-                    <AppContent />
-                </AlertsProvider>
+                <ThemeProvider>
+                    <AlertsProvider>
+                        <AppContent />
+                    </AlertsProvider>
+                </ThemeProvider>
             </UserProvider>
         </BrowserRouter>
     )

@@ -27,7 +27,7 @@ export default function Layout() {
     }, [])
     
     return (
-       <div className='relative text-white mx-auto bg-gray-900/90 h-screen max-h-screen overflow-hidden px-1.5 py-2.5'>
+       <div className='relative dark:text-white mx-auto bg-gray-100/70 dark:bg-gray-900/90 h-screen max-h-screen overflow-hidden px-1.5 py-2.5'>
 
            <SideBar sideBarOpened={sideBarOpened} setSideBarOpened={setSideBarOpened} />
 
