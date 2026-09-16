@@ -35,7 +35,7 @@ export default function ProductCard({product}) {
                 <button className="text-white py-1 px-3 bg-indigo-500 rounded-3 hover:brightness-90 focus:brightness-90 focus:outline-blue-600 transition-all">
                     Add to cart
                 </button>
-                <a href={"/store/product?id=" + id}
+                <a href={"/dashboard/product?id=" + id}
                     className="stretched-link text-indigo-500 py-1 px-3 bg-white rounded-3 hover:brightness-90 focus:brightness-90 focus:outline-blue-600 transition-all" >
                     View Product
                 </a>

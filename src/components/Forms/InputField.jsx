@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function InputField({label, classes='', reference, value='', password=false, readonly=false, id= '', onChange= ()=>{}}) {
+export default function InputField({label, classes='', reference, value='', password=false, readonly=false, id= '', error = '', onChange= ()=>{}}) {
     const [isPasswordHidden,setIsPasswordHidden] = useState(true);
 
     return (
@@ -25,6 +25,8 @@ export default function InputField({label, classes='', reference, value='', pass
                         <i className={ `fa-solid text-xl ${ isPasswordHidden ? 'fa-eye' : 'fa-eye-slash'}` } ></i>
                 </button>
             }
+
+            <p className={`text-red-400 m-0 text-sm ${error.length ? 'animate-fade-in' : 'animate-fade-out'}`}>{error}</p>
         </div>
     )
 }

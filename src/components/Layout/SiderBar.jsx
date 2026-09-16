@@ -2,7 +2,7 @@ import ReactIcon from '/favicon.svg'
 import Divider from "../Utilities/Divider"
 import { NavLink } from "react-router-dom" 
 import { useEffect } from 'react';
-import { House, LogIn, PanelLeftClose, PanelLeftOpen, Store, Timer, UserRoundPlus } from "lucide-react";
+import { House, LayoutDashboard, LogIn, PanelLeftClose, PanelLeftOpen, Store, Timer, UserRoundPlus } from "lucide-react";
 
 function SideBarLink({routeData, sideBarOpened}) {
     const {title, link, icon} = routeData;
@@ -31,11 +31,12 @@ function SideBarLink({routeData, sideBarOpened}) {
 }
 
 const routesData = [
-    {title: 'Home',         link: '/',                 position: "top",     icon: <House />},
-    {title: 'Counter',      link: '/counter',          position: "top",     icon: <Timer />},
-    {title: 'Products',     link: '/store/products',   position: "top",     icon: <Store />},
-    {title: 'Login',        link: '/store/login',      position: "bottom",  icon: <LogIn />},
-    {title: 'Register',     link: '/store/register',   position: "bottom",  icon: <UserRoundPlus />},
+    {title: 'Home',         link: '/',                     position: "top",     icon: <House />},
+    {title: 'Counter',      link: '/counter',              position: "top",     icon: <Timer />},
+    {title: 'Dashboard',    link: '/dashboard',            position: "top",     icon: <LayoutDashboard />},
+    {title: 'Products',     link: '/dashboard/products',   position: "top",     icon: <Store />},
+    {title: 'Login',        link: '/auth/login',      position: "bottom",  icon: <LogIn />},
+    {title: 'Register',     link: '/auth/register',   position: "bottom",  icon: <UserRoundPlus />},
 ]
 
 export default function SideBar({ sideBarOpened, setSideBarOpened }) {

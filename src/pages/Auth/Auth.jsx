@@ -3,7 +3,6 @@ import LoginForm from "../../components/Auth/LoginForm";
 import RegisterForm from "../../components/Auth/RegisterForm";
 import { Link, useLocation } from "react-router-dom" 
 
-
 export default function Auth({ showLogin=true }) {
     const [login,setLogin] = useState(showLogin);
     const location = useLocation();
@@ -11,7 +10,7 @@ export default function Auth({ showLogin=true }) {
     useEffect(() => {
         const route = location.pathname
         setLogin(
-            route.startsWith('/store/login')
+            route.startsWith('/auth/login')
         )
     }, [location]);
 
@@ -24,11 +23,11 @@ export default function Auth({ showLogin=true }) {
         </p>
 
         <div className="bg-gray-500 max-w-xl mx-auto rounded-xl flex gap-2 overflow-hidden text-center font-semibold text-white">
-            <Link to="/store/login" className={"flex-1 py-2 cursor-pointer transition-all duration-300" + (login ? " bg-indigo-500" : '')}>
+            <Link to="/auth/login" className={"flex-1 py-2 cursor-pointer transition-all duration-300" + (login ? " bg-indigo-500" : '')}>
                 Login
             </Link>
 
-            <Link to="/store/register" className={"flex-1 py-2 cursor-pointer transition-all duration-300" + (!login ? " bg-indigo-500" : '')}>
+            <Link to="/auth/register" className={"flex-1 py-2 cursor-pointer transition-all duration-300" + (!login ? " bg-indigo-500" : '')}>
                 Register
             </Link>
         </div>

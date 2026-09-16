@@ -1,6 +1,6 @@
 import { memo } from "react";
 
-function SelectField({ label='', id='', classes='', defaultValue = '', reference, options, valueIndex, showIndex, onChange= ()=>{}, emptyOption=true  }) {
+function SelectField({ label='', id='', classes='', defaultValue = '', reference, options, valueIndex, showIndex, error = '', onChange= ()=>{}, emptyOption=true  }) {
     
     return (
         <div className={"flex-1 form-group relative flex flex-col items-stretch " + classes}>
@@ -28,6 +28,8 @@ function SelectField({ label='', id='', classes='', defaultValue = '', reference
             <div className="text-gray-900/75 absolute top-1.5 left-2 pointer-events-none">
                 {label}
             </div>
+
+            <p className={`text-red-400 m-0 text-sm ${error.length ? 'animate-fade-in' : 'animate-fade-out'}`}>{error}</p>
         </div>
     );
 }

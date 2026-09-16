@@ -1,15 +1,22 @@
-const API_URL = "https://fakestoreapi.com";
-const LOCAL_SERVER = "http://localhost:5000/learning-app/api";
+const LOCAL_SERVER = "http://192.168.1.100:8000/api/v1";
 
-async function request(path, options={}, server=false) {
-    const url = `${server ? LOCAL_SERVER : API_URL }${path[0] != '/' ? '/' : ''}${path}`;
+async function request(path, options={}) {
+    const url = `${LOCAL_SERVER}${path[0] != '/' ? '/' : ''}${path}`;
+
+    
 
     const config = {
+        ...options,
         headers : {
             "Content-Type" : "application/json",
             ...options.headers
         },
-        ...options
+    }
+
+    const token = localStorage.getItem('token');
+
+    if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
     }
 
     if (!navigator.onLine) {
@@ -23,12 +30,9 @@ async function request(path, options={}, server=false) {
     let response;
     try{
         response = await fetch(url, config);
-    } catch (networkError) {
-        networkError
+    } catch {
         throw new ApiError(
-            server
-            ? "Unable to connect to the local server."
-            : "Unable to connect to the API server.",
+            "Unable to connect to the local server.",
         0,
             null
         )
@@ -36,18 +40,18 @@ async function request(path, options={}, server=false) {
 
     let body = null;
     try{
-        body = await response.json()
+        body = await response.json();
     } catch (error) {
         error
     }
 
-    if(!response.ok) {        
-        throw new ApiError(
-            body?.message || "Unable to attribute connection with server.",
-            response.status,
-            body
-        );
-    }
+    // if(!response.ok) {        
+    //     throw new ApiError(
+    //         body?.errors || "Unable to attribute connection with server.",
+    //         response.status,
+    //         body
+    //     );
+    // }
 
     const randomDelay = 100 + Math.floor( Math.random() * 200 )
     await new Promise(resolve => setTimeout(resolve, randomDelay));
@@ -70,12 +74,4 @@ export const api = {
     put : (path,data) => request(path , {method: "PUT", body: JSON.stringify(data)}),
     patch : (path,data) => request(path , {method: "PATCH", body: JSON.stringify(data)}),
     delete : (path) => request(path , {method: "DELETE"}),
-}
-
-export const server = {
-    get : (path) => request(path , {method: "GET"}, true),
-    post : (path,data) => request(path , {method: "POST", body: JSON.stringify(data)}, true),
-    put : (path,data) => request(path , {method: "PUT", body: JSON.stringify(data)}, true),
-    patch : (path,data) => request(path , {method: "PATCH", body: JSON.stringify(data)}, true),
-    delete : (path) => request(path , {method: "DELETE"}, true),
 }

@@ -21,7 +21,7 @@ export default function Alert({children, index, type, accent, autoRemove = true,
             setTimeout(() => {
                 setDeleteAlert(true);
                 removeAlert(index)
-            }, 500)
+            }, 500);
 
         }, after);
         
@@ -31,8 +31,11 @@ export default function Alert({children, index, type, accent, autoRemove = true,
     }
 
     useEffect(() => {
-        if(alertWillBeRemoved) hideAlert(5000);
-    },[]);
+        if(alertWillBeRemoved) {
+            hideAlert(3000);
+        }
+
+    }, []);
 
     const tailwind = {
         info    : {class: 'ring ring-indigo-500 bg-indigo-500/20 text-blue-900',   icon: 'fa-circle-info'},
@@ -56,16 +59,16 @@ export default function Alert({children, index, type, accent, autoRemove = true,
         {
             !deleteAlert
             && (
-                <div className={`relative m-0 py-1 pe-6 animate-fade-in-to-left backdrop-blur-2xl transition-all overflow-hidden rounded-2xl alert ${alertClass} ${animateOut ? 'animate-fade-out-to-right' : ''}`}>
+                <div className={`relative min-h-13 m-0 py-2 pe-6 flex items-center animate-fade-in-to-left backdrop-blur-2xl transition-all overflow-hidden rounded-2xl alert ${alertClass} ${animateOut ? 'animate-fade-out-to-right' : ''}`}>
                     {
-                        showRemoveButton  && (
+                        showRemoveButton ? (
                         <button type="button" 
                                 className="absolute top-1.5 right-3" 
                                 onClick={hideAlert}
                             >
                                 <i className="fa-solid fa-xmark"></i>
                             </button> 
-                        )
+                        ) : ''
                     }
 
                     <div className="inline-block m-0 w-[94%]">
@@ -73,6 +76,11 @@ export default function Alert({children, index, type, accent, autoRemove = true,
                         {accent && (<strong>{accent} : </strong>)}  {children}
                     </div>
 
+                    {
+                        alertWillBeRemoved ? (
+                            <div className="progress-alert bg-white transition-all absolute -bottom-0.5 left-0 h-1.5 animate-shrink-to-zero"></div>
+                        ) : ''
+                    }
                 </div>
             )   
         }
