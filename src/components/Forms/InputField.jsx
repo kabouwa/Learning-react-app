@@ -26,7 +26,7 @@ export default function InputField({label, classes='', reference, value='', pass
                 </button>
             }
 
-            <p className={`text-red-400 m-0 text-sm ${error.length ? 'animate-fade-in' : 'animate-fade-out'}`}>{error}</p>
+            <p className={`text-red-500 dark:text-red-400 m-0 text-sm ${error.length ? 'animate-fade-in' : 'animate-fade-out'}`}>{error}</p>
         </div>
     )
 }
