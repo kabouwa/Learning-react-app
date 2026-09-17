@@ -1,10 +1,7 @@
 const LOCAL_SERVER = "http://127.0.0.1:8000/api/v1";
-const LOCAL_SERVER = "http://127.0.0.1:8000/api/v1";
 
 async function request(path, options={}, offlineMode = false) {
     const url = `${LOCAL_SERVER}${path[0] != '/' ? '/' : ''}${path}`;    
-async function request(path, options={}) {
-    const url = `${LOCAL_SERVER}${path[0] != '/' ? '/' : ''}${path}`;
 
     const config = {
         ...options,
