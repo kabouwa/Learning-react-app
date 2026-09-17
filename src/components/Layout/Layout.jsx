@@ -7,6 +7,7 @@ import Footer from './Footer'
 import DateTime from '../Utilities/DateTime';
 import Alerts from '../Alerts/Alerts';
 import { Menu, X } from 'lucide-react';
+import LoadingModal from '../Utilities/Loading';
 
 export default function Layout() {
     const [sideBarOpened, setSideBarOpened] = useState(false);
@@ -52,7 +53,9 @@ export default function Layout() {
                <Footer />
            </div>
 
+           <LoadingModal />
            <Alerts />
+           
 
            <DateTime fixed={true} hiddenOnPhone={true} />
        </div>

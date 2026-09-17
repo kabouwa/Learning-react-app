@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import ProductCard from "../../components/Products/ProductCard"
-import { productsApi, categoriesApi} from "../../api/products"
+import { productsApi } from "../../api/products"
 import Loading from "../../components/Utilities/Loading";
 import ProductBar from "../../components/Products/ProductBar";
 import { useAlerts } from "../../Context/AlertsContext";
@@ -21,7 +21,7 @@ export default function ProductsList() {
                 setProducts(data);
                 setFiltredProducts(data);
 
-                data = await categoriesApi.list();                 
+                data = await productsApi.categories();            
                 setCategories(data);
             }catch (error) { 
                 pushAlert({
@@ -36,7 +36,7 @@ export default function ProductsList() {
         }
 
         load(); 
-    },[pushAlert])
+    },[pushAlert]);
 
     useEffect(() => {
         if(loading) return;
@@ -68,9 +68,8 @@ export default function ProductsList() {
             }
 
             {
-                loading 
-                ? <Loading />
-                : (
+                !loading 
+                ? (
                     <div className="animate-fade-in grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 
                         gap-3 my-6"> 
                         {
@@ -82,6 +81,7 @@ export default function ProductsList() {
                         }
                     </div>
                 )
+                : ''
             }
         </div>
     )

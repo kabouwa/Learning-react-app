@@ -98,7 +98,7 @@ function Counter( { minimum = 0, maximum = 10000}) {
                     onClick={decrementCounter}
                 >-1</button>
 
-                    <strong className="text-white/95 text-4xl md:text-9xl text-shadow-lg text-shadow-indigo-500/20">{counter}</strong>
+                <strong className="text-gray-700 dark:text-white/95  text-4xl md:text-9xl text-shadow-lg text-shadow-indigo-500/20">{counter}</strong>
 
                 <button 
                     className='ring ring-indigo-500 rounded-4 bg-gray-400/20 fs-2 font-bold cursor-pointer
@@ -116,7 +116,7 @@ function Counter( { minimum = 0, maximum = 10000}) {
                     onKeyDown={(e) => e.key == 'Enter' && handleChangeCounterValue() }
                 />
 
-                <label htmlFor="custom-counter-value" className="absolute top-2 left-4 md:text-xl text-gray-400 pointer-events-none">
+                <label htmlFor="custom-counter-value" className="absolute top-2 left-4 md:text-xl text-gray-500 dark:text-gray-400 pointer-events-none">
                     {minimum} <i className="fa-solid fa-arrow-right-long"></i> {maximum}
                 </label>
 
@@ -125,7 +125,6 @@ function Counter( { minimum = 0, maximum = 10000}) {
                         transition-all hover:bg-gray-400/25 hover:ring-2 active:bg-indigo-500/50 p-5 flex jusitfy-center items-center'
                     onClick={handleChangeCounterValue}
                 >
-                    {/* <i class="fa-solid fa-pen-to-square mx-auto"></i> */}
                     <SquarePen />
                 </button>
 

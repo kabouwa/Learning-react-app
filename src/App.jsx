@@ -13,6 +13,7 @@ import NotFound from './pages/Errors/NotFound'
 import Dashboard from './pages/Dashboard/Dashboard'
 import { useEffect } from 'react'
 import { authApi } from './api/auth'
+import { LoadingProvider } from './Context/LoadingContext'
 
 const guestRoutes = [
     '/auth/login',
@@ -28,7 +29,7 @@ function AppContent() {
     useEffect(() => {
         async function loadUser() {
             const token = localStorage.getItem('token');
-            if (!token) return; 
+            if (!token) return;
 
             try{
                 const data = await authApi.user();
@@ -108,13 +109,15 @@ function AppContent() {
 export default function App() {
     return (
         <BrowserRouter>
-            <UserProvider>
-                <ThemeProvider>
-                    <AlertsProvider>
-                        <AppContent />
-                    </AlertsProvider>
-                </ThemeProvider>
-            </UserProvider>
+            <LoadingProvider>
+                <UserProvider>
+                    <ThemeProvider>
+                        <AlertsProvider>
+                            <AppContent />
+                        </AlertsProvider>
+                    </ThemeProvider>
+                </UserProvider>
+            </LoadingProvider>
         </BrowserRouter>
     )
 }
