@@ -27,12 +27,12 @@ export function ThemeProvider({ children }) {
     useEffect(() => {
         document.documentElement.dataset.theme = theme === 'dark' ? 'dark' : 'light'
 
-        // const htmlClasses = document.documentElement.classList;
+        const htmlClasses = document.documentElement.classList;
 
-        // htmlClasses.remove('light');
-        // htmlClasses.remove('dark');
+        htmlClasses.remove('light');
+        htmlClasses.remove('dark');
 
-        // htmlClasses.add(theme === 'dark' ? 'dark' : 'light');
+        htmlClasses.add(theme === 'dark' ? 'dark' : 'light');
 
     }, [theme]);
 
