@@ -1,4 +1,4 @@
-import { CircleAlert, Trash, X } from "lucide-react";
+import { CircleAlert, LogOut, Trash, X } from "lucide-react";
 import { useConfirmationModal } from '../../context/ConfirmationModalContext';
 
 export default function ConfirmationModal() {
@@ -13,7 +13,22 @@ export default function ConfirmationModal() {
     const capitalize = (text) => text.slice(0,1).toUpperCase() + text.slice(1).toLowerCase();
 
     const modalClasses = {
-        delete: {title : `Delete ${capitalize(resourceName)}`, icon : <CircleAlert className="text-red-500" />, iconBg : 'bg-red-100/90', iconButton : <Trash />, bgButton : 'bg-red-500', description : `This action is irreversible. Are you sure you want to delete this ${resourceName} ?` }
+        delete: {
+            title: `Delete ${capitalize(resourceName)}`,
+            icon: <CircleAlert className="text-red-500" />,
+            iconBg: 'bg-red-100/90',
+            iconButton: <Trash />,
+            bgButton: 'bg-red-500',
+            description: `This action is irreversible. Are you sure you want to delete this ${resourceName} ?`
+        },
+        logout: {
+            title: `Log out`,
+            icon: <CircleAlert className="text-orange-500" />,
+            iconBg: 'bg-orange-100/90',
+            iconButton: <LogOut />,
+            bgButton: 'bg-orange-500',
+            description: `Are you sure you want to log out ?`
+        },
     };
 
     const {  title, icon, iconBg, iconButton, bgButton, description } = modalClasses[type.toLowerCase()] || modalClasses.delete;
