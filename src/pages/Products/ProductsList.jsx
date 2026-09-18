@@ -17,7 +17,7 @@ export default function ProductsList() {
             setLoading(true);
             
             try{
-                let data = await productsApi.list();   
+                let data = await productsApi.list(2);                   
                 setProducts(data);
                 setFiltredProducts(data);
 

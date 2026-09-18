@@ -3,7 +3,10 @@ import {api} from './client'
 const BASE = "/products"
 
 export const productsApi = {
-    list : (page = 1) => api.get(`${BASE}/?page=${page}`),
+    list : async(page = 1) => {
+        const response = await api.get(`${BASE}/?page=${page}`)
+        return response.data;
+    } ,
 
     categories : () => api.get(`${BASE}/categories`), 
     

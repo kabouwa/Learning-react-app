@@ -39,7 +39,7 @@ function SideBarLink({routeData, sideBarOpened, onClick = () => {}}) {
 
     return (
         <Link onClick={handleClick}
-            to={link} onMouseEnter={handleShowTitle} on onMouseLeave={handleHideTitle}
+            to={link} onMouseEnter={handleShowTitle} onMouseLeave={handleHideTitle}
             className={`relative px-1.5 md:px-3 py-2 md:py-2 hover:text-indigo-500 focus:text-indigo-500
                 transition-all duration-200 outline-0 text-left text-nowrap flex items-center gap-3 
                 focus:before:w-full before:absolute before:left-0 before:h-full before:transition-all before:z-10 before:w-0 before:rounded-2xl
