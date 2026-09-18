@@ -1,5 +1,5 @@
 import {  memo, useCallback, useEffect, useRef, useState } from "react"
-import { useAlerts } from "../../Context/AlertsContext";
+import { useAlerts } from "../../context/AlertsContext";
 import './counter.module.css';  
 import { SquarePen } from "lucide-react";
 

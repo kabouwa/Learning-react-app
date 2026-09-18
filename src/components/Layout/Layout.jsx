@@ -8,6 +8,7 @@ import DateTime from '../Utilities/DateTime';
 import Alerts from '../Alerts/Alerts';
 import { Menu, X } from 'lucide-react';
 import LoadingModal from '../Utilities/Loading';
+import ConfirmationModal from '../Modals/ConfirmationModal';
 
 export default function Layout() {
     const [sideBarOpened, setSideBarOpened] = useState(false);
@@ -55,7 +56,7 @@ export default function Layout() {
 
            <LoadingModal />
            <Alerts />
-           
+           <ConfirmationModal />
 
            <DateTime fixed={true} hiddenOnPhone={true} />
        </div>

@@ -6,8 +6,8 @@ import { authApi } from "../../api/auth";
 import Divider from "../Utilities/Divider";
 import countries from '../../data/countries.json'
 import { Link } from "react-router-dom" 
-import { useAlerts } from "../../Context/AlertsContext";
-import { useUser } from "../../Context/UserContext";
+import { useAlerts } from "../../context/AlertsContext";
+import { useUser } from "../../context/UserContext";
 
 
 export default function RegisterForm({ classes='' }) {

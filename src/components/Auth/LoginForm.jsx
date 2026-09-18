@@ -3,8 +3,8 @@ import ConfirmButton from "../Forms/ConfirmButton";
 import { useRef, useState } from "react";
 import { authApi } from "../../api/auth";
 import { Link } from "react-router-dom" 
-import { useAlerts } from "../../Context/AlertsContext";
-import { useUser } from "../../Context/UserContext";
+import { useAlerts } from "../../context/AlertsContext";
+import { useUser } from "../../context/UserContext";
 
 export default function LoginForm({ classes = ''}) {
     const { pushAlert } = useAlerts();

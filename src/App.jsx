@@ -1,8 +1,8 @@
 import { BrowserRouter, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 import './App.css'  
-import { AlertsProvider, useAlerts } from './Context/AlertsContext'
-import { UserProvider, useUser } from './Context/UserContext'
-import { ThemeProvider } from './Context/ThemeContext'
+import { AlertsProvider, useAlerts } from './context/AlertsContext'
+import { UserProvider, useUser } from './context/UserContext'
+import { ThemeProvider } from './context/ThemeContext'
 import Home from './pages/Home/Home'
 import Counter  from './pages/Counter/Counter'
 import ProductsList from './pages/Products/ProductsList'
@@ -13,7 +13,8 @@ import NotFound from './pages/Errors/NotFound'
 import Dashboard from './pages/Dashboard/Dashboard'
 import { useEffect } from 'react'
 import { authApi } from './api/auth'
-import { LoadingProvider } from './Context/LoadingContext'
+import { LoadingProvider } from './context/LoadingContext'
+import { ConfirmationModalProvider } from './context/ConfirmationModalContext'
 
 const guestRoutes = [
     '/auth/login',
@@ -26,6 +27,7 @@ function AppContent() {
     const location = useLocation();
     const navigate = useNavigate();
 
+    // Load user
     useEffect(() => {
         async function loadUser() {
             const token = localStorage.getItem('token');
@@ -46,7 +48,7 @@ function AppContent() {
                     setUser(user); 
                     pushAlert({
                         type : 'success',
-                        message: "User loaded ",
+                        message: "User Login in !",
                         autoRemove: true,
                         clearAlerts: true
                     });               
@@ -63,6 +65,7 @@ function AppContent() {
         loadUser();
     }, [pushAlert, setUser]);
 
+    // Middleware
     useEffect(() => {
         if ( !user && location.pathname.startsWith('/dashboard') ) {
             pushAlert({
@@ -80,28 +83,32 @@ function AppContent() {
     }, [location.pathname, user, navigate, pushAlert]);
 
     return (
-            <Routes>
+        <Routes>
 
-                <Route path="/" element={ <Layout /> }>
-                    <Route index element={ <Home/> } />
-                    <Route path="counter" element={ <Counter /> } />
-                    <Route path="*" element={ <NotFound /> } />
-                </Route>
+            <Route element={ <Layout /> }>
 
+                {/* Public Pages */}
+                <Route index element={ <Home/> } />
+                <Route path="counter" element={ <Counter /> } />
 
-                <Route path="/auth" element={ <Layout /> }>
+                {/* Authentication */}
+                <Route path="auth">
                     <Route path="login" element={ <Auth /> } />
                     <Route path="register" element={ <Auth /> } />
                 </Route>
 
-                <Route path="/dashboard" element={ <Layout /> }>
+                {/* Dashboard */}
+                <Route path="dashboard" >
                     <Route index element={ <Dashboard /> } />
                     <Route path="product" element={ <ProductDetail /> } />
                     <Route path="products" element={ <ProductsList /> } />
                 </Route>
 
 
-            </Routes>
+                <Route path="*" element={ <NotFound /> } />
+            </Route>
+
+        </Routes>
     )
 }
 
@@ -109,15 +116,17 @@ function AppContent() {
 export default function App() {
     return (
         <BrowserRouter>
-            <LoadingProvider>
-                <UserProvider>
-                    <ThemeProvider>
-                        <AlertsProvider>
-                            <AppContent />
-                        </AlertsProvider>
-                    </ThemeProvider>
-                </UserProvider>
-            </LoadingProvider>
+            <ConfirmationModalProvider>
+                <LoadingProvider>
+                    <UserProvider>
+                        <ThemeProvider>
+                            <AlertsProvider>
+                                <AppContent />
+                            </AlertsProvider>
+                        </ThemeProvider>
+                    </UserProvider>
+                </LoadingProvider>
+            </ConfirmationModalProvider>
         </BrowserRouter>
     )
 }

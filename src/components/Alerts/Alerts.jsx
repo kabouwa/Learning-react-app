@@ -1,4 +1,4 @@
-import { useAlerts } from "../../Context/AlertsContext";
+import { useAlerts } from "../../context/AlertsContext";
 import Alert from "./Alert";
 
 export default function Alerts({classes='my-6'}) {

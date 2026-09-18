@@ -78,77 +78,85 @@ function ProductBar({products, setFiltredProducts, categories}) {
         setFiltredProducts([...products])
     }
 
-    return (
-        <div className="relative d-flex flex-col md:flex-row justify-between items-stretch gap-3">
-            <div className="text-white hidden md:block w-36 px-3 py-2 bg-indigo-500 rounded-3 transition-all text-center relative z-30">
-                <i className="fa-solid fa-magnifying-glass mr-1"></i> Search
-            </div>
+    return(
+        <>
+            {products.length 
+            ?(
+            <div className="relative d-flex flex-col md:flex-row justify-between items-stretch gap-3">
+                <div className="text-white hidden md:block w-36 px-3 py-2 bg-indigo-500 rounded-3 transition-all text-center relative z-30">
+                    <i className="fa-solid fa-magnifying-glass mr-1"></i> Search
+                </div>
 
-            <input type="search" placeholder="Search..." ref={searchInp} name="search" id="search"
-                className="form-control rounded-3 focus:shadow-0 relative z-30" onChange={handleSearch}
-            />
+                <input type="search" placeholder="Search..." ref={searchInp} name="search" id="search"
+                    className="form-control rounded-3 focus:shadow-0 relative z-30" onChange={handleSearch}
+                />
 
-            <button type="button"
-                className="filter-modal-toggler relative z-30 text-white md:w-36 px-3 py-2 bg-indigo-500 rounded-3 transition-all text-center"
-                onClick={() => {setShowFilterModal(prev => !prev)}}
-            > <i className="fa-solid fa-filter"></i> Filter
-            </button>
+                <button type="button"
+                    className="filter-modal-toggler relative z-30 text-white md:w-36 px-3 py-2 bg-indigo-500 rounded-3 transition-all text-center"
+                    onClick={() => {setShowFilterModal(prev => !prev)}}
+                > <i className="fa-solid fa-filter"></i> Filter
+                </button>
 
-            {/* Filter Modal */}
-            <div className={`filter-modal absolute z-20 top-27 md:top-13 p-3 right-0 text-dark bg-white rounded-2xl w-full
-            md:w-1/2 xl:w-1/3 overflow-hidden transition-all ${(showFilterModal ? 'animate-fade-in-to-bottom' : 'scale-0')}`}>
-                <h4>
-                    <i className="fa-solid fa-filter"></i> Filters  
-                </h4>
-                
-                <form className="flex flex-col md:grid grid-cols-1 md:grid-cols-2 gap-3 my-3" onSubmit={handleFilterForm}>
+                {/* Filter Modal */}
+                <div className={`filter-modal absolute z-20 top-27 md:top-13 p-3 right-0 text-dark bg-white rounded-2xl w-full
+                md:w-1/2 xl:w-1/3 overflow-hidden transition-all ${(showFilterModal ? 'animate-fade-in-to-bottom' : 'scale-0')}`}>
+                    <h4>
+                        <i className="fa-solid fa-filter"></i> Filters  
+                    </h4>
+                    
+                    <form className="flex flex-col md:grid grid-cols-1 md:grid-cols-2 gap-3 my-3" onSubmit={handleFilterForm}>
 
-                    <div>
-                        <label htmlFor="min-price" className="form-label">Min price :</label>
-                        <div className="input-group">
-                            <input type="number" className="form-control" name ="min-price" id="min-price"
-                                placeholder="Min price" ref={minPriceInp} onChange={handlePriceFormat} />
-                            <div className="input-group-text">$</div>
+                        <div>
+                            <label htmlFor="min-price" className="form-label">Min price :</label>
+                            <div className="input-group">
+                                <input type="number" className="form-control" name ="min-price" id="min-price"
+                                    placeholder="Min price" ref={minPriceInp} onChange={handlePriceFormat} />
+                                <div className="input-group-text">$</div>
+                            </div>
                         </div>
-                    </div>
-                    <div>
-                        <label htmlFor="max" className="form-label">Max price :</label>
-                        <div className="input-group">
-                            <input type="number" className="form-control" name ="max" id="max-price"
-                                placeholder="Max price" ref={maxPriceInp} onChange={handlePriceFormat} />
-                            <div className="input-group-text">$</div>
+                        <div>
+                            <label htmlFor="max" className="form-label">Max price :</label>
+                            <div className="input-group">
+                                <input type="number" className="form-control" name ="max" id="max-price"
+                                    placeholder="Max price" ref={maxPriceInp} onChange={handlePriceFormat} />
+                                <div className="input-group-text">$</div>
+                            </div>
                         </div>
-                    </div>
 
-                    <div className="col-span-2">
-                        <label htmlFor="category" className="form-label">Category :</label>
-                        <select name="category" id="category" className="form-select cursor-pointer">
-                            <option value="">Choose category</option>
-                            {
-                                categories.map(
-                                    (category,index) => (
-                                        <option key={index} value={category}>
-                                            {category}
-                                        </option>
+                        <div className="col-span-2">
+                            <label htmlFor="category" className="form-label">Category :</label>
+                            <select name="category" id="category" className="form-select cursor-pointer">
+                                <option value="">Choose category</option>
+                                {
+                                    categories.length 
+                                    ? categories.map(
+                                        (category,index) => (
+                                            <option key={index} value={category}>
+                                                {category}
+                                            </option>
+                                        )
                                     )
-                                )
-                            }
-                        </select>
-                    </div>
+                                    : null
+                                }
+                            </select>
+                        </div>
 
-                    <button type="submit"
-                        className="text-white px-3 py-2 bg-indigo-500 rounded-3 transition-all text-center"
-                    > <i className="fa-solid fa-filter"></i> Filter
-                    </button>
+                        <button type="submit"
+                            className="text-white px-3 py-2 bg-indigo-500 rounded-3 transition-all text-center"
+                        > <i className="fa-solid fa-filter"></i> Filter
+                        </button>
 
-                    <button type="button" onClick={handleClearFilters}
-                        className="px-3 py-2 border-2 text-indigo-500 border-indigo-500 rounded-3 transition-all text-center"
-                    > <i className="fa-solid fa-filter-circle-xmark"></i> Clear
-                    </button>
-                </form>
+                        <button type="button" onClick={handleClearFilters}
+                            className="px-3 py-2 border-2 text-indigo-500 border-indigo-500 rounded-3 transition-all text-center"
+                        > <i className="fa-solid fa-filter-circle-xmark"></i> Clear
+                        </button>
+                    </form>
+                </div>
             </div>
-        </div>
-    )
+            )
+            : null}
+        </>
+        )
 }
 
 

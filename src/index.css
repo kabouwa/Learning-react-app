@@ -3,13 +3,15 @@
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *, .dark, .dark *));
 
 @theme {
-    --animate-fade-in: fade-in 0.2s ease-in-out forwards;
-    --animate-fade-out: fade-out 0.2s ease-in-out forwards;
-    --animate-fade-in-to-left: fade-in-to-left 0.2s ease-in-out forwards;
-    --animate-fade-out-to-right: fade-out-to-right 0.2s ease-in-out forwards;
-    --animate-fade-in-to-bottom: fade-in-to-bottom 0.2s ease-in-out forwards;
-    --animate-fade-out-to-top: fade-out-to-top 0.2s ease-in-out forwards;
+    --animate-fade-in: fade-in 0.3s ease-in-out forwards;
+    --animate-fade-out: fade-out 0.3s ease-in-out forwards;
+    --animate-fade-in-to-left: fade-in-to-left 0.3s ease-in-out forwards;
+    --animate-fade-out-to-right: fade-out-to-right 0.3s ease-in-out forwards;
+    --animate-fade-in-to-bottom: fade-in-to-bottom 0.3s ease-in-out forwards;
+    --animate-fade-out-to-top: fade-out-to-top 0.3s ease-in-out forwards;
+    --animate-fade-in-to-top: fade-in-to-top 0.3s ease-in-out forwards;
     --animate-shrink-to-zero: shrink 3s linear forwards;
+
     @keyframes fade-in {
         from { opacity: 0; }
         to { opacity: 1; }
@@ -72,6 +74,18 @@
         }
     }
 
+     @keyframes fade-in-to-top {
+        from { 
+            transform : translateY(100px) ;
+            opacity: 0; 
+        }
+        to { 
+            transform : translateY(0px) ;
+            opacity: 1; 
+            pointer-events: all;
+        }
+    }
+
     @keyframes shrink {
         from { width: 100%; }
         to { width: 0%; }
@@ -83,6 +97,10 @@
 }
 body {
     font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif 
+}
+
+p {
+    margin: 0;
 }
 
 .font-courier{

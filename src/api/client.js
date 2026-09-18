@@ -42,7 +42,6 @@ async function request(path, options={}, offlineMode = false) {
     } catch (error) {
         error
     }
-    console.log(body);
     
     // if(!response.ok) {        
     //     throw new ApiError(

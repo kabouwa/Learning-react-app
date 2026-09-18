@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react"
 import ProductCard from "../../components/Products/ProductCard"
 import { productsApi } from "../../api/products"
-import Loading from "../../components/Utilities/Loading";
 import ProductBar from "../../components/Products/ProductBar";
-import { useAlerts } from "../../Context/AlertsContext";
+import { useAlerts } from "../../context/AlertsContext";
+import { useLoading } from "../../context/LoadingContext";
 
 export default function ProductsList() {
     const [products, setProducts] = useState([]);
     const [categories, setCategories] = useState([]);
     const [filtredProducts,setFiltredProducts] = useState([]);
-    const [loading,setLoading] = useState(true);
+    const { loading, setLoading } = useLoading();
     const { clearAlerts, pushAlert } = useAlerts()
 
     useEffect(() => {
@@ -21,8 +21,9 @@ export default function ProductsList() {
                 setProducts(data);
                 setFiltredProducts(data);
 
-                data = await productsApi.categories();            
+                data = await productsApi.categories();                            
                 setCategories(data);
+
             }catch (error) { 
                 pushAlert({
                     type : "error",
@@ -36,7 +37,7 @@ export default function ProductsList() {
         }
 
         load(); 
-    },[pushAlert]);
+    },[pushAlert, setLoading]);
 
     useEffect(() => {
         if(loading) return;
@@ -63,7 +64,7 @@ export default function ProductsList() {
 
             {
                 !loading && filtredProducts.length
-                ? <p className="mt-4 text-gray-400">{filtredProducts.length} product(s) founded.</p>
+                ? <p className="mt-4">{filtredProducts.length} product(s) founded.</p>
                 : null
             }
 

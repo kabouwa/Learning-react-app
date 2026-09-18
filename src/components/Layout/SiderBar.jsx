@@ -1,24 +1,51 @@
 import ReactIcon from '/favicon.svg'
 import Divider from "../Utilities/Divider"
-import { NavLink } from "react-router-dom" 
+import { Link, useLocation } from "react-router-dom" 
 import { useEffect } from 'react';
-import { House, LayoutDashboard, LogIn, PanelLeftClose, PanelLeftOpen, Store, Timer, UserRoundPlus } from "lucide-react";
+import { House, LayoutDashboard, LogIn, LogOut, PanelLeftClose, PanelLeftOpen, Store, Timer, UserRoundPlus } from "lucide-react";
 import ThemeToggler from "../Utilities/ThemeToggler";
+import { useUser } from '../../context/UserContext';
+import { useConfirmationModal } from '../../context/ConfirmationModalContext';
+import { authApi } from '../../api/auth';
 
-
-function SideBarLink({routeData, sideBarOpened}) {
+function SideBarLink({routeData, sideBarOpened, onClick = () => {}}) {
     const {title, link, icon} = routeData;
+    const location = useLocation();
+
+    const handleClick = (e) => {
+        if(!link) {
+            e.preventDefault();
+            onClick();
+        }
+    }
+
+    const handleShowTitle = (e) => {
+        if (sideBarOpened) return;
+        const span = e.currentTarget.querySelectorAll('span')[1]
+        span.classList.remove('opacity-0')
+        span.classList.remove('scale-20')
+        span.classList.add('opacity-100')
+        span.classList.add('scale-100')
+    }
+
+    const handleHideTitle = (e) => {
+        if (sideBarOpened) return;
+        const span = e.currentTarget.querySelectorAll('span')[1]
+        span.classList.remove('opacity-100')
+        span.classList.remove('scale-20')
+        span.classList.add('opacity-0')
+        span.classList.add('scale-100')
+    }
 
     return (
-        <NavLink 
-            to={link} 
-            className={
-                ({isActive }) => `relative px-1.5 md:px-3 py-2 md:py-2 hover:text-indigo-500 focus:text-indigo-500
+        <Link onClick={handleClick}
+            to={link} onMouseEnter={handleShowTitle} on onMouseLeave={handleHideTitle}
+            className={`relative px-1.5 md:px-3 py-2 md:py-2 hover:text-indigo-500 focus:text-indigo-500
                 transition-all duration-200 outline-0 text-left text-nowrap flex items-center gap-3 
                 focus:before:w-full before:absolute before:left-0 before:h-full before:transition-all before:z-10 before:w-0 before:rounded-2xl
                 hover:before:w-full before:bg-white
                 after:bg-indigo-500 after:absolute after:-right-1.5 after:h-[70%] after:transition-all after:z-10 after:w-0 after:rounded-2xl
-                ${isActive ? 'cursor-default after:animate-fade-in-to-bottom' : 'after:animate-fade-out-to-top'}
+                ${ location.pathname === link ? 'cursor-default after:animate-fade-in-to-bottom' : 'after:animate-fade-out-to-top'}
                 ${ sideBarOpened ? 'after:w-1.5' : 'after:w-1'}`
             }
         >
@@ -26,9 +53,9 @@ function SideBarLink({routeData, sideBarOpened}) {
                 {icon}
             </span>
 
-            <span className={`transition-all duration-300 z-20 ${sideBarOpened ?  '' : 'opacity-0 pointer-events-none'}`}>{title}</span>
+            <span className={`transition-all duration-300 z-20 ${sideBarOpened ?  '' : 'pointer-events-none text-center ml-4 min-w-20 bg-white px-1 rounded opacity-0 scale-20'}`}>{title}</span>
 
-        </NavLink>
+        </Link>
     )
 }
 
@@ -42,6 +69,8 @@ const routesData = [
 ]
 
 export default function SideBar({ sideBarOpened, setSideBarOpened }) {
+    const { user } = useUser();   
+    const { setShowModal, setProps } = useConfirmationModal();
 
     useEffect(() => {
         document.body.classList.toggle(
@@ -51,9 +80,23 @@ export default function SideBar({ sideBarOpened, setSideBarOpened }) {
 
     }, [sideBarOpened]);
 
+    const logoutUser = async () => {
+        await authApi.logout();
+        location.reload();
+    }
+
+    const handleShowModal = () => {
+        setProps({
+            type : 'logout',
+            primaryButton : 'Log out',
+            action : logoutUser
+        });
+        setShowModal(true);
+    }
+
     return (
         <>
-        <aside className={`bg-gray-300 dark:bg-gray-900/75 dark:md:bg-gray-800/75  backdrop-blur-2xl rounded-2xl border fixed md:h-[calc(100vh-1.3rem)] flex flex-col z-80 opacity-100
+        <aside className={`bg-gray-100 dark:bg-gray-900/75 dark:md:bg-gray-800/75  backdrop-blur-2xl rounded-2xl border fixed md:h-[calc(100vh-1.3rem)] flex flex-col z-80 opacity-100
             shadow-md shadow-white/18 p-1.5 transition-all duration-400 
                 ${
                     sideBarOpened 
@@ -89,11 +132,24 @@ export default function SideBar({ sideBarOpened, setSideBarOpened }) {
                     <ThemeToggler sideBarOpened={sideBarOpened} />
 
                     {
-                        routesData.filter(route  =>  route.position.toLowerCase() == 'bottom')
-                        .map(routeData => (
-                            <SideBarLink key={routeData.link}  routeData={routeData} sideBarOpened={sideBarOpened} />
-                        ))
+                        !user 
+                        ? (
+                            routesData.filter(route  =>  route.position.toLowerCase() == 'bottom')
+                            .map(routeData => (
+                                <SideBarLink key={routeData.link}  routeData={routeData} sideBarOpened={sideBarOpened} />
+                            ))
+                        ) 
+                        : null
+                        
                     }
+                    {
+                        user 
+                        ? (
+                            <SideBarLink key={'logout'}  routeData={{title: 'Logout', icon: <LogOut />}} sideBarOpened={sideBarOpened} onClick={handleShowModal} />
+                        ) 
+                        : null
+                    }
+
                 </nav>
             </div>
             

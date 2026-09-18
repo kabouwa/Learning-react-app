@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import NotFound from '../Errors/NotFound'
 import { productsApi } from '../../api/products';
 import Loading from '../../components/Utilities/Loading';
-import { useAlerts } from '../../Context/AlertsContext';
+import { useAlerts } from '../../context/AlertsContext';
 
 
 function ProductCard({ product }) {

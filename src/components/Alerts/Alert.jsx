@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useAlerts } from "../../Context/AlertsContext";
+import { useAlerts } from "../../context/AlertsContext";
 
 export default function Alert({children, index, type, accent, autoRemove = true, removeButton = true}) {
     const alertWillBeRemoved =  typeof autoRemove == "boolean" ? autoRemove : true
@@ -38,10 +38,10 @@ export default function Alert({children, index, type, accent, autoRemove = true,
     }, []);
 
     const tailwind = {
-        info    : {class: 'ring ring-indigo-600 dark:ring-indigo-400 bg-indigo-500/40 dark:bg-indigo-500/20 text-blue-900',   icon: 'fa-circle-info'},
-        success : {class: 'ring ring-green-600 dark:ring-green-400 bg-green-500/40 dark:bg-green-500/20 text-green-900',    icon: 'fa-check'},
-        error   : {class: 'ring ring-red-600 dark:ring-red-400 bg-red-500/40 dark:bg-red-500/20 text-red-900',          icon: 'fa-circle-exclamation'},
-        warning : {class: 'ring ring-yellow-600 dark:ring-yellow-400 bg-yellow-500/40 dark:bg-yellow-500/20 text-yellow-900', icon: 'fa-triangle-exclamation'}
+        info    : {class: 'ring ring-indigo-500 dark:ring-indigo-400 bg-indigo-500/60 dark:bg-indigo-500/20 text-blue-900',    icon: 'fa-circle-info'},
+        success : {class: 'ring ring-green-500  dark:ring-green-400  bg-green-500/60  dark:bg-green-500/20  text-green-900',   icon: 'fa-check'},
+        error   : {class: 'ring ring-red-500    dark:ring-red-400    bg-red-500/60    dark:bg-red-500/20    text-red-900',     icon: 'fa-circle-exclamation'},
+        warning : {class: 'ring ring-yellow-500 dark:ring-yellow-400 bg-yellow-500/60 dark:bg-yellow-500/20 text-yellow-900',  icon: 'fa-triangle-exclamation'}
     }
 
     const bootstrap = {
