@@ -1,4 +1,4 @@
-const Ip = ['127.0.0.1','192.168.1.26'][1];
+const Ip = ['127.0.0.1','192.168.1.26'][0];
 const Port = '8000';
 const API_SERVER = `http://${Ip}:${Port}/api/v1`;
 

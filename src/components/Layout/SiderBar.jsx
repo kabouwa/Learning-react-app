@@ -150,10 +150,10 @@ export default function SideBar({ sideBarOpened, setSideBarOpened }) {
                             ))
                         ) 
                         : (
-                            <div>
+                            <>
                             <SideBarLink key={'profile'}  routeData={{title: 'Account', link: '/dashboard/account/information', icon: <UserRoundCog />}} linkStartWith="/dashboard/account" sideBarOpened={sideBarOpened} />
                             <SideBarLink key={'logout'}  routeData={{title: 'Logout', icon: <LogOut />}} sideBarOpened={sideBarOpened} onClick={handleShowModal} />
-                            </div>
+                            </>
                         ) 
                         
                     }

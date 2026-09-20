@@ -21,7 +21,7 @@ export default function AccountDetails() {
 
     useEffect(() => {
         setCountry(
-            countries.find((c) => c.code === shop?.country)?.name
+            countries.find((c) => c.code === shop?.country)?.name || shop?.country
         );
     }, [shop]);
 

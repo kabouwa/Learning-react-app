@@ -2,45 +2,43 @@ import {  memo, useCallback, useEffect, useRef, useState } from "react"
 import { useAlerts } from "../../context/AlertsContext";
 import './counter.module.css';  
 import { SquarePen } from "lucide-react";
+import { connect } from "react-redux";
+import { store } from "../../stores/CounterStore";
+import { CUSTOM, DECREMENT, INCREMENT } from "../../stores/Reducers/CounterReducer";
 
-function Counter( { minimum = 0, maximum = 10000}) {
-    const [counter,setCounter] = useState(0);
+function Counter( { minimum = 0, maximum = 10000, margin = 20, counter, increment, decrement, custom}) {
     const { clearAlerts, pushAlert } = useAlerts();
     const counterInput = useRef(null);
 
     const is_valid = useCallback((value) => value >= minimum && value <= maximum, [minimum, maximum]) 
 
     const incrementCounter = useCallback( () => {
-        setCounter(prev => {
-            if(is_valid(prev + 10)) {
-                clearAlerts()
-                return prev + 10
-            }else{
-                pushAlert({
-                    type : "error",
-                    message : "value cannot execced " + maximum.toString(),
-                    clearAlerts : true,
-               });
-               return prev;
-            }
-        });
-    }, [is_valid, pushAlert, clearAlerts, maximum]);
+        if(is_valid(counter + margin)) {
+            clearAlerts();
+            increment(margin)
+        }else{
+            pushAlert({
+                type : "error",
+                message : "value cannot execced " + maximum.toString(),
+                clearAlerts : true,
+            });
+        }
+
+    }, [is_valid, pushAlert, clearAlerts, maximum, counter, increment, margin]);
 
     const decrementCounter = useCallback( () => {
-        setCounter(prev => {
-            if(is_valid(prev - 10)) {
-                clearAlerts();
-                return prev - 10;
-            }else{
-                pushAlert({
-                    type : "error",
-                    message : "Seconds cannot be less than " + minimum.toString(),
-                    clearAlerts : true,
-               });
-               return prev;
-            } 
-        });
-    }, [is_valid, pushAlert, clearAlerts, minimum])
+        if(is_valid(counter - margin)) {
+            clearAlerts();
+            decrement(margin);
+        }else{
+            pushAlert({
+                 type : "error",
+                 message : "Seconds cannot be less than " + minimum.toString(),
+                 clearAlerts : true
+            });
+        }
+      
+    }, [is_valid, pushAlert, clearAlerts, minimum, counter, decrement, margin])
 
     const handleChangeCounterValue = useCallback( () => {
             const inp = counterInput.current;
@@ -51,7 +49,7 @@ function Counter( { minimum = 0, maximum = 10000}) {
             if( is_valid(value) ) {
                 inp.value = '';
                 inp.blur();
-                setCounter(value)
+                custom(value)
                 pushAlert({
                     type : "success",
                     accent : "Done",
@@ -66,7 +64,7 @@ function Counter( { minimum = 0, maximum = 10000}) {
                     clearAlerts : true,
                 })
             }
-    }, [is_valid, pushAlert, counter, minimum ,maximum]);
+    }, [is_valid, pushAlert, counter, minimum ,maximum, custom]);
 
 
     useEffect(() => {
@@ -138,4 +136,13 @@ function Counter( { minimum = 0, maximum = 10000}) {
 }
 
 
-export default memo(Counter);
+export const CounterStore = connect(
+    (state) => ({
+        counter: state.counter
+    }),
+    (dispatch) => ({
+        increment : (value) => dispatch({type : INCREMENT, value : value}),
+        decrement : (value) => dispatch({type : DECREMENT, value : value}),
+        custom : (value) => dispatch({type : CUSTOM, value : value}),
+    })
+)(Counter);

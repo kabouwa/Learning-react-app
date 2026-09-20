@@ -12,10 +12,12 @@ import Layout from './components/Layout/Layout'
 import NotFound from './pages/Errors/NotFound'
 import Dashboard from './pages/Dashboard/Dashboard'
 import { useEffect } from 'react'
-import { authApi } from './api/auth'
 import { LoadingProvider, useLoading } from './context/LoadingContext'
 import { ConfirmationModalProvider } from './context/ConfirmationModalContext'
 import Account from './pages/Account/Account'
+import { Provider } from 'react-redux'
+import { store } from './stores/CounterStore'
+import { CounterStore } from './pages/Counter/CounterRedux'
 
 const guestRoutes = [
     '/auth/login',
@@ -54,7 +56,7 @@ function AppContent() {
 
                 {/* Public Pages */}
                 <Route index element={ <Home/> } />
-                <Route path="counter" element={ <Counter /> } />
+                <Route path="counter" element={ <CounterStore /> } />
 
                 {/* Authentication */}
                 <Route path="auth">
@@ -83,6 +85,9 @@ function AppContent() {
 export default function App() {
     return (
         <BrowserRouter>
+
+            <Provider store={store} >
+
             <ConfirmationModalProvider>
                 <ThemeProvider>
                     <LoadingProvider>
@@ -94,6 +99,9 @@ export default function App() {
                     </LoadingProvider>
                 </ThemeProvider>
             </ConfirmationModalProvider>
+
+            </Provider>
+
         </BrowserRouter>
     )
 }

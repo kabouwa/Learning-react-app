@@ -7,7 +7,7 @@ const UserContext = createContext(null);
 
 export function UserProvider({ children }) {
     const [userData, setUserData] = useState(null);
-    const [user, setUser] = useState(null);
+    const [user,setUser] = useState(null);
     const [shop, setShop] = useState(null);
     const { setLoading } = useLoading();
     const { pushAlert } = useAlerts();
