@@ -42,7 +42,7 @@ export default function ThemeToggler({ sideBarOpened }) {
                 </span> 
             </span>
 
-            <span id="current-mode" className={`transition-all duration-300 z-20 ${sideBarOpened ?  '' : 'pointer-events-none text-center ml-4 min-w-20 bg-white px-1 rounded opacity-0 scale-20'}`}>
+            <span id="current-mode" className={`transition-all duration-300 z-20 ${sideBarOpened ?  '' : 'pointer-events-none text-center ml-4 min-w-30 bg-white px-1 rounded opacity-0 scale-20'}`}>
                 {
                     theme === 'light' ? 'Light' : 'Dark'
                 } Mode

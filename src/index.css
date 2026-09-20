@@ -92,11 +92,17 @@
     }
 }
 
+@font-face {
+    font-family: 'Ubuntu' ;
+    src: url('./assets/fonts/Ubuntu/Ubuntu-Regular.ttf');
+}
+
 * {
     scroll-behavior: smooth;
 }
 body {
-    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif 
+    font-family:'Ubuntu', sans-serif 
+    /* font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif  */
 }
 
 p {

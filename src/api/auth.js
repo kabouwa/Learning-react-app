@@ -7,7 +7,7 @@ export const authApi = {
 
     user : () => api.get(`${BASE}/user`),
 
-    update : (user) => api.put(`${BASE}/profile`, user),
+    update : (user) => api.put(`${BASE}/user`, user),
 
     login : async (user) => {
         const response = await api.post(`${BASE}/login`, user);

@@ -12,9 +12,9 @@ function Counter( { minimum = 0, maximum = 10000}) {
 
     const incrementCounter = useCallback( () => {
         setCounter(prev => {
-            if(is_valid(prev + 1)) {
+            if(is_valid(prev + 10)) {
                 clearAlerts()
-                return prev + 1
+                return prev + 10
             }else{
                 pushAlert({
                     type : "error",
@@ -28,9 +28,9 @@ function Counter( { minimum = 0, maximum = 10000}) {
 
     const decrementCounter = useCallback( () => {
         setCounter(prev => {
-            if(is_valid(prev - 1)) {
+            if(is_valid(prev - 10)) {
                 clearAlerts()
-                return prev - 1;
+                return prev - 10;
             }else{
                 pushAlert({
                     type : "error",
@@ -91,18 +91,20 @@ function Counter( { minimum = 0, maximum = 10000}) {
         <div className="max-w-2xl mx-auto">
             <h1 className="display-4 text-center font-bold mb-8">State & Event management : </h1>
 
-            <div className='flex items-center justify-between gap-10 my-10'>
+            <div className='flex items-stretch justify-between gap-10 md:gap-20 my-10'>
                 <button 
-                    className='ring ring-indigo-500 rounded-4 bg-gray-400/20 fs-2 font-bold  cursor-pointer
-                        transition-all hover:bg-gray-400/25 hover:ring-2 active:bg-indigo-500/50 p-3 md:p-5 flex jusitfy-center items-center'
+                    className='ring ring-indigo-500 rounded-4 bg-gray-400/20 fs-2 font-bold cursor-pointer text-center
+                        transition-all hover:bg-gray-400/25 hover:ring-2 active:bg-indigo-500/50 p-3 md:py-5 flex-1'
                     onClick={decrementCounter}
                 >-1</button>
 
-                <strong className="text-gray-700 dark:text-white/95  text-4xl md:text-9xl text-shadow-lg text-shadow-indigo-500/20">{counter}</strong>
+                <strong className="text-gray-800 dark:text-white/95 text-4xl md:text-9xl text-shadow-lg text-shadow-black/20 dark:text-shadow-indigo-500/20 flex items-center">
+                    {counter}
+                </strong>
 
                 <button 
-                    className='ring ring-indigo-500 rounded-4 bg-gray-400/20 fs-2 font-bold cursor-pointer
-                        transition-all hover:bg-gray-400/25 hover:ring-2 active:bg-indigo-500/50 p-3 md:p-5 flex jusitfy-center items-center'
+                    className='ring ring-indigo-500 rounded-4 bg-gray-400/20 fs-2 font-bold  cursor-pointer text-center
+                        transition-all hover:bg-gray-400/25 hover:ring-2 active:bg-indigo-500/50 p-3 md:py-5 flex-1'
                     onClick={incrementCounter}
                 >+1</button>
             </div>
@@ -112,7 +114,7 @@ function Counter( { minimum = 0, maximum = 10000}) {
             <div className="relative flex flex-col md:flex-row items-stretch justify-center gap-4 mt-10">
                 <input type='number' ref={counterInput} placeholder={maximum} id="custom-counter-value"
                     className="ring ring-indigo-500 rounded-4 shadow-2xs font-bold display-1 text-center text-white
-                    py-4 md:max-w-lg outline-0 transition-all focus:ring-2 focus:bg-gray-400/20"
+                    py-3 md:max-w-lg outline-0 transition-all focus:ring-2 focus:bg-gray-400/20"
                     onKeyDown={(e) => e.key == 'Enter' && handleChangeCounterValue() }
                 />
 
@@ -122,10 +124,10 @@ function Counter( { minimum = 0, maximum = 10000}) {
 
                 <button type="button"
                     className='ring ring-indigo-500 rounded-4 bg-gray-400/20 fs-2 font-bold cursor-pointer
-                        transition-all hover:bg-gray-400/25 hover:ring-2 active:bg-indigo-500/50 p-5 flex jusitfy-center items-center'
+                        transition-all hover:bg-gray-400/25 hover:ring-2 active:bg-indigo-500/50 py-4 px-5'
                     onClick={handleChangeCounterValue}
                 >
-                    <SquarePen />
+                    <SquarePen className="mx-auto" />
                 </button>
 
             </div>

@@ -1,16 +1,26 @@
 import ReactIcon from '/favicon.svg'
 import Divider from "../Utilities/Divider"
 import { Link, useLocation } from "react-router-dom" 
-import { useEffect } from 'react';
-import { House, LayoutDashboard, LogIn, LogOut, PanelLeftClose, PanelLeftOpen, Store, Timer, UserRoundPlus } from "lucide-react";
+import { useEffect, useState } from 'react';
+import { House, LayoutDashboard, LogIn, LogOut, PanelLeftClose, PanelLeftOpen, Store, Timer, UserRoundCog, UserRoundPlus } from "lucide-react";
 import ThemeToggler from "../Utilities/ThemeToggler";
 import { useUser } from '../../context/UserContext';
 import { useConfirmationModal } from '../../context/ConfirmationModalContext';
 import { authApi } from '../../api/auth';
 
-function SideBarLink({routeData, sideBarOpened, onClick = () => {}}) {
+function SideBarLink({routeData, sideBarOpened, linkStartWith = false, onClick = () => {}}) {
     const {title, link, icon} = routeData;
     const location = useLocation();
+    const [active, setActive] = useState(false);
+
+    useEffect(() => {        
+        setActive(
+            ( linkStartWith && location.pathname.startsWith(linkStartWith) )
+            || location.pathname === link
+        )
+
+    }, [location.pathname, link]);
+
 
     const handleClick = (e) => {
         if(!link) {
@@ -45,7 +55,7 @@ function SideBarLink({routeData, sideBarOpened, onClick = () => {}}) {
                 focus:before:w-full before:absolute before:left-0 before:h-full before:transition-all before:z-10 before:w-0 before:rounded-2xl
                 hover:before:w-full before:bg-white
                 after:bg-indigo-500 after:absolute after:-right-1.5 after:h-[70%] after:transition-all after:z-10 after:w-0 after:rounded-2xl
-                ${ location.pathname === link ? 'cursor-default after:animate-fade-in-to-bottom' : 'after:animate-fade-out-to-top'}
+                ${ active ? 'cursor-default after:animate-fade-in-to-bottom' : 'after:animate-fade-out-to-top'}
                 ${ sideBarOpened ? 'after:w-1.5' : 'after:w-1'}`
             }
         >
@@ -53,7 +63,7 @@ function SideBarLink({routeData, sideBarOpened, onClick = () => {}}) {
                 {icon}
             </span>
 
-            <span className={`transition-all duration-300 z-20 ${sideBarOpened ?  '' : 'pointer-events-none text-center ml-4 min-w-20 bg-white px-1 rounded opacity-0 scale-20'}`}>{title}</span>
+            <span className={`inline-block transition-all duration-300 z-20 ${sideBarOpened ?  '' : 'pointer-events-none md:text-center ml-4 md: md:min-w-30 md:bg-white md:px-1 md:rounded md:opacity-0 scale-20'}`}>{title}</span>
 
         </Link>
     )
@@ -106,7 +116,7 @@ export default function SideBar({ sideBarOpened, setSideBarOpened }) {
             }>
             
             <button onClick={() => setSideBarOpened(prev => !prev)}
-                className="aside-toggle w-8 h-8 bg-gray-300/90 dark:bg-gray-800/90 rounded-circle hidden md:flex justify-center items-center backdrop-blur-2xl absolute -right-4 top-6 z-50">
+                className="aside-toggle w-8 h-8 bg-gray-100/90 dark:bg-gray-800/90 rounded-circle hidden md:flex justify-center items-center backdrop-blur-2xl absolute -right-4 top-6 z-50">
                 <span className="transition-all">
                     {sideBarOpened ? <PanelLeftClose /> : <PanelLeftOpen />}
                 </span>
@@ -134,22 +144,19 @@ export default function SideBar({ sideBarOpened, setSideBarOpened }) {
                     {
                         !user 
                         ? (
-                            routesData.filter(route  =>  route.position.toLowerCase() == 'bottom')
+                            routesData.filter(route  => route.position.toLowerCase() == 'bottom')
                             .map(routeData => (
                                 <SideBarLink key={routeData.link}  routeData={routeData} sideBarOpened={sideBarOpened} />
                             ))
                         ) 
-                        : null
+                        : (
+                            <div>
+                            <SideBarLink key={'profile'}  routeData={{title: 'Account', link: '/dashboard/account/information', icon: <UserRoundCog />}} linkStartWith="/dashboard/account" sideBarOpened={sideBarOpened} />
+                            <SideBarLink key={'logout'}  routeData={{title: 'Logout', icon: <LogOut />}} sideBarOpened={sideBarOpened} onClick={handleShowModal} />
+                            </div>
+                        ) 
                         
                     }
-                    {
-                        user 
-                        ? (
-                            <SideBarLink key={'logout'}  routeData={{title: 'Logout', icon: <LogOut />}} sideBarOpened={sideBarOpened} onClick={handleShowModal} />
-                        ) 
-                        : null
-                    }
-
                 </nav>
             </div>
             

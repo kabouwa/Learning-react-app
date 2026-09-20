@@ -8,7 +8,7 @@ import { useUser } from "../../context/UserContext";
 
 export default function LoginForm({ classes = ''}) {
     const { pushAlert } = useAlerts();
-    const { setUser } = useUser();
+    const { setUserData } = useUser();
     const [checking, setChecking] = useState(false);
     const [errors, setErrors] = useState({});
     const emailInp = useRef(null);
@@ -62,7 +62,7 @@ export default function LoginForm({ classes = ''}) {
                     }
                 }else{
                     const user = data.user;
-                    setUser(user);
+                    setUserData(user);
                     pushAlert({
                         type : 'success',
                         message: `Logged as ${capitalize(user.name)}`,

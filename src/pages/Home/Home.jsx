@@ -13,7 +13,7 @@ export default function Home() {
 
                 <div className="flex flex-col justify-center">
                     <h1 className="font-bold mb-8">
-                        <div className="display-3 text-indigo-500 text-shadow-xs text-shadow-indigo-400">React.js</div>
+                        <div className="text-indigo-500 text-shadow-xs text-6xl text-shadow-indigo-400">React.js</div>
                         <div className="display-1">Javascript Learning Project</div>
                     </h1>
 

@@ -4,10 +4,10 @@ export default function NotFound() {
     <div className="h-full flex flex-col justify-center items-center">
 
       <div className="relative">
-        <p className="display-1 text-shadow-lg text-shadow-white text-white animate-bounce">
+        <p className="display-1 text-shadow-lg text-shadow-white dark:text-white animate-bounce">
           404
         </p>
-        <div className="w-full h-10 bg-white/75 rounded-circle rotate-x-50 -mt-10"></div>
+        <div className="w-full h-10 bg-gray-700/75 dark:bg-white/75 rounded-circle rotate-x-50 -mt-10"></div>
       </div>
 
       <h4 className="font-bold">Sorry, this page isn't available.</h4>

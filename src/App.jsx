@@ -13,8 +13,9 @@ import NotFound from './pages/Errors/NotFound'
 import Dashboard from './pages/Dashboard/Dashboard'
 import { useEffect } from 'react'
 import { authApi } from './api/auth'
-import { LoadingProvider } from './context/LoadingContext'
+import { LoadingProvider, useLoading } from './context/LoadingContext'
 import { ConfirmationModalProvider } from './context/ConfirmationModalContext'
+import Account from './pages/Account/Account'
 
 const guestRoutes = [
     '/auth/login',
@@ -22,51 +23,15 @@ const guestRoutes = [
 ]
 
 function AppContent() {
-    const { user, setUser } = useUser();
+    const { user } = useUser();
     const { pushAlert } = useAlerts();
+    const { loading } = useLoading();
     const location = useLocation();
     const navigate = useNavigate();
 
-    // Load user
-    useEffect(() => {
-        async function loadUser() {
-            const token = localStorage.getItem('token');
-            if (!token) return;
-
-            try{
-                const data = await authApi.user();
-                
-                if(data?.errors){
-                    pushAlert({
-                        type : 'error',
-                        message: data.message,
-                        autoRemove: true,
-                        clearAlerts: true
-                    });
-                }else{
-                    const user = data.data;                    
-                    setUser(user); 
-                    pushAlert({
-                        type : 'success',
-                        message: "User Login in !",
-                        autoRemove: true,
-                        clearAlerts: true
-                    });               
-                }
-            }catch (error) { 
-                pushAlert({
-                    type : 'error',
-                    message: error?.message,
-                    clearAlerts: true
-                });
-            }
-        }
-
-        loadUser();
-    }, [pushAlert, setUser]);
-
     // Middleware
     useEffect(() => {
+        if (loading) return;
         if ( !user && location.pathname.startsWith('/dashboard') ) {
             pushAlert({
                 type : 'warning',
@@ -80,7 +45,7 @@ function AppContent() {
         if( user && guestRoutes.includes(location.pathname) ){
             navigate('/dashboard', { replace : true});
         }
-    }, [location.pathname, user, navigate, pushAlert]);
+    }, [location.pathname, user, navigate, pushAlert, loading]);
 
     return (
         <Routes>
@@ -100,6 +65,8 @@ function AppContent() {
                 {/* Dashboard */}
                 <Route path="dashboard" >
                     <Route index element={ <Dashboard /> } />
+                    <Route path="account/information" element={ <Account /> } />
+                    <Route path="account/edit" element={ <Account /> } />
                     <Route path="product" element={ <ProductDetail /> } />
                     <Route path="products" element={ <ProductsList /> } />
                 </Route>
@@ -117,15 +84,15 @@ export default function App() {
     return (
         <BrowserRouter>
             <ConfirmationModalProvider>
-                <LoadingProvider>
-                    <UserProvider>
-                        <ThemeProvider>
-                            <AlertsProvider>
+                <ThemeProvider>
+                    <LoadingProvider>
+                        <AlertsProvider>
+                            <UserProvider>
                                 <AppContent />
-                            </AlertsProvider>
-                        </ThemeProvider>
-                    </UserProvider>
-                </LoadingProvider>
+                            </UserProvider>
+                        </AlertsProvider>
+                    </LoadingProvider>
+                </ThemeProvider>
             </ConfirmationModalProvider>
         </BrowserRouter>
     )

@@ -1,13 +1,14 @@
 import { useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
 
-export default function InputField({label, classes='', reference, value='', password=false, readonly=false, id= '', error = '', onChange= ()=>{}}) {
+export default function InputField({label, classes, reference, placeholder, value, password=false, readonly=false, id, error, onChange= ()=>{}}) {
     const [isPasswordHidden,setIsPasswordHidden] = useState(true);
 
     return (
-        <div className={"flex-1 form-group relative flex flex-col items-stretch " + classes}>
+        <div className={"flex-1 form-group relative flex flex-col items-stretch mx-1 " + classes}>
             
             <input type={password && isPasswordHidden ? "password" : "text"} 
-                ref={reference} placeholder={password ? '********' : ''}
+                ref={reference} placeholder={placeholder ? placeholder : password ? '********' : ''}
                 readOnly={readonly} onChange={onChange} id={id}
                 autoComplete="current-password" defaultValue={value}
                 className="bg-gray-200 rounded-md pt-4 pb-2 px-2 text-black text-xl transition-all
@@ -22,11 +23,11 @@ export default function InputField({label, classes='', reference, value='', pass
                 password &&
                 <button type="button" onClick={() => setIsPasswordHidden(prev => !prev)}
                         className="absolute top-5 right-4 text-indigo-500">
-                        <i className={ `fa-solid text-xl ${ isPasswordHidden ? 'fa-eye' : 'fa-eye-slash'}` } ></i>
+                        { isPasswordHidden ? <Eye  size={23}/> : <EyeOff size={23} /> }
                 </button>
             }
 
-            <p className={`text-red-500 dark:text-red-400 m-0 text-sm ${error.length ? 'animate-fade-in' : 'animate-fade-out'}`}>{error}</p>
+            <p className={`text-red-500 dark:text-red-400 m-0 text-sm ${error?.length ? 'animate-fade-in' : 'animate-fade-out'}`}>{error}</p>
         </div>
     )
 }

@@ -5,16 +5,17 @@ import { useCallback, useRef, useState } from "react";
 import { authApi } from "../../api/auth";
 import Divider from "../Utilities/Divider";
 import countries from '../../data/countries.json'
-import { Link } from "react-router-dom" 
+import { Link, useNavigate } from "react-router-dom" 
 import { useAlerts } from "../../context/AlertsContext";
 import { useUser } from "../../context/UserContext";
 
 
 export default function RegisterForm({ classes='' }) {
     const { pushAlert } = useAlerts();
-    const { setUser } = useUser();
+    const { setUserData } = useUser();
     const [loading,setLoading] = useState(false);
     const [errors, setErrors] = useState({});
+    const navigate = useNavigate();
     const form = useRef(null);
     const formData = useRef({
         name: '',
@@ -110,7 +111,7 @@ export default function RegisterForm({ classes='' }) {
                     setErrors(data.errors);
                 }else{
                     // Creation successfull
-                    setUser(data.user);
+                    setUserData(data.user);
                     form.current.reset();
                     pushAlert({
                         type : "success",
@@ -118,7 +119,7 @@ export default function RegisterForm({ classes='' }) {
                         autoRemove: false,
                         clearAlerts: true
                     });
-                    location.href = '/dashboard';
+                    navigate('/dashboard')
                 }
 
             }catch (error) {         
