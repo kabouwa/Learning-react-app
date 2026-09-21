@@ -16,38 +16,53 @@ import { LoadingProvider, useLoading } from './context/LoadingContext'
 import { ConfirmationModalProvider } from './context/ConfirmationModalContext'
 import Account from './pages/Account/Account'
 import { Provider } from 'react-redux'
-import { store } from './stores/CounterStore'
+import { store } from "./redux/stores/CounterStore"
 import { CounterStore } from './pages/Counter/CounterRedux'
-
-const guestRoutes = [
-    '/auth/login',
-    '/auth/register'
-]
+import { guestRoutes, routes } from './routes/routes'
+import ProtectedRoutes from './middlewares/ProtectedRoutes'
 
 function AppContent() {
     const { user } = useUser();
     const { pushAlert } = useAlerts();
-    const { loading } = useLoading();
+    const { loading, setLoading } = useLoading();
     const location = useLocation();
     const navigate = useNavigate();
 
     // Middleware
-    useEffect(() => {
-        if (loading) return;
-        if ( !user && location.pathname.startsWith('/dashboard') ) {
-            pushAlert({
-                type : 'warning',
-                message : "You're not logged to access this page",
-                autoRemove : true,
-                clearAlerts : true
-            })
-            navigate('/auth/login', { replace : true});
-        }
+    // useEffect(() => {
+    //     if (loading) return;
 
-        if( user && guestRoutes.includes(location.pathname) ){
-            navigate('/dashboard', { replace : true});
-        }
-    }, [location.pathname, user, navigate, pushAlert, loading]);
+    //     setLoading(true);
+
+    //     if ( !user && location.pathname.startsWith('/dashboard') ) {
+    //         pushAlert({
+    //             type : 'warning',
+    //             message : "You're not logged to access this page",
+    //             autoRemove : true,
+    //             clearAlerts : true
+    //         });
+
+    //         navigate(
+    //             routes.login,
+    //             { 
+    //                 replace : true,
+    //                 state : {
+    //                     from: location
+    //                 }
+    //             }
+    //         );
+    //     }
+
+    //     if( user && guestRoutes.includes(location.pathname) ){
+    //         navigate(
+    //             location?.state?.from?.pathname || routes.dashboard, 
+    //             { replace : true}
+    //         );
+    //     }
+
+    //     setLoading(false);
+
+    // }, [location.pathname, user, navigate, pushAlert, loading, location, setLoading]);
 
     return (
         <Routes>
@@ -64,13 +79,15 @@ function AppContent() {
                     <Route path="register" element={ <Auth /> } />
                 </Route>
 
-                {/* Dashboard */}
-                <Route path="dashboard" >
-                    <Route index element={ <Dashboard /> } />
-                    <Route path="account/information" element={ <Account /> } />
-                    <Route path="account/edit" element={ <Account /> } />
-                    <Route path="product" element={ <ProductDetail /> } />
-                    <Route path="products" element={ <ProductsList /> } />
+                {/* Dashboard Protected */}
+                <Route element={ <ProtectedRoutes /> }>
+                    <Route path="dashboard" >
+                        <Route index element={ <Dashboard /> } />
+                        <Route path="account/information" element={ <Account /> } />
+                        <Route path="account/edit" element={ <Account /> } />
+                        <Route path="products" element={ <ProductsList /> } />
+                        <Route path="products/:slug" element={ <ProductDetail /> } />
+                    </Route>
                 </Route>
 
 

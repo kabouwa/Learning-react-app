@@ -2,11 +2,12 @@ import ReactIcon from '/favicon.svg'
 import Divider from "../Utilities/Divider"
 import { Link, useLocation } from "react-router-dom" 
 import { useEffect, useState } from 'react';
-import { House, LayoutDashboard, LogIn, LogOut, PanelLeftClose, PanelLeftOpen, Store, Timer, UserRoundCog, UserRoundPlus } from "lucide-react";
+import {  LogOut, PanelLeftClose, PanelLeftOpen, UserRoundCog } from "lucide-react";
 import ThemeToggler from "../Utilities/ThemeToggler";
 import { useUser } from '../../context/UserContext';
 import { useConfirmationModal } from '../../context/ConfirmationModalContext';
 import { authApi } from '../../api/auth';
+import { navItems, routes } from '../../routes/routes';
 
 function SideBarLink({routeData, sideBarOpened, linkStartWith = false, onClick = () => {}}) {
     const {title, link, icon} = routeData;
@@ -63,20 +64,12 @@ function SideBarLink({routeData, sideBarOpened, linkStartWith = false, onClick =
                 {icon}
             </span>
 
-            <span className={`inline-block transition-all duration-300 z-20 ${sideBarOpened ?  '' : 'pointer-events-none md:text-center ml-4 md: md:min-w-30 md:bg-white md:px-1 md:rounded md:opacity-0 scale-20'}`}>{title}</span>
+            <span className={`inline-block transition-all duration-300 z-20 
+                ${sideBarOpened ?  '' : 'pointer-events-none md:text-sm md:text-center ml-4 md:min-w-24 text-gray-900 dark:md:text-gray-100 md:bg-gray-100 dark:md:bg-gray-800 md:px-1 md:rounded-lg md:opacity-0 scale-20'}`}>{title}</span>
 
         </Link>
     )
 }
-
-const routesData = [
-    {title: 'Home',         link: '/',                     position: "top",     icon: <House />},
-    {title: 'Counter',      link: '/counter',              position: "top",     icon: <Timer />},
-    {title: 'Dashboard',    link: '/dashboard',            position: "top",     icon: <LayoutDashboard />},
-    {title: 'Products',     link: '/dashboard/products',   position: "top",     icon: <Store />},
-    {title: 'Login',        link: '/auth/login',           position: "bottom",  icon: <LogIn />},
-    {title: 'Register',     link: '/auth/register',        position: "bottom",  icon: <UserRoundPlus />},
-]
 
 export default function SideBar({ sideBarOpened, setSideBarOpened }) {
     const { user } = useUser();   
@@ -107,7 +100,7 @@ export default function SideBar({ sideBarOpened, setSideBarOpened }) {
     return (
         <>
         <aside className={`bg-gray-100 dark:bg-gray-900/75 dark:md:bg-gray-800/75  backdrop-blur-2xl rounded-2xl border fixed md:h-[calc(100vh-1.3rem)] flex flex-col z-80 opacity-100
-            shadow-md shadow-white/18 p-1.5 transition-all duration-400 
+            shadow-md shadow-white/18 p-1.5 transition-all duration-400
                 ${
                     sideBarOpened 
                     ? 'w-[70%] md:w-52' 
@@ -115,8 +108,8 @@ export default function SideBar({ sideBarOpened, setSideBarOpened }) {
                 }`
             }>
             
-            <button onClick={() => setSideBarOpened(prev => !prev)}
-                className="aside-toggle w-8 h-8 bg-gray-100/90 dark:bg-gray-800/90 rounded-circle hidden md:flex justify-center items-center backdrop-blur-2xl absolute -right-4 top-6 z-50">
+            <button onClick={() => setSideBarOpened(prev => !prev)} data-title={sideBarOpened ? 'Close menu' : 'Open menu'} 
+                className="aside-toggle w-8 h-8 bg-gray-100/90 dark:bg-gray-800/90 rounded-circle hidden md:flex justify-center items-center backdrop-blur-2xl z-50 top-3 left-1/2 -translate-x-1/2">
                 <span className="transition-all">
                     {sideBarOpened ? <PanelLeftClose /> : <PanelLeftOpen />}
                 </span>
@@ -124,15 +117,15 @@ export default function SideBar({ sideBarOpened, setSideBarOpened }) {
 
             <div className="mt-4 mb-2 flex flex-col justify-center items-center transition-all duration-400">
                 <img src={ReactIcon} alt="React Icon" className="h-28" />
-                <Divider label="React Library" />
+                <Divider label="React Library" classes='text-sm' />
             </div>
 
             <div className="flex-1 flex flex-col justify-between">
                 <nav className="flex flex-col gap-2 w-full">
                     {
-                        routesData.filter(route  =>  route.position.toLowerCase() == 'top')
+                        navItems.filter(route  =>  route.position.toLowerCase() == 'top')
                         .map(routeData  => (
-                            <SideBarLink key={routeData.link}  routeData={routeData} sideBarOpened={sideBarOpened} />
+                            <SideBarLink key={routeData.link}  routeData={routeData} sideBarOpened={sideBarOpened} linkStartWith={routeData.active} />
                         ))
                     }
                 </nav>
@@ -144,14 +137,14 @@ export default function SideBar({ sideBarOpened, setSideBarOpened }) {
                     {
                         !user 
                         ? (
-                            routesData.filter(route  => route.position.toLowerCase() == 'bottom')
+                            navItems.filter(route  => route.position.toLowerCase() == 'bottom')
                             .map(routeData => (
-                                <SideBarLink key={routeData.link}  routeData={routeData} sideBarOpened={sideBarOpened} />
+                                <SideBarLink key={routeData.link}  routeData={routeData} sideBarOpened={sideBarOpened} linkStartWith={routeData.active} />
                             ))
                         ) 
                         : (
                             <>
-                            <SideBarLink key={'profile'}  routeData={{title: 'Account', link: '/dashboard/account/information', icon: <UserRoundCog />}} linkStartWith="/dashboard/account" sideBarOpened={sideBarOpened} />
+                            <SideBarLink key={'profile'}  routeData={{title: 'Account', link: routes.account , icon: <UserRoundCog />}} linkStartWith="/dashboard/account" sideBarOpened={sideBarOpened} />
                             <SideBarLink key={'logout'}  routeData={{title: 'Logout', icon: <LogOut />}} sideBarOpened={sideBarOpened} onClick={handleShowModal} />
                             </>
                         ) 

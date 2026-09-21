@@ -131,3 +131,73 @@ p {
 ::-webkit-scrollbar-thumb:hover {
     background: #475569;
 }
+
+
+
+/* Title tooltip*/
+
+[data-title] {
+    position: relative;
+}
+
+[data-title]::after {
+  content: attr(data-title);
+  position: absolute;
+  transform: translateX(-50%);
+  font-weight: 100;
+  padding: 4px 8px;
+  border-radius: 4px;
+  background: #616161;
+  color: white;
+  font-size: 12px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 50;
+  transition: opacity 0.15s;
+}
+.dark [data-title]::after {
+    background: #111;
+}
+
+[data-title]:hover::after,
+[data-title]:focus-visible::after {
+  opacity: 1;
+}
+
+/* Default position: top */
+[data-title]::after,
+[data-title][data-title-position="right"]::after {
+  top: 50%;
+  bottom: auto;
+  left: 100%;
+  transform: translateY(-50%);
+  margin: 0 0 0 6px;
+}
+
+[data-title][data-title-position="top"]::after {
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 6px;
+}
+
+[data-title][data-title-position="bottom"]::after {
+  top: 100%;
+  bottom: auto;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 6px;
+  margin-bottom: 0;
+}
+
+[data-title][data-title-position="left"]::after {
+  top: 50%;
+  bottom: auto;
+  left: auto;
+  right: 100%;
+  transform: translateY(-50%);
+  margin: 0 6px 0 0;
+}
+
+

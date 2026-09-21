@@ -63,7 +63,7 @@ export default function Alert({children, index, type, accent, autoRemove = true,
                     {
                         showRemoveButton ? (
                         <button type="button" 
-                                className="absolute top-1.5 right-3" 
+                                className="absolute top-1/2 right-2 -translate-y-1/2" 
                                 onClick={hideAlert}
                             >
                                 <i className="fa-solid fa-xmark"></i>

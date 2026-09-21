@@ -3,16 +3,17 @@ import NotFound from '../Errors/NotFound'
 import { productsApi } from '../../api/products';
 import Loading from '../../components/Utilities/Loading';
 import { useAlerts } from '../../context/AlertsContext';
+import { useParams } from 'react-router-dom';
 
 
 function ProductCard({ product }) {
-    const { id, title, description, image, price, category, rating} = product;
+    const {user_id, slug, name, description, price, category, image, image_url, available, created_at, updated_at} = product;
 
     return (
-        <div className='flex flex-col md:flex-row items-stretch justify-between gap-4' data-id={id}>
+        <div className='flex flex-col md:flex-row items-stretch justify-between gap-4' data-user={user_id} data-product={slug}>
 
             <div className='bg-white md:w-1/3 flex justify-center items-center rounded p-10'>
-                <img src={image} alt="Product Image" className='w-1/2 md:w-auto' />
+                <img src={image_url ?? '/default-image.png'} alt="Product Image" className='w-1/2 md:w-auto' />
             </div>
 
 
@@ -21,8 +22,10 @@ function ProductCard({ product }) {
 
                 <div className="card-header flex justify-between items-center">
 
-                    <p className='text-indigo-500 m-0'>
-                        <strong>Rating :</strong> {rating.rate} / 5 ({rating.count})
+                    <p className={`font-bold ${available ? 'text-green-500' : 'text-red-500'}`}>
+                        {
+                            available ? 'Available' : 'Out of stock'
+                        }
                     </p>
 
                     <div className="px-2.5 py-0.5 text-white text-center bg-indigo-400 rounded-2xl ">
@@ -33,10 +36,14 @@ function ProductCard({ product }) {
 
                 <div className="card-body flex flex-col">
             
-                    <div className="card-title font-bold display-5">{title}</div>
+                    <div className="card-title font-bold display-5">{name}</div>
 
                     <div className="card-text text-gray-600 text-2 flex-1">{description}</div>
 
+                    <div className='flex flex-col text-gray-500 text-sm'>
+                        <span>Created at {created_at}</span>
+                        <span>Last update at {updated_at}</span>
+                    </div>
                 </div>
 
                 <div className="card-footer flex justify-between items-center">
@@ -60,20 +67,20 @@ export default function ProductDetail() {
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(true);
     const { clearAlerts, pushAlert } = useAlerts();
-
-    const query = new URLSearchParams(location.search)
-    const id = parseInt( query.get('id') );
+    const params = useParams();
     
     useEffect(() => {
-        if(!id) return (<NotFound />);
+        const slug = params?.slug;
+        if(!slug) return (<NotFound />);
 
         async function load() {
             setLoading(true);
             clearAlerts();
             
             try {
-                const data = await productsApi.get(id);
-                
+                const response = await productsApi.get(slug);
+                const data = response?.data;
+
                 if( data && Object.keys(data).length !== 0 ) {
                     setProduct(data)
                 }else{
@@ -97,7 +104,7 @@ export default function ProductDetail() {
         }
 
         load();
-    },[pushAlert, clearAlerts, id])
+    },[pushAlert, clearAlerts, params?.slug]);
 
     return (
         <>

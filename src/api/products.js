@@ -5,16 +5,16 @@ const BASE = "/products"
 export const productsApi = {
     list : async(page = 1) => {
         const response = await api.get(`${BASE}/?page=${page}`)
-        return response.data;
+        return response;
     } ,
 
     categories : () => api.get(`${BASE}/categories`), 
     
-    get : (id) => api.get(`${BASE}/${id}`),
+    get : (slug) => api.get(`${BASE}/${slug}`),
     
     create : (product) => api.post(`${BASE}/`, product),
     
-    update : (id, product) => api.put(`${BASE}/${id}`, product),
+    update : (slug, product) => api.put(`${BASE}/${slug}`, product),
     
-    delete : (id) => api.delete(`${BASE}/${id}`)
+    delete : (slug) => api.delete(`${BASE}/${slug}`)
 };

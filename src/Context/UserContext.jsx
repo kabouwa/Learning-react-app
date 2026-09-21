@@ -41,37 +41,41 @@ export function UserProvider({ children }) {
 
             const token = localStorage.getItem('token');
 
-            if (token) {
-                try{
-                    const data = await authApi.user();
+            if(!token) {
+                setLoading(false);
+                return;
+            }
 
-                    if(data?.errors){
-                        pushAlert({
-                            type : 'error',
-                            message: data.message,
-                            autoRemove: true,
-                            clearAlerts: true
-                        });
-                    }else{                        
-                        const user = data.data;
-                        setUserData(user);
+            try{
+                const data = await authApi.user();
 
-                        pushAlert({
-                            type : 'success',
-                            message: "User Login in !",
-                            autoRemove: true,
-                            clearAlerts: true
-                        });               
-                    }
-                }catch (error) { 
+                if(data?.errors){
                     pushAlert({
                         type : 'error',
-                        message: error?.message,
+                        message: data.message,
+                        autoRemove: true,
                         clearAlerts: true
                     });
+                }else{                        
+                    const user = data.data;
+                    setUserData(user);
+
+                    pushAlert({
+                        type : 'success',
+                        message: "User Login in !",
+                        autoRemove: true,
+                        clearAlerts: true
+                    });               
                 }
+            }catch (error) { 
+                pushAlert({
+                    type : 'error',
+                    message: error?.message,
+                    clearAlerts: true
+                });
+            }finally {
+                setLoading(false);
             }
-            setLoading(false);
         }
 
         loadUser();

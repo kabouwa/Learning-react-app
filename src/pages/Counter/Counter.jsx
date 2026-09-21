@@ -94,20 +94,18 @@ function Counter( { minimum = 0, maximum = 10000}) {
             <h1 className="display-4 text-center font-bold mb-8">State & Event management : </h1>
 
             <div className='flex items-stretch justify-between gap-10 md:gap-20 my-10'>
-                <button 
+                <button onClick={decrementCounter}
                     className='ring ring-indigo-500 rounded-4 bg-gray-400/20 fs-2 font-bold cursor-pointer text-center
                         transition-all hover:bg-gray-400/25 hover:ring-2 active:bg-indigo-500/50 p-3 md:py-5 flex-1'
-                    onClick={decrementCounter}
                 >-1</button>
 
                 <strong className="text-gray-800 dark:text-white/95 text-4xl md:text-9xl text-shadow-lg text-shadow-black/20 dark:text-shadow-indigo-500/20 flex items-center">
                     {counter}
                 </strong>
 
-                <button 
+                <button onClick={incrementCounter}
                     className='ring ring-indigo-500 rounded-4 bg-gray-400/20 fs-2 font-bold  cursor-pointer text-center
                         transition-all hover:bg-gray-400/25 hover:ring-2 active:bg-indigo-500/50 p-3 md:py-5 flex-1'
-                    onClick={incrementCounter}
                 >+1</button>
             </div>
 

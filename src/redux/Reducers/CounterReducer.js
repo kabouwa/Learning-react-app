@@ -6,7 +6,10 @@ export const CUSTOM = 'state-custom';
 
 export const CounterReducer = (state = INITIAL_STATE, action) => {
     const prev = state.counter;
-    const value = action.value;
+    
+    if ( !action?.payload ) return state;
+
+    const { value } = action.payload;
 
     switch(action.type){
         case INCREMENT:

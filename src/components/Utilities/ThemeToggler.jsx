@@ -42,10 +42,10 @@ export default function ThemeToggler({ sideBarOpened }) {
                 </span> 
             </span>
 
-            <span id="current-mode" className={`transition-all duration-300 z-20 ${sideBarOpened ?  '' : 'pointer-events-none text-center ml-4 min-w-30 bg-white px-1 rounded opacity-0 scale-20'}`}>
+            <span id="current-mode" className={`transition-all duration-300 z-20 ${sideBarOpened ?  '' : 'pointer-events-none md:text-sm md:text-center ml-4 md:min-w-24 text-gray-900 dark:md:text-gray-100 md:bg-gray-100 dark:md:bg-gray-800 md:px-1 md:rounded-lg md:opacity-0 scale-20'}`}>
                 {
                     theme === 'light' ? 'Light' : 'Dark'
-                } Mode
+                }
             </span>
         </button>
     )

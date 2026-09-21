@@ -8,7 +8,7 @@ import ConfirmButton from "../Forms/ConfirmButton";
 import InputField from "../Forms/InputField";
 import SelectField from "../Forms/SelectField";
 import Divider from "../Utilities/Divider";
-
+import useCapitalize from "../../hooks/useCapitalize"
 
 function Row({ children }) {
     return (
@@ -19,24 +19,14 @@ function Row({ children }) {
 }
 
 export default function AccountUpdate() {
+    const { capitalize } = useCapitalize();
     const { pushAlert } = useAlerts();
     const { user, shop, setUserData } = useUser();
     const [loading,setLoading] = useState(false);
     const [errors, setErrors] = useState({});
     const form = useRef(null);
     const navigate = useNavigate();
-
-    const formData = useRef({
-        name: user?.name,
-        email: user?.email,
-        password: '',
-        password_confirmation: '',
-        shop_name: shop?.shop_name,
-        address : shop?.address,
-        zipcode: shop?.zipcode,
-        city : shop?.city,
-        country: shop?.country
-    });
+    const formData = useRef();
 
     useEffect(() => {
         formData.current = {
@@ -52,8 +42,7 @@ export default function AccountUpdate() {
         };
     }, [user, shop]);
 
-    const capitalize = (text) => text.slice(0,1).toUpperCase() + text.slice(1).toLowerCase();
-
+    
     const handleInputChange = useCallback( (e) => {
         const {id, value, type, checked} = e.target;
         // Save value in state
@@ -72,16 +61,15 @@ export default function AccountUpdate() {
 
     const validateFormData = () => {
         const f = formData.current;
-
         const data = {
-            name : f.name?.trim()?.toLowerCase(),
+            name : capitalize(f.name?.trim()),
             email : f.email?.trim()?.toLowerCase(),
             password : f.password?.trim(),
             password_confirmation : f.password_confirmation?.trim(),
             shop_name : capitalize(f.shop_name?.trim()),
             address : f.address?.trim(),
             zipcode : f.zipcode?.trim(),
-            city : capitalize(f.city.trim()),
+            city : capitalize(f.city?.trim()),
             country : f?.country,
         } 
 
@@ -127,8 +115,8 @@ export default function AccountUpdate() {
                     form.current.reset();
                     pushAlert({
                         type : "success",
-                        message: `Account updated successfuly !`,
-                        autoRemove: false,
+                        message: "Account updated successfuly !",
+                        autoRemove: true,
                         clearAlerts: true
                     });
                     navigate('/dashboard/account/information');

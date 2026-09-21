@@ -13,16 +13,16 @@ export default function ProductsList() {
     const { clearAlerts, pushAlert } = useAlerts()
 
     useEffect(() => {
-        async function load() {
+        async function loadProducts() {
             setLoading(true);
             
             try{
-                let data = await productsApi.list(2);                   
-                setProducts(data);
-                setFiltredProducts(data);
+                let response = await productsApi.list();                   
+                setProducts(response.data);
+                setFiltredProducts(response.data);
 
-                data = await productsApi.categories();                            
-                setCategories(data);
+                response = await productsApi.categories();                                            
+                setCategories(response.data);
 
             }catch (error) { 
                 pushAlert({
@@ -35,9 +35,9 @@ export default function ProductsList() {
                 setLoading(false);
             }
         }
-
-        load(); 
-    },[pushAlert, setLoading]);
+        if (!loading) loadProducts(); 
+        
+    },[pushAlert, setLoading, loading]);
 
     useEffect(() => {
         if(loading) return;
@@ -57,8 +57,8 @@ export default function ProductsList() {
    
 
     return(
-        <div className="max-w-7xl mx-auto overflow-hidden">
-            <h1 className="mb-4 text-center">Discover Products</h1>
+        <div className="max-w-7xl mx-auto">
+            <h1 className="mb-4 text-center">Manage Products</h1>
 
             <ProductBar products={products} setFiltredProducts={setFiltredProducts} categories={categories} />
 
@@ -76,7 +76,7 @@ export default function ProductsList() {
                         {
                             filtredProducts.length
                             ? filtredProducts.map(
-                                product => <ProductCard key={product.id} product={product} />
+                                product => <ProductCard key={product.slug} product={product} />
                             )
                             : ( <p className="text-center text-gray-400 col-span-4 text-2xl">No product founded.</p> )
                         }

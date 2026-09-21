@@ -1,10 +1,10 @@
-import {  memo, useCallback, useEffect, useRef, useState } from "react"
+import {  useCallback, useEffect, useRef } from "react"
 import { useAlerts } from "../../context/AlertsContext";
 import './counter.module.css';  
 import { SquarePen } from "lucide-react";
 import { connect } from "react-redux";
-import { store } from "../../stores/CounterStore";
-import { CUSTOM, DECREMENT, INCREMENT } from "../../stores/Reducers/CounterReducer";
+import { CounterSelector } from "../../redux/Selectors/CounterSelector";
+import { onCustom, onDecrement, onIncrement } from "../../redux/Actions/CounterActions";
 
 function Counter( { minimum = 0, maximum = 10000, margin = 20, counter, increment, decrement, custom}) {
     const { clearAlerts, pushAlert } = useAlerts();
@@ -92,20 +92,18 @@ function Counter( { minimum = 0, maximum = 10000, margin = 20, counter, incremen
             <h1 className="display-4 text-center font-bold mb-8">State & Event management : </h1>
 
             <div className='flex items-stretch justify-between gap-10 md:gap-20 my-10'>
-                <button 
+                <button onClick={decrementCounter} data-title="Decrement counter" data-title-position="bottom"
                     className='ring ring-indigo-500 rounded-4 bg-gray-400/20 fs-2 font-bold cursor-pointer text-center
                         transition-all hover:bg-gray-400/25 hover:ring-2 active:bg-indigo-500/50 p-3 md:py-5 flex-1'
-                    onClick={decrementCounter}
                 >-1</button>
 
                 <strong className="text-gray-800 dark:text-white/95 text-4xl md:text-9xl text-shadow-lg text-shadow-black/20 dark:text-shadow-indigo-500/20 flex items-center">
                     {counter}
                 </strong>
 
-                <button 
+                <button onClick={incrementCounter} data-title="Increment counter" data-title-position="bottom"
                     className='ring ring-indigo-500 rounded-4 bg-gray-400/20 fs-2 font-bold  cursor-pointer text-center
                         transition-all hover:bg-gray-400/25 hover:ring-2 active:bg-indigo-500/50 p-3 md:py-5 flex-1'
-                    onClick={incrementCounter}
                 >+1</button>
             </div>
 
@@ -137,12 +135,13 @@ function Counter( { minimum = 0, maximum = 10000, margin = 20, counter, incremen
 
 
 export const CounterStore = connect(
-    (state) => ({
-        counter: state.counter
+    state => ({
+        counter: CounterSelector(state)
     }),
-    (dispatch) => ({
-        increment : (value) => dispatch({type : INCREMENT, value : value}),
-        decrement : (value) => dispatch({type : DECREMENT, value : value}),
-        custom : (value) => dispatch({type : CUSTOM, value : value}),
+
+    dispatch => ({
+        increment : value => dispatch( onIncrement(value) ),
+        decrement : value => dispatch( onDecrement(value) ),
+        custom    : value => dispatch( onCustom(value)    ),
     })
 )(Counter);

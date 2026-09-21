@@ -5,6 +5,8 @@ import { authApi } from "../../api/auth";
 import { Link } from "react-router-dom" 
 import { useAlerts } from "../../context/AlertsContext";
 import { useUser } from "../../context/UserContext";
+import useCapitalize from "../../hooks/useCapitalize";
+import { routes } from "../../routes/routes";
 
 export default function LoginForm({ classes = ''}) {
     const { pushAlert } = useAlerts();
@@ -13,9 +15,7 @@ export default function LoginForm({ classes = ''}) {
     const [errors, setErrors] = useState({});
     const emailInp = useRef(null);
     const passInput = useRef(null);
-
-
-    const capitalize = (text) => text.slice(0,1).toUpperCase() + text.slice(1).toLowerCase();
+    const { capitalize } = useCapitalize();
 
     const validateFormData = () => {
         const data = {
@@ -94,7 +94,7 @@ export default function LoginForm({ classes = ''}) {
 
             <p className="text-center">
                 Haven't an account yet ? 
-                <Link to="/auth/register" className="inline-block ms-2 text-decoration-underline text-indigo-500 hover:text-white transition-colors">
+                <Link to={routes.register} className="inline-block ms-2 text-decoration-underline text-indigo-500 hover:text-white transition-colors">
                     Create account
                 </Link>
             </p>

@@ -8,6 +8,8 @@ import countries from '../../data/countries.json'
 import { Link, useNavigate } from "react-router-dom" 
 import { useAlerts } from "../../context/AlertsContext";
 import { useUser } from "../../context/UserContext";
+import useCapitalize from "../../hooks/useCapitalize";
+import { routes } from "../../routes/routes";
 
 
 export default function RegisterForm({ classes='' }) {
@@ -17,6 +19,7 @@ export default function RegisterForm({ classes='' }) {
     const [errors, setErrors] = useState({});
     const navigate = useNavigate();
     const form = useRef(null);
+    const { capitalize } = useCapitalize();
     const formData = useRef({
         name: '',
         email: '',
@@ -28,18 +31,6 @@ export default function RegisterForm({ classes='' }) {
         city : '',
         country: ''
     });
-    // const seen = []
-    // let phoneDials = [...countries]
-    //     .sort((c1, c2) => parseInt(c1.dial) - parseInt(c2.dial))
-    //     .filter(c => {
-    //         if ( !seen.includes(c.dial)) {
-    //             seen.push(c.dial)
-    //             return true
-    //         }
-    //     }) 
-    //     .map(country => country.dial)   
-
-    const capitalize = (text) => text.slice(0,1).toUpperCase() + text.slice(1).toLowerCase();
 
     const handleInputChange = useCallback( (e) => {
         const {id, value, type, checked} = e.target;
@@ -148,14 +139,6 @@ export default function RegisterForm({ classes='' }) {
                     <InputField label="Confirm password" password={true} id="password_confirmation" error={errors?.password_confirmation} onChange={handleInputChange} />
                 </div>
 
-
-                {/* <div className="flex gap-2">
-                    <SelectField label="Dial code" options={phoneDials} onChange={handleInputChange} id="dial"
-                        classes="max-w-21 md:max-w-25" emptyOption={false} defaultValue="+1" />
-
-                    <InputField label="Phone number" id="phone" onChange={handleInputChange} />
-                </div> */}
-
                 <Divider label="Shop information"/>
 
                 <InputField label="Coffee Shop name" id="shop_name" error={errors?.shop_name} onChange={handleInputChange} />
@@ -173,7 +156,7 @@ export default function RegisterForm({ classes='' }) {
 
                 <p className="text-center">
                     Already have an account ? 
-                    <Link to="/auth/login" className="inline-block ms-2 text-decoration-underline text-indigo-500 hover:text-white transition-colors">
+                    <Link to={routes.login} className="inline-block ms-2 text-decoration-underline text-indigo-500 hover:text-white transition-colors">
                         Switch to login
                     </Link>
                 </p>

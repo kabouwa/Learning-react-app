@@ -4,7 +4,7 @@ export default function Divider({label = '', classes='', color='border-gray-500'
             <div className={"flex-1 border-t-2 " + color}></div>
             { 
                 label
-                ?   (<p className={"m-0 mx-1 transition-all duration-500" + (!showLabel &&  'hidden')}>{label}</p>)
+                ?   (<p className={"m-0 mx-1 transition-all duration-500 text" + (!showLabel &&  'hidden')}>{label}</p>)
                 : null
             }
             

@@ -35,7 +35,7 @@ function ProductBar({products, setFiltredProducts, categories}) {
         setFiltredProducts([
             ...products
         ].filter(
-            product => product.title.toLowerCase().includes(search)  
+            product => product.name.toLowerCase().includes(search)  
                 || product.description.toLowerCase().includes(search)
         ))
     }
@@ -50,7 +50,10 @@ function ProductBar({products, setFiltredProducts, categories}) {
         setFiltredProducts([
             ...products
         ].filter(
-            product => product.category === category
+            product => {
+                if (category) return product.category === category;
+                return true;
+            }
         ));
         
         // ========= Min price filter : 
@@ -88,7 +91,7 @@ function ProductBar({products, setFiltredProducts, categories}) {
                 </div>
 
                 <input type="search" placeholder="Search..." ref={searchInp} name="search" id="search"
-                    className="form-control rounded-3 focus:shadow-0 relative z-30" onChange={handleSearch}
+                    className="form-control rounded-3 focus:shadow-0 relative z-30 py-2.5" onChange={handleSearch}
                 />
 
                 <button type="button"

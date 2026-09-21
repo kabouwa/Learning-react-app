@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import LoginForm from "../../components/Auth/LoginForm";
 import RegisterForm from "../../components/Auth/RegisterForm";
 import { Link, useLocation } from "react-router-dom" 
+import { routes } from "../../routes/routes";
 
 export default function Auth({ showLogin=true }) {
     const [login,setLogin] = useState(showLogin);
@@ -23,11 +24,11 @@ export default function Auth({ showLogin=true }) {
         </p>
 
         <div className="bg-gray-400 dark:bg-gray-500 max-w-xl mx-auto rounded-xl flex gap-2 overflow-hidden text-center font-semibold text-white">
-            <Link to="/auth/login" className={"flex-1 py-2 cursor-pointer transition-all duration-300" + (login ? " bg-indigo-500" : '')}>
+            <Link to={routes.login} className={"flex-1 py-2 cursor-pointer transition-all duration-300" + (login ? " bg-indigo-500" : '')}>
                 Login
             </Link>
 
-            <Link to="/auth/register" className={"flex-1 py-2 cursor-pointer transition-all duration-300" + (!login ? " bg-indigo-500" : '')}>
+            <Link to={routes.register} className={"flex-1 py-2 cursor-pointer transition-all duration-300" + (!login ? " bg-indigo-500" : '')}>
                 Register
             </Link>
         </div>
