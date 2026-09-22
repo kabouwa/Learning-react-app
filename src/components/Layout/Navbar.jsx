@@ -9,7 +9,7 @@ import { useConfirmationModal } from '../../context/ConfirmationModalContext';
 import { authApi } from '../../api/auth';
 import { navItems, routes } from '../../routes/routes';
 
-function SideBarLink({routeData, sideBarOpened, linkStartWith = false, onClick = () => {}}) {
+function NavbarLink({routeData, sideBarOpened, linkStartWith = false, onClick = () => {}}) {
     const {title, link, icon} = routeData;
     const location = useLocation();
     const [active, setActive] = useState(false);
@@ -18,7 +18,7 @@ function SideBarLink({routeData, sideBarOpened, linkStartWith = false, onClick =
         setActive(
             ( linkStartWith && location.pathname.startsWith(linkStartWith) )
             || location.pathname === link
-        )
+        );
 
     }, [location.pathname, link]);
 
@@ -71,7 +71,7 @@ function SideBarLink({routeData, sideBarOpened, linkStartWith = false, onClick =
     )
 }
 
-export default function SideBar({ sideBarOpened, setSideBarOpened }) {
+export default function Navbar({ sideBarOpened, setSideBarOpened }) {
     const { user } = useUser();   
     const { setShowModal, setProps } = useConfirmationModal();
 
@@ -125,7 +125,7 @@ export default function SideBar({ sideBarOpened, setSideBarOpened }) {
                     {
                         navItems.filter(route  =>  route.position.toLowerCase() == 'top')
                         .map(routeData  => (
-                            <SideBarLink key={routeData.link}  routeData={routeData} sideBarOpened={sideBarOpened} linkStartWith={routeData.active} />
+                            <NavbarLink key={routeData.link}  routeData={routeData} sideBarOpened={sideBarOpened} linkStartWith={routeData.active} />
                         ))
                     }
                 </nav>
@@ -139,13 +139,13 @@ export default function SideBar({ sideBarOpened, setSideBarOpened }) {
                         ? (
                             navItems.filter(route  => route.position.toLowerCase() == 'bottom')
                             .map(routeData => (
-                                <SideBarLink key={routeData.link}  routeData={routeData} sideBarOpened={sideBarOpened} linkStartWith={routeData.active} />
+                                <NavbarLink key={routeData.link}  routeData={routeData} sideBarOpened={sideBarOpened} linkStartWith={routeData.active} />
                             ))
                         ) 
                         : (
                             <>
-                            <SideBarLink key={'profile'}  routeData={{title: 'Account', link: routes.account , icon: <UserRoundCog />}} linkStartWith="/dashboard/account" sideBarOpened={sideBarOpened} />
-                            <SideBarLink key={'logout'}  routeData={{title: 'Logout', icon: <LogOut />}} sideBarOpened={sideBarOpened} onClick={handleShowModal} />
+                            <NavbarLink key={'profile'}  routeData={{title: 'Account', link: routes.account , icon: <UserRoundCog />}} linkStartWith="/dashboard/account" sideBarOpened={sideBarOpened} />
+                            <NavbarLink key={'logout'}  routeData={{title: 'Logout', icon: <LogOut />}} sideBarOpened={sideBarOpened} onClick={handleShowModal} />
                             </>
                         ) 
                         

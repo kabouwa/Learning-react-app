@@ -1,33 +1,29 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import ProductCard from "../../components/Products/ProductCard"
 import { productsApi } from "../../api/products"
-import ProductBar from "../../components/Products/ProductBar";
 import { useAlerts } from "../../context/AlertsContext";
 import { useLoading } from "../../context/LoadingContext";
-import { useDispatch, useSelector } from "react-redux";
-import { filtredProductsSelector, productsSelector } from "../../redux-toolkit/selectors/ProductsSelector";
-import { setCategories, setProducts } from "../../redux-toolkit/features/productSlice";
+import ProductBarOld from "../../components/Products/ProductBarOld";
 
-export default function ProductsList() {
-    // React Context;
+export default function ProductsListOld() {
+    const [products, setProducts] = useState([]);
+    const [categories, setCategories] = useState([]);
+    const [filtredProducts,setFiltredProducts] = useState([]);
     const { loading, setLoading } = useLoading();
     const { clearAlerts, pushAlert } = useAlerts();
 
-    // Redux Toolkit
-    const products = useSelector(productsSelector);
-    const filtredProducts = useSelector(filtredProductsSelector);
-    const dispatch = useDispatch();
-
     useEffect(() => {
         async function loadProducts() {
+            console.log('Loading products, categories from Local Api Server !')
             setLoading(true);
             
             try{
-                let response = await productsApi.list();
-                dispatch( setProducts({products : response.data}) )            
+                let response = await productsApi.list();                   
+                setProducts(response.data);
+                setFiltredProducts(response.data);
 
-                response = await productsApi.categories();
-                dispatch( setCategories({categories : response.data}) )                                                 
+                response = await productsApi.categories();                                            
+                setCategories(response.data);
 
             }catch (error) { 
                 pushAlert({
@@ -40,12 +36,10 @@ export default function ProductsList() {
                 setLoading(false);
             }
         }
-        if (!loading && !products.length) loadProducts(); 
+        if (!loading) loadProducts(); 
         
-    },[pushAlert, setLoading, loading, products, dispatch]);
+    },[pushAlert, setLoading, loading]);
 
-
-    // Auto Alert No product founded (DB/FILTERED)
     useEffect(() => {
         if(loading) return;
 
@@ -66,7 +60,7 @@ export default function ProductsList() {
         <div className="max-w-7xl mx-auto">
             <h1 className="mb-4 text-center">Manage Products</h1>
 
-            <ProductBar />
+            <ProductBarOld products={products} setFiltredProducts={setFiltredProducts} categories={categories} />
 
             {
                 !loading && filtredProducts.length

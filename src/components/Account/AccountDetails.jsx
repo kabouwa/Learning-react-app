@@ -5,11 +5,18 @@ import ConfirmButton from "../Forms/ConfirmButton";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function InfoLine({ label , value, topBorder = false, bottomBorder = true}) {
+function InfoLine({ label, img, value, topBorder = false, bottomBorder = true}) {
     return (
         <div className={"border-gray-300 py-3 my-1 px-2 text-sm md:text-md" + (topBorder ? ' border-t-1' : '') + (bottomBorder ? ' border-b-1' : '')}>
-            <strong className="mr-2">{label} :</strong>
-            <span>{value}</span>
+            <strong className="mr-2">
+                {label} :
+            </strong>
+            <span>
+                {value}
+            </span>
+            {
+                img && (<img src={img} className="inline-block w-6 ml-1" />)
+            }
         </div>
     )
 }
@@ -52,7 +59,7 @@ export default function AccountDetails() {
                     <InfoLine key="address" label="Address" value={shop?.address} />
                     <InfoLine key="zipcode" label="Postal / Zip code" value={shop?.zipcode} />
                     <InfoLine key="city" label="City" value={shop?.city} />
-                    <InfoLine key="country" label="Country" value={country} bottomBorder={false} />
+                    <InfoLine key="country" img={`https://flagcdn.com/48x36/${shop?.country?.toLowerCase()}.png`} label="Country" value={country} bottomBorder={false} />
                 </div>
             ) : (<p className="my-8 text-center text-gray-500/90">Loading ...</p>)
         }

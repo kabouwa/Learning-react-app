@@ -2,13 +2,13 @@
 import { useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import Header from './Header'
-import SideBar from './SiderBar';
 import Footer from './Footer'
 import DateTime from '../Utilities/DateTime';
 import Alerts from '../Alerts/Alerts';
 import { Menu, X } from 'lucide-react';
 import LoadingModal from '../Utilities/Loading';
 import ConfirmationModal from '../Modals/ConfirmationModal';
+import Navbar from './Navbar';
 
 export default function Layout() {
     const [sideBarOpened, setSideBarOpened] = useState(false);
@@ -31,7 +31,7 @@ export default function Layout() {
     return (
        <div className='relative dark:text-white mx-auto bg-gray-100/70 dark:bg-gray-900/90 h-screen max-h-screen overflow-hidden px-1.5 py-2.5'>
 
-           <SideBar sideBarOpened={sideBarOpened} setSideBarOpened={setSideBarOpened} />
+           <Navbar sideBarOpened={sideBarOpened} setSideBarOpened={setSideBarOpened} />
 
             {/* Sidebar phone toggler */}
            <button onClick={() => setSideBarOpened(prev => !prev)}

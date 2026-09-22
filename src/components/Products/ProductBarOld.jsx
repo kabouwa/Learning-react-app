@@ -1,21 +1,10 @@
 import { memo, useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { categoriesSelector, productsSelector } from "../../redux-toolkit/selectors/ProductsSelector";
-import { clearFilters, filterProducts, searchProducts } from "../../redux-toolkit/features/productSlice";
-import { useSearchParams } from "react-router-dom";
 
-function ProductBar() {
-    // Redux Toolkit
-    const dispatch = useDispatch();
-    const products = useSelector(productsSelector);
-    const categories = useSelector(categoriesSelector);
-    
-    const [showFilterModal,setShowFilterModal] = useState(false);
-    const [searchParams, setSearchParams] = useSearchParams();
+function ProductBarOld({products, setFiltredProducts, categories}) {
     const searchInp = useRef(null);
     const minPriceInp = useRef(null);
     const maxPriceInp = useRef(null);
-    const categorySelect = useRef(null);
+    const [showFilterModal,setShowFilterModal] = useState(false);
 
     useEffect(() => {
         const hideFilterModal = (e) => {
@@ -30,76 +19,68 @@ function ProductBar() {
         return () => {
             document.removeEventListener('click',hideFilterModal);   
         } 
-    },[showFilterModal]);
+    },[showFilterModal])
 
-    const handlePriceFormat = (e) => {        
+    const handlePriceFormat = (e) => {
         const input = e.currentTarget;
         const fixedValue = Number(input.value);
-        input.value = fixedValue > 0 ? fixedValue : 0;
+        input.value = fixedValue > 0 ? fixedValue : 0
+    }
+
+    const handleSearch = (e) => {
+        e.preventDefault();
+
+        const search = searchInp.current.value.trim().toLowerCase();
+
+        setFiltredProducts([
+            ...products
+        ].filter(
+            product => product.name.toLowerCase().includes(search)  
+                || product.description.toLowerCase().includes(search)
+        ))
     }
 
     const handleFilterForm = (e) => {
         e.preventDefault()
-        const category = categorySelect.current.value; 
+        const category = document.querySelector('#category').value;
         const minPrice = parseFloat(minPriceInp.current.value.trim()); 
-        let maxPrice = parseFloat(maxPriceInp.current.value.trim()); 
+        const maxPrice = parseFloat(maxPriceInp.current.value.trim()); 
 
-        if (maxPrice && maxPrice <= minPrice) {
-            maxPriceInp.current.value = minPrice + 1;
-            maxPrice = minPrice + 1;
-        }
-
-        setSearchParams(prev => {
-            prev.delete('search');
-            if (category) {
-                prev.set("category", category);
-            } else {
-                prev.delete("category");
+        // ========= category filter :
+        setFiltredProducts([
+            ...products
+        ].filter(
+            product => {
+                if (category) return product.category === category;
+                return true;
             }
-
-            if (minPrice) {
-                prev.set("min_price", minPrice);
-            } else {
-                prev.delete("min_price");
-            }
-
-            if (maxPrice) {
-                prev.set("max_price", maxPrice);
-            } else {
-                prev.delete("max_price");
-            }
-
-            return prev;
-        });
+        ));
         
-        dispatch( filterProducts({ category, minPrice, maxPrice }) );
+        // ========= Min price filter : 
+        if (minPrice) {
+            setFiltredProducts(prev => [
+                ...prev
+            ].filter(
+                product => parseFloat(product.price) >= minPrice
+            ));
+        }
+        
+        // ========= Max price filter :
+        if (maxPrice > minPrice) {
+            setFiltredProducts(prev => [
+                ...prev
+            ].filter(
+                product => product.price <= maxPrice  
+            ));
+        }else if (maxPrice) {
+            maxPriceInp.current.value = minPrice + 1
+        }
     }
 
     const handleClearFilters = () => {
-        categorySelect.current.value = '';
-        minPriceInp.current.value = ''; 
-        maxPriceInp.current.value = ''; 
-        setSearchParams({});
-        dispatch( clearFilters() );
+        setFiltredProducts([...products])
     }
 
-    const handleSearch = () => {
-        handleClearFilters();
-
-        const search = searchInp.current.value;
-        
-        setSearchParams(prev => {
-            if(search) {
-                return { ...prev, search }
-            }else{
-                prev.delete('search');
-                return prev;
-            }
-        });
-        
-        dispatch( searchProducts({ search }) );
-    }
-    
     return(
         <>
             {products.length 
@@ -126,7 +107,7 @@ function ProductBar() {
                         <i className="fa-solid fa-filter"></i> Filters  
                     </h4>
                     
-                    <form className="flex flex-col md:grid grid-cols-1 md:grid-cols-2 gap-3 my-3" onSubmit={handleFilterForm} noValidate={true}>
+                    <form className="flex flex-col md:grid grid-cols-1 md:grid-cols-2 gap-3 my-3" onSubmit={handleFilterForm}>
 
                         <div>
                             <label htmlFor="min-price" className="form-label">Min price :</label>
@@ -147,7 +128,7 @@ function ProductBar() {
 
                         <div className="col-span-2">
                             <label htmlFor="category" className="form-label">Category :</label>
-                            <select name="category" className="form-select cursor-pointer" ref={categorySelect}>
+                            <select name="category" id="category" className="form-select cursor-pointer">
                                 <option value="">Choose category</option>
                                 {
                                     categories.length 
@@ -182,4 +163,4 @@ function ProductBar() {
 }
 
 
-export default memo(ProductBar)
+export default memo(ProductBarOld);

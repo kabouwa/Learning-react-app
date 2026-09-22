@@ -149,7 +149,7 @@ export default function RegisterForm({ classes='' }) {
 
                 <div className="flex flex-col md:flex-row gap-2">
                     <InputField label="City" id="city" error={errors?.city} onChange={handleInputChange} />
-                    <SelectField label="Country" id="country" options={countries} valueIndex="code" showIndex="name" error={errors?.country} onChange={handleInputChange} />
+                    <SelectField label="Country" id="country" options={countries} valueIndex="code" showIndex="name" error={errors?.country} onChange={handleInputChange} countrySelect={true} />
                 </div>
 
                 <ConfirmButton label="Create account" type="submit" classes="my-2" disabled={loading} />

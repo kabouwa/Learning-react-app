@@ -160,7 +160,7 @@ export default function AccountUpdate() {
         
                     <Row>
                         <InputField label="City" id="city" error={errors?.city} onChange={handleInputChange} value={shop.city} />
-                        <SelectField label="Country" id="country" options={countries} valueIndex="code" showIndex="name" error={errors?.country} onChange={handleInputChange} value={shop.country} />
+                        <SelectField label="Country" id="country" options={countries} valueIndex="code" showIndex="name" error={errors?.country} onChange={handleInputChange} value={shop.country} countrySelect={true} />
                     </Row>
 
                     <Divider label="Update password"/>

@@ -2,20 +2,20 @@ import {  useCallback, useEffect, useRef } from "react"
 import { useAlerts } from "../../context/AlertsContext";
 import './counter.module.css';  
 import { SquarePen } from "lucide-react";
-import { connect } from "react-redux";
+import { connect, useDispatch, useSelector } from "react-redux";
 import { CounterSelector } from "../../redux/Selectors/CounterSelector";
 import { onCustom, onDecrement, onIncrement } from "../../redux/Actions/CounterActions";
 
-function Counter( { minimum = 0, maximum = 10000, margin = 20, counter, increment, decrement, custom}) {
+function Counter( { minimum = 0, maximum = 10000, step = 20, counter, increment, decrement, custom}) {
     const { clearAlerts, pushAlert } = useAlerts();
     const counterInput = useRef(null);
 
     const is_valid = useCallback((value) => value >= minimum && value <= maximum, [minimum, maximum]) 
 
     const incrementCounter = useCallback( () => {
-        if(is_valid(counter + margin)) {
+        if(is_valid(counter + step)) {
             clearAlerts();
-            increment(margin)
+            increment(step)
         }else{
             pushAlert({
                 type : "error",
@@ -24,12 +24,12 @@ function Counter( { minimum = 0, maximum = 10000, margin = 20, counter, incremen
             });
         }
 
-    }, [is_valid, pushAlert, clearAlerts, maximum, counter, increment, margin]);
+    }, [is_valid, pushAlert, clearAlerts, maximum, counter, increment, step]);
 
     const decrementCounter = useCallback( () => {
-        if(is_valid(counter - margin)) {
+        if(is_valid(counter - step)) {
             clearAlerts();
-            decrement(margin);
+            decrement(step);
         }else{
             pushAlert({
                  type : "error",
@@ -38,7 +38,7 @@ function Counter( { minimum = 0, maximum = 10000, margin = 20, counter, incremen
             });
         }
       
-    }, [is_valid, pushAlert, clearAlerts, minimum, counter, decrement, margin])
+    }, [is_valid, pushAlert, clearAlerts, minimum, counter, decrement, step])
 
     const handleChangeCounterValue = useCallback( () => {
             const inp = counterInput.current;
@@ -133,8 +133,10 @@ function Counter( { minimum = 0, maximum = 10000, margin = 20, counter, incremen
     )
 }
 
-
-export const CounterStore = connect(
+/**
+ * Method 1 using connect function and counter callback
+ */
+export const CounterStoreOld = connect(
     state => ({
         counter: CounterSelector(state)
     }),
@@ -145,3 +147,20 @@ export const CounterStore = connect(
         custom    : value => dispatch( onCustom(value)    ),
     })
 )(Counter);
+
+/**
+ * Method 2 using hooks and return Counter
+ */
+export const CounterStore = () => {
+    const selector = useSelector(CounterSelector);
+    const dispatch = useDispatch();
+
+
+    const increment = value => dispatch( onIncrement(value) );
+    const decrement = value => dispatch( onDecrement(value) );
+    const custom    = value => dispatch( onCustom(value)    );
+
+    return (
+        <Counter counter={selector} increment={increment} decrement={decrement} custom={custom} />
+    )
+}
