@@ -1,16 +1,38 @@
-# React + Vite
+# Learning React App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A learning project to go deep on React — built with **Vite**.
 
-Currently, two official plugins are available:
+## About
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+This repo is where I'm practicing React at a higher level: state management (both classic Redux and Redux Toolkit), routing, protected routes, custom hooks, and consuming a Laravel backend API.
 
-## React Compiler
+## Covers
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **All the core hooks** — `useState`, `useEffect`, `useRef`, `useMemo`, `useCallback`, `useContext`, etc.
+- **Custom hooks** — building my own reusable hooks
+- **Redux (classic) + Redux Toolkit** — global state management, both approaches
+- **React Router** — routing across the app
+- **Protected routes via Context** — auth-gated routes using React Context
+- **Consuming a Laravel API** — fetching/posting data to a Laravel backend
+- **Bootstrap + Tailwind CSS** — styling with both, side by side
+- **Font Awesome + Lucide icons**
 
-## Expanding the ESLint configuration
+## Stack
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- React 19
+- Vite
+- Redux + Redux Toolkit
+- React Router
+- Bootstrap
+- Tailwind CSS
+
+## Setup
+
+```bash
+npm install
+npm run dev
+```
+
+## Notes
+
+This is a learning project, not production code — expect experiments and work-in-progress features as I explore each concept. More features get added as I go, check the `src/` folder for the latest.
