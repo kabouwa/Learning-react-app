@@ -1,12 +1,13 @@
 import { Link } from "react-router-dom";
 import { routes } from "../../routes/routes";
+import { motion } from "framer-motion";
 
 export default function ProductCard({product}) {
-
     const {user_id, slug, name, description, price, category, image, image_url, available, created_at, updated_at} = product;
 
     return (
-        <div className="relative rounded-xl pb-2 flex flex-col gap-2 bg-gray-100 dark:bg-gray-700/90 overflow-hidden" data-user={user_id} data-product={slug} >
+        <motion.div transition={{ ease : 'easeInOut', duration: 0.5 }} animate={{ y : ['6rem', 0] }}
+            className="relative rounded-xl pb-2 flex flex-col gap-2 bg-gray-100 dark:bg-gray-700/90 overflow-hidden" data-user={user_id} data-product={slug} >
             <div className="card-header p-0">
 
                 <span className="text-sm pointer-events-none px-2 py-0.5 text-white text-center bg-indigo-400 rounded-2xl absolute top-2 right-2 transition-scale hover:scale-101">
@@ -48,6 +49,6 @@ export default function ProductCard({product}) {
                 </Link>
                 
             </div>
-        </div>
+        </motion.div>
     )
 }

@@ -11,7 +11,7 @@ import Auth from './pages/Auth/Auth'
 import Layout from './components/Layout/Layout'
 import NotFound from './pages/Errors/NotFound'
 import Dashboard from './pages/Dashboard/Dashboard'
-import { useEffect } from 'react'
+import { useEffect, StrictMode } from 'react'
 import { LoadingProvider, useLoading } from './context/LoadingContext'
 import { ConfirmationModalProvider } from './context/ConfirmationModalContext'
 import Account from './pages/Account/Account'
@@ -21,6 +21,8 @@ import { CounterStore } from './pages/Counter/CounterRedux'
 import Counter  from './pages/Counter/Counter'
 import { guestRoutes, routes } from './routes/routes'
 import { productsStore } from './redux-toolkit/stores/ProductsStore'
+import { ScrollContainerProvider } from './context/ScrollContainerContext'
+import { DashboardProvider } from './context/DashboardContext'
 
 function AppContent() {
     const { user } = useUser();
@@ -72,7 +74,7 @@ function AppContent() {
 
                 {/* Public Pages */}
                 <Route index element={ <Home/> } />
-                <Route path="counter" element={ <Counter /> } />
+                <Route path="counter" element={ <Counter title="State & Event management : " /> } />
 
                 {/* Authentication */}
                 <Route path="auth">
@@ -107,22 +109,43 @@ export default function App() {
      */
     
     return (
-        <BrowserRouter>
-            <Provider store={store} > {/* Redux Classic */}
-                <Provider store={productsStore}> {/* RTK */}
-                <ConfirmationModalProvider>
-                    <ThemeProvider>
-                        <LoadingProvider>
-                            <AlertsProvider>
-                                <UserProvider>
-                                    <AppContent />
-                                </UserProvider>
-                            </AlertsProvider>
-                        </LoadingProvider>
-                    </ThemeProvider>
-                </ConfirmationModalProvider>
+        <StrictMode>
+
+            <BrowserRouter>
+                <Provider store={store} > {/* Redux Classic */}
+                    <Provider store={productsStore}> {/* RTK */}
+                    <ConfirmationModalProvider>
+                        <ThemeProvider>
+                            <LoadingProvider>
+                                <AlertsProvider>
+                                    <UserProvider>
+                                        <ScrollContainerProvider>
+                                            <DashboardProvider>
+                                                <AppContent />
+                                            </DashboardProvider>
+                                        </ScrollContainerProvider>
+                                    </UserProvider>
+                                </AlertsProvider>
+                            </LoadingProvider>
+                        </ThemeProvider>
+                    </ConfirmationModalProvider>
+                    </Provider>
                 </Provider>
-            </Provider>
-        </BrowserRouter>
+            </BrowserRouter>
+         
+        </StrictMode>
     )
 }
+
+// 2026-09-25 21:25:56 /api/v1/dashboard ............................................. ~ 0.19ms
+// 2026-09-25 21:25:56 /api/v1/auth/user ............................................. ~ 0.10ms
+// 2026-09-25 21:25:56 /api/v1/dashboard ............................................. ~ 1.13ms
+// 2026-09-25 21:25:56 /api/v1/auth/user ............................................. ~ 1.01ms
+// 2026-09-25 21:25:56 /api/v1/dashboard ............................................. ~ 0.96ms
+// 2026-09-25 21:25:56 /api/v1/auth/user ............................................. ~ 0.91ms
+// 2026-09-25 21:25:56 /api/v1/dashboard ............................................. ~ 0.77ms
+// 2026-09-25 21:25:56 /api/v1/auth/user ........................................... ~ 501.08ms
+// 2026-09-25 21:25:56 /api/v1/dashboard ............................................. ~ 0.36ms
+// 2026-09-25 21:25:56 /api/v1/dashboard ............................................. ~ 0.09ms
+// 2026-09-25 21:25:56 /api/v1/dashboard ........................................... ~ 504.30ms
+// 2026-09-25 21:25:56 /api/v1/dashboard

@@ -2,8 +2,10 @@ import {  memo, useCallback, useEffect, useRef, useState } from "react"
 import { useAlerts } from "../../context/AlertsContext";
 import './counter.module.css';  
 import { SquarePen } from "lucide-react";
+import withCounter from "../../hoc/withCounter";
+import { motion } from "framer-motion";
 
-function Counter( { minimum = 0, maximum = 10000}) {
+function Counter( { minimum = 0, maximum = 10000, title, hcoFunc = () => {}}) {
     const [counter,setCounter] = useState(0);
     const { clearAlerts, pushAlert } = useAlerts();
     const counterInput = useRef(null);
@@ -88,10 +90,16 @@ function Counter( { minimum = 0, maximum = 10000}) {
     }, [incrementCounter,decrementCounter]);
 
 
+    useEffect(() => {
+        hcoFunc('This Function come from HCO and can be used in other components')
+    },[]);
 
     return (
-        <div className="max-w-2xl mx-auto">
-            <h1 className="display-4 text-center font-bold mb-8">State & Event management : </h1>
+        
+        <motion.div transition={{ ease : 'easeInOut' }} initial={{ opacity : 0 }} animate={{ opacity : 1 }} className="max-w-2xl mx-auto">
+            <h1 className="display-4 text-center font-bold mb-8">
+                {title}
+            </h1>
 
             <div className='flex items-stretch justify-between gap-10 md:gap-20 my-10'>
                 <button onClick={decrementCounter}
@@ -131,9 +139,13 @@ function Counter( { minimum = 0, maximum = 10000}) {
                 </button>
 
             </div>
-        </div>
+        </motion.div>
     )
 }
 
 
-export default memo(Counter);
+/**
+ * Higher OrderComponent : Provide data to another component at export
+ */
+
+export default withCounter(Counter);

@@ -3,11 +3,12 @@ import concepts from '../../data/concepts.json'
 import storeFeatures from '../../data/storeFeatures.json'
 import ScrollButton from '../../components/Utilities/ScrollButton'
 import DescriptionCard from '../../components/Cards/DescriptionCard'
+import { motion } from 'framer-motion'
 
 export default function Home() {
 
     return (
-        <article className="max-w-7xl mx-auto -mt-10 md:-mt-30">
+        <motion.article transition={{ ease : 'easeInOut' }} initial={{ opacity : 0 }} animate={{ opacity : 1 }} className="max-w-7xl mx-auto -mt-10 md:-mt-30">
 
             <section className="relative my-8 md:my-0  md:h-screen flex flex-col md:flex-row justify-between items-center gap-4 md:gap-20 overflow-hidden" id='hero'>
 
@@ -87,6 +88,6 @@ export default function Home() {
 
             </section>
 
-        </article>
+        </motion.article>
     )
 }

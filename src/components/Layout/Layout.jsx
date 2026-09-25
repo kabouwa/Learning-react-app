@@ -9,9 +9,14 @@ import { Menu, X } from 'lucide-react';
 import LoadingModal from '../Utilities/Loading';
 import ConfirmationModal from '../Modals/ConfirmationModal';
 import Navbar from './Navbar';
+import { motion, useScroll } from 'framer-motion';
+import { useScrollContainer } from '../../context/ScrollContainerContext';
+
 
 export default function Layout() {
     const [sideBarOpened, setSideBarOpened] = useState(false);
+    const scrollRef = useScrollContainer();
+    const { scrollYProgress } = useScroll({ container: scrollRef });
 
     useEffect(() => {
         const handleResize = () => {
@@ -30,35 +35,38 @@ export default function Layout() {
     
     return (
        <div className='relative dark:text-white mx-auto bg-gray-100/70 dark:bg-gray-900/90 h-screen max-h-screen overflow-hidden px-1.5 py-2.5'>
+            
+            {/* Scroll Time Line */}
+            <motion.div className="fixed top-0 left-0 w-screen h-1 bg-indigo-500/70 origin-left" style={{ scaleX : scrollYProgress}} />
 
-           <Navbar sideBarOpened={sideBarOpened} setSideBarOpened={setSideBarOpened} />
+            <Navbar sideBarOpened={sideBarOpened} setSideBarOpened={setSideBarOpened} />
 
             {/* Sidebar phone toggler */}
-           <button onClick={() => setSideBarOpened(prev => !prev)}
-               className="aside-toggle w-8 h-8 bg-white/80 rounded-circle flex md:hidden justify-center items-center backdrop-blur-2xl fixed right-6.5 top-3.5 z-70">
-               <span className='text-indigo-500 transition-all text-8xl'>
-                    {
-                        sideBarOpened ? <X size={20} /> : <Menu size={20} /> 
-                    }
-               </span>
-           </button>
+            <button onClick={() => setSideBarOpened(prev => !prev)}
+                className="aside-toggle w-8 h-8 bg-white/80 rounded-circle flex md:hidden justify-center items-center backdrop-blur-2xl fixed right-6.5 top-3.5 z-70">
+                <span className='text-indigo-500 transition-all text-8xl'>
+                        {
+                            sideBarOpened ? <X size={20} /> : <Menu size={20} /> 
+                        }
+                </span>
+            </button>
 
             {/* Main Layout */}
-           <div id='scrollable' className={`py-0 px-1.5 md:px-6 overflow-auto h-full flex flex-col ml-auto transiton-all duration-400 ${sideBarOpened ? 'md:w-[calc(100%-13.5rem)]' : 'md:w-[calc(100%-4.5rem)]'}` }>
-               <Header />
-               
-               <main className="my-14 flex-1">
-                   <Outlet />
-               </main>
+            <div ref={scrollRef} className={`py-0 px-1.5 md:px-6 overflow-auto h-full flex flex-col ml-auto transiton-all duration-400 ${sideBarOpened ? 'md:w-[calc(100%-13.5rem)]' : 'md:w-[calc(100%-4.5rem)]'}` }>
+                <Header />
+                
+                <main className="my-14 flex-1">
+                    <Outlet />
+                </main>
 
-               <Footer />
-           </div>
+                <Footer />
+            </div>
 
-           <LoadingModal />
-           <Alerts />
-           <ConfirmationModal />
+            <LoadingModal />
+            <Alerts />
+            <ConfirmationModal />
 
-           <DateTime fixed={true} hiddenOnPhone={true} />
+            <DateTime fixed={true} hiddenOnPhone={true} />
        </div>
     )
 }

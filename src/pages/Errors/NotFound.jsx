@@ -1,7 +1,9 @@
+import { motion } from "framer-motion"
+
 export default function NotFound() {
   
   return (
-    <div className="h-full flex flex-col justify-center items-center">
+    <motion.div className="h-full flex flex-col justify-center items-center" transition={{ ease : 'easeInOut' }} initial={{ opacity : 0 }} animate={{ opacity : 1 }}>
 
       <div className="relative">
         <p className="display-1 text-shadow-lg text-shadow-white dark:text-white animate-bounce">
@@ -21,6 +23,6 @@ export default function NotFound() {
         </button> 
       </p>
 
-    </div>
+    </motion.div>
   )
 }

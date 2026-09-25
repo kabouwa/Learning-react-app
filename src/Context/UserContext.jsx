@@ -79,7 +79,7 @@ export function UserProvider({ children }) {
         }
 
         loadUser();
-    }, [pushAlert, setLoading]);
+    }, []);
 
 
 

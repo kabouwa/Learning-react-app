@@ -4,11 +4,12 @@ import { productsApi } from '../../api/products';
 import Loading from '../../components/Utilities/Loading';
 import { useAlerts } from '../../context/AlertsContext';
 import { useParams } from 'react-router-dom';
+import { motion } from 'framer-motion';
 
 
 function ProductCard({ product }) {
     const {user_id, slug, name, description, price, category, image, image_url, available, created_at, updated_at} = product;
-
+    
     return (
         <div className='flex flex-col md:flex-row items-stretch justify-between gap-4' data-user={user_id} data-product={slug}>
 
@@ -114,7 +115,7 @@ export default function ProductDetail() {
             : !product
             ? (<NotFound />)
             : (
-                <div className="max-w-7xl mx-auto">
+                <motion.div className="max-w-7xl mx-auto" transition={{ ease : 'easeInOut' }} initial={{ opacity : 0 }} animate={{ opacity : 1 }}>
 
                     <h1 className="">
                         <i className="fa-solid fa-box mr-2"></i>
@@ -127,7 +128,7 @@ export default function ProductDetail() {
                     </button>
                 
                     <ProductCard product={product} />
-                </div>
+                </motion.div>
             )
         }
         </> 

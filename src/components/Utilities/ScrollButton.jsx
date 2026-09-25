@@ -1,13 +1,17 @@
 import { memo } from "react";
+import { useScrollContainer } from "../../context/ScrollContainerContext";
 
 function ScrollButton({ to, down=true, startOfPage=false }) {
+    const scrollRef = useScrollContainer();
 
     const handleLinkClick = (e) => {
         if(startOfPage) {
             e.preventDefault();
-            const container = document.querySelector('#scrollable');
-            container.scrollTo(0,0);
-        } 
+            scrollRef.current?.scrollTo({
+                top : 0,
+                behavior : 'smooth'
+            });
+        }
     }
 
     return (

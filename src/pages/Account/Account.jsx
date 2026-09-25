@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import AccountDetails from "../../components/Account/AccountDetails";
 import AccountUpdate from "../../components/Account/AccountUpdate";
 import { useLocation } from "react-router-dom";
+import { motion } from "framer-motion";
 
 export default function Account() {
 
@@ -15,7 +16,8 @@ export default function Account() {
     }, [location.pathname])
 
     return (
-        <div className="max-w-7xl mx-auto overflow-hidden">
+        
+        <motion.div transition={{ ease : 'easeInOut' }} initial={{ opacity : 0 }} animate={{ opacity : 1 }} className="max-w-7xl mx-auto overflow-hidden">
             <h1 className="mb-4 text-center">
                 {
                     !isUpdate
@@ -31,6 +33,6 @@ export default function Account() {
             <div className={`   ${isUpdate ? 'animate-fade-in' : 'hidden'}`}>
                 <AccountUpdate />
             </div>
-        </div>
+        </motion.div>
     )
 }
