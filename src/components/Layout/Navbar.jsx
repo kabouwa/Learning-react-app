@@ -10,7 +10,7 @@ import { authApi } from '../../api/auth';
 import { navItems, routes } from '../../routes/routes';
 
 function NavbarLink({routeData, sideBarOpened, linkStartWith = false, onClick = () => {}}) {
-    const {title, link, icon} = routeData;
+    const {title, link, Icon} = routeData;
     const location = useLocation();
     const [active, setActive] = useState(false);
 
@@ -61,7 +61,7 @@ function NavbarLink({routeData, sideBarOpened, linkStartWith = false, onClick = 
             }
         >
             <span className='z-20'>
-                {icon}
+                <Icon />
             </span>
 
             <span className={`inline-block transition-all duration-300 z-20 

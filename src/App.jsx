@@ -23,6 +23,7 @@ import { guestRoutes, routes } from './routes/routes'
 import { productsStore } from './redux-toolkit/stores/ProductsStore'
 import { ScrollContainerProvider } from './context/ScrollContainerContext'
 import { DashboardProvider } from './context/DashboardContext'
+import Weather from './pages/Weather/Weather'
 
 function AppContent() {
     const { user } = useUser();
@@ -75,6 +76,7 @@ function AppContent() {
                 {/* Public Pages */}
                 <Route index element={ <Home/> } />
                 <Route path="counter" element={ <Counter title="State & Event management : " /> } />
+                <Route path="weather" element={ <Weather /> } />
 
                 {/* Authentication */}
                 <Route path="auth">

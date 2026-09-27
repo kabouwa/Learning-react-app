@@ -1,6 +1,6 @@
 import { useLoading } from "../../context/LoadingContext"
 
-export default function LoadingModal() {
+export default function LoadingScreen() {
     const { loading } = useLoading();
 
     return (

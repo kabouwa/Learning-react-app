@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import NotFound from '../Errors/NotFound'
 import { productsApi } from '../../api/products';
-import Loading from '../../components/Utilities/Loading';
+import { useLoading } from '../../context/LoadingContext';
 import { useAlerts } from '../../context/AlertsContext';
 import { useParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
@@ -66,7 +66,7 @@ function ProductCard({ product }) {
 
 export default function ProductDetail() {
     const [product, setProduct] = useState(null);
-    const [loading, setLoading] = useState(true);
+    const { loading, setLoading } = useLoading();
     const { clearAlerts, pushAlert } = useAlerts();
     const params = useParams();
     
@@ -110,26 +110,25 @@ export default function ProductDetail() {
     return (
         <>
         {
-            loading 
-            ? <Loading />
-            : !product
-            ? (<NotFound />)
-            : (
-                <motion.div className="max-w-7xl mx-auto" transition={{ ease : 'easeInOut' }} initial={{ opacity : 0 }} animate={{ opacity : 1 }}>
+            !loading && (
+                !product ? <NotFound />
+                : (
+                    <motion.div className="max-w-7xl mx-auto" transition={{ ease : 'easeInOut' }} initial={{ opacity : 0 }} animate={{ opacity : 1 }}>
 
-                    <h1 className="">
-                        <i className="fa-solid fa-box mr-2"></i>
-                        Product Detail
-                    </h1>
+                        <h1 className="">
+                            <i className="fa-solid fa-box mr-2"></i>
+                            Product Detail
+                        </h1>
 
-                    <button onClick={() => history.go(-1)}
-                        className='mb-4 underline text-gray-400 hover:text-white transition-all duration-300'>
-                        <i className="fa-solid fa-arrow-left-long underline"></i> go back
-                    </button>
-                
-                    <ProductCard product={product} />
-                </motion.div>
-            )
+                        <button onClick={() => history.go(-1)}
+                            className='mb-4 underline text-gray-400 hover:text-white transition-all duration-300'>
+                            <i className="fa-solid fa-arrow-left-long underline"></i> go back
+                        </button>
+                    
+                        <ProductCard product={product} />
+                    </motion.div>
+                )
+            ) 
         }
         </> 
     )

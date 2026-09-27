@@ -6,7 +6,7 @@ import Footer from './Footer'
 import DateTime from '../Utilities/DateTime';
 import Alerts from '../Alerts/Alerts';
 import { Menu, X } from 'lucide-react';
-import LoadingModal from '../Utilities/Loading';
+import LoadingScreen from '../Utilities/LoadingScreen';
 import ConfirmationModal from '../Modals/ConfirmationModal';
 import Navbar from './Navbar';
 import { motion, useScroll } from 'framer-motion';
@@ -62,7 +62,7 @@ export default function Layout() {
                 <Footer />
             </div>
 
-            <LoadingModal />
+            <LoadingScreen />
             <Alerts />
             <ConfirmationModal />
 

@@ -1,5 +1,5 @@
 import { motion } from "framer-motion"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { useLoading } from "../../context/LoadingContext";
 import { dashboardApi } from "../../api/dashboard";
 import { useUser } from "../../context/UserContext";
@@ -7,6 +7,7 @@ import { useDashboard } from "../../context/DashboardContext";
 import { DollarSign, ShoppingBag, CalendarDays, Clock, CheckCircle2, ShoppingCart, Trophy, TrendingUp, PieChart, LineChart, Hourglass, ChefHat, Bell, XCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 import { routes } from "../../routes/routes";
+import StatCard from "../../components/Cards/StatCard";
 
 const statusIconMap = {
   Pending: { icon: Hourglass, color: "text-amber-500", bg: "bg-amber-50" },
@@ -15,22 +16,6 @@ const statusIconMap = {
   Completed: { icon: CheckCircle2, color: "text-green-500", bg: "bg-green-50" },
   Cancelled: { icon: XCircle, color: "text-red-500", bg: "bg-red-50" },
 };
-
-
-function StatCard({ icon: Icon, label, value, color = "text-blue-700", bg = "bg-blue-50" }) {
-  return (
-    <div className={`bg-white/99 dark:bg-gray-800 w-full rounded-xl py-4 px-6 flex gap-3 items-center justify-between text-dark dark:text-white`}>
-        <div className={`p-2.5 ${color} ${bg} rounded`}>
-            <Icon size={20} />
-        </div>
-
-        <div className="flex-1 flex flex-col">
-            <small className="text-gray-500 dark:text-gray-300 text-sm">{label}</small>
-            <p className="font-bold text-black/99 dark:text-white m-0">{value}</p>
-        </div>
-    </div>
-  )
-}
 
 export default function Dashboard() {
     const { user, shop } = useUser();

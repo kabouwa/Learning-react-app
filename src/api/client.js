@@ -1,9 +1,26 @@
 const Ip = ['127.0.0.1','192.168.1.26'][0];
 const Port = '8000';
-const API_SERVER = `http://${Ip}:${Port}/api/v1`;
 
-async function request(path, options={}, offlineMode = false) {
-    const url = `${API_SERVER}${path[0] != '/' ? '/' : ''}${path}`;    
+export const COFFEE_SHOP_API = `http://${Ip}:${Port}/api/v1`;
+
+export const GEO_API = `https://api.geoapify.com/v1/geocode`;
+
+export const WEATHER_API = `https://api.open-meteo.com/v1/`;
+
+export const api = {
+    get    : (server_url, path)      => request(server_url, path , {method: "GET"}),
+    post   : (server_url, path, data) => request(server_url, path , {method: "POST", body: JSON.stringify(data)}),
+    put    : (server_url, path, data) => request(server_url, path , {method: "PUT", body: JSON.stringify(data)}),
+    patch  : (server_url, path, data) => request(server_url, path , {method: "PATCH", body: JSON.stringify(data)}),
+    delete : (server_url, path)      => request(server_url, path , {method: "DELETE"}),
+}
+
+
+async function request(server_url, path, options={}) {
+    const url = `${server_url}${path[0] != '/' ? '/' : ''}${path}`;    
+    
+    // Disable on local server request (starting with http://)
+    const offlineMode = !server_url.startsWith('http://');
 
     const config = {
         ...options,
@@ -66,12 +83,4 @@ export class ApiError extends Error {
         this.status = status
         this.body = body
     }
-}
-
-export const api = {
-    get : (path) => request(path , {method: "GET"}),
-    post : (path,data) => request(path , {method: "POST", body: JSON.stringify(data)}),
-    put : (path,data) => request(path , {method: "PUT", body: JSON.stringify(data)}),
-    patch : (path,data) => request(path , {method: "PATCH", body: JSON.stringify(data)}),
-    delete : (path) => request(path , {method: "DELETE"}),
 }

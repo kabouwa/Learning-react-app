@@ -105,7 +105,7 @@ function ProductBar() {
             {products.length 
             ?(
             <div className="relative d-flex flex-col md:flex-row justify-between items-stretch gap-3">
-                <div className="text-white hidden md:block w-36 px-3 py-2 bg-indigo-500 rounded-3 transition-all text-center relative z-30">
+                <div className="text-white hidden md:block w-36 px-3 py-2 bg-indigo-500 rounded-3 transition-all text-center relative z-30" defaultValue={searchParams.get('search')}>
                     <i className="fa-solid fa-magnifying-glass mr-1"></i> Search
                 </div>
 

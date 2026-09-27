@@ -1,5 +1,5 @@
-import { api } from "./client";
+import { api, COFFEE_SHOP_API } from "./client";
 
 export const dashboardApi = {
-    statistics : () => api.get('/dashboard')
+    statistics : () => api.get(COFFEE_SHOP_API, '/dashboard')
 }

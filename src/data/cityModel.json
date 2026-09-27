@@ -1,0 +1,65 @@
+{
+    "type": "Feature",
+    "properties": {
+        "datasource": {
+            "sourcename": "openstreetmap",
+            "attribution": "© OpenStreetMap contributors",
+            "license": "Open Database License",
+            "url": "https://www.openstreetmap.org/copyright"
+        },
+        "name": "Köprülü",
+        "old_name": "İspiroğlu;Okrobageti;Rabat",
+        "other_names": {
+            "name:ka": "ოქრობაგეთი",
+            "name:ru": "Окробакерт",
+            "old_name": "İspiroğlu;Okrobageti;Rabat"
+        },
+        "country": "Turkey",
+        "country_code": "tr",
+        "state": "Black Sea Region",
+        "county": "Artvin",
+        "city": "Şavşat",
+        "village": "Köprülü",
+        "postcode": "08700",
+        "iso3166_2": "TR-08",
+        "lon": 42.444237,
+        "lat": 41.268047,
+        "result_type": "city",
+        "formatted": "Köprülü, Şavşat, Black Sea Region, Turkey",
+        "address_line1": "Köprülü",
+        "address_line2": "Şavşat, Black Sea Region, Turkey",
+        "category": "populated_place",
+        "timezone": {
+            "name": "Europe/Istanbul",
+            "offset_STD": "+03:00",
+            "offset_DST": "+03:00",
+            "offset_STD_seconds": 10800,
+            "offset_DST_seconds": 10800
+        },
+        "plus_code": "8HH47C9V+6M",
+        "plus_code_short": "7C9V+6M Şavşat, Artvin, Turkey",
+        "rank": {
+            "importance": 0.3476412868877268,
+            "confidence": 0,
+            "confidence_city_level": 0,
+            "match_type": "full_match"
+        },
+        "place_id": "512a560dc2dc384540593d65355d4fa24440f00103f901aa063c5900000000c0020892030a4bc3b67072c3bc6cc3bc"
+    },
+
+    "geometry": {
+        "type": "Point",
+        "coordinates": [
+            42.444237,
+            41.268047
+        ]
+    },
+
+    "bbox": [
+        42.424237,
+        41.248047,
+        42.464237,
+        41.288047
+    ]
+    
+}

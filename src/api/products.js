@@ -1,20 +1,20 @@
-import {api} from './client'
+import {api, COFFEE_SHOP_API} from './client'
 
 const BASE = "/products"
 
 export const productsApi = {
     list : async(page = 1) => {
-        const response = await api.get(`${BASE}/?page=${page}`)
+        const response = await api.get(COFFEE_SHOP_API, `${BASE}/?page=${page}`)
         return response;
     } ,
 
-    categories : () => api.get(`${BASE}/categories`), 
+    categories : () => api.get(COFFEE_SHOP_API, `${BASE}/categories`), 
     
-    get : (slug) => api.get(`${BASE}/${slug}`),
+    get : (slug) => api.get(COFFEE_SHOP_API, `${BASE}/${slug}`),
     
-    create : (product) => api.post(`${BASE}/`, product),
+    create : (product) => api.post(COFFEE_SHOP_API, `${BASE}/`, product),
     
-    update : (slug, product) => api.put(`${BASE}/${slug}`, product),
+    update : (slug, product) => api.put(COFFEE_SHOP_API, `${BASE}/${slug}`, product),
     
-    delete : (slug) => api.delete(`${BASE}/${slug}`)
+    delete : (slug) => api.delete(COFFEE_SHOP_API, `${BASE}/${slug}`)
 };

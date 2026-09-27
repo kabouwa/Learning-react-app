@@ -15,6 +15,8 @@ export function AlertsProvider({ children }) {
         )
     }, []);
 
+    
+
     const pushAlert = useCallback( ({message, type = 'info', accent = '', autoRemove = true, clearAlerts = false}) => {
         const removeButton = !autoRemove;
 
