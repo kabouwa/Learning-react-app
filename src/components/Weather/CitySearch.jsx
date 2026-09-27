@@ -83,7 +83,7 @@ function CitySearch({ setCity }) {
     }
 
     return (
-        <div className='my-6 relative'>
+        <div className='my-6 relative z-70'>
             <InputField id='city-search' label="Find your city" clearButton={true} value={searchParams.get('city')} reference={searchInp} onChange={handleInputChange} />
 
             {

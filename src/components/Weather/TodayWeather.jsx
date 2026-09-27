@@ -46,7 +46,7 @@ export default function TodayWeather({ currentWeather, city } ){
 
             {/* City Information */}
             <div>
-                <h1 className="display-4 text-indigo-400 text-center font-bold mb-8">
+                <h1 className="display-4 text-indigo-500 dark:text-indigo-400 text-center font-bold mb-8">
                     Today Weather
                 </h1>
 
@@ -89,7 +89,7 @@ export default function TodayWeather({ currentWeather, city } ){
 
             {/* Weather Statistics */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-                <StatCard icon={CloudRain} label='Precipitation' color="text-blue-500" bg="bg-blue-100"
+                <StatCard icon={CloudRain} label='Precipitation' color="text-blue-500" bg="bg-blue-100" 
                     value={curr?.precipitation + ' ' + units?.precipitation} />
 
                 <StatCard icon={Droplets} label='Humidity' color="text-cyan-500" bg="bg-cyan-100"

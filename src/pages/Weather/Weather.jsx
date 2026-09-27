@@ -34,13 +34,23 @@ export default function Weather() {
                 setCurrentWeather(data);
 
                 // Get Hourly Weather
-                data = await weatherApi.hourly(lat, lon);                                
+                data = await weatherApi.hourly(lat, lon);
+
+                // Slicing hourly weather from current time
+                const sliceTime = data.hourly.time.find( date => date.split('T')[1].split(':')[0] > new Date().getHours() );
+                const index = data.hourly.time.indexOf(sliceTime);
+
+                data.hourly.time = data.hourly.time.slice(index, 37);                           
+                data.hourly.temperature_2m = data.hourly.temperature_2m.slice(index, index + 37);                            
+                data.hourly.weather_code = data.hourly.weather_code.slice(index, index + 37);  
+
                 setHourlyWeather(data);
 
                 // Get Daily Weather
                 data = await weatherApi.daily(lat, lon);  
                 data.daily.time = data.daily.time.map(date => new Date(date).toLocaleDateString('en-US', { weekday: 'short' }));                                  
                 setDailyWeather(data);
+
             } catch (error) {
                 pushAlert({
                     type : "error",
@@ -65,7 +75,7 @@ export default function Weather() {
 
             <CitySearch setCity={setCity}  />
 
-            <div className="bg-white/80 dark:bg-gray-700 min-h-120 mx-1 my-4 rounded flex flex-col items-stretch justify-center">
+            <div className="bg-white/80 dark:bg-gray-700 min-h-120 mx-1 my-4 rounded flex flex-col items-stretch justify-center overflow-x-hidden relative">
 
                 
                 <div className="flex items-center justify-center">
