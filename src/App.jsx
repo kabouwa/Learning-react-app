@@ -25,6 +25,8 @@ import { ScrollContainerProvider } from './context/ScrollContainerContext'
 import { DashboardProvider } from './context/DashboardContext'
 import Weather from './pages/Weather/Weather'
 
+const APP_NAME = import.meta.env.VITE_APP_NAME;
+
 function AppContent() {
     const { user } = useUser();
     const { pushAlert } = useAlerts();
@@ -37,6 +39,12 @@ function AppContent() {
         if (loading) return;
 
         setLoading(true);
+
+        // FOR GITHUB DEPLOY
+        if ( location.pathname.startsWith(`/${APP_NAME}`) ) {
+            const cleanedPath = location.pathname.slice(APP_NAME.length + 1);
+            navigate(cleanedPath || "/", { replace: true });
+        }
 
         if ( !user && location.pathname.startsWith('/dashboard') ) {
             pushAlert({

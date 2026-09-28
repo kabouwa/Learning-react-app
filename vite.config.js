@@ -10,5 +10,6 @@ export default defineConfig({
   ],
   server : {
     open: true,
-  }
+  },
+  base: '/Learning-react-app/'
 })
