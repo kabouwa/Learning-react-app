@@ -48,7 +48,7 @@ export default function Layout() {
 
             {/* Sidebar phone toggler */}
             <button onClick={() => setSideBarOpened(prev => !prev)}
-                className="aside-toggle w-8 h-8 bg-white/80 rounded-circle flex md:hidden justify-center items-center backdrop-blur-2xl fixed right-6.5 top-3.5 z-70">
+                className="aside-toggle w-8 h-8 bg-white/80 rounded-circle flex md:hidden justify-center items-center backdrop-blur-2xl fixed right-6.5 top-3.5 z-100">
                 <span className='text-indigo-500 transition-all text-8xl'>
                         {
                             sideBarOpened ? <X size={20} /> : <Menu size={20} /> 

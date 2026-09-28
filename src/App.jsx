@@ -5,19 +5,17 @@ import { UserProvider, useUser } from './context/UserContext'
 import { ThemeProvider } from './context/ThemeContext'
 import Home from './pages/Home/Home'
 import ProductsList from './pages/Products/ProductsList'
-import ProductsListOld from './pages/Products/ProductListOld'
 import ProductDetail from './pages/Products/ProductDetail'
 import Auth from './pages/Auth/Auth'
 import Layout from './components/Layout/Layout'
 import NotFound from './pages/Errors/NotFound'
 import Dashboard from './pages/Dashboard/Dashboard'
-import { useEffect, StrictMode } from 'react'
+import { useEffect } from 'react'
 import { LoadingProvider, useLoading } from './context/LoadingContext'
 import { ConfirmationModalProvider } from './context/ConfirmationModalContext'
 import Account from './pages/Account/Account'
 import { Provider } from 'react-redux'
 import { store } from "./redux/Stores/CounterStore"
-import { CounterStore } from './pages/Counter/CounterRedux'
 import Counter  from './pages/Counter/Counter'
 import { guestRoutes, routes } from './routes/routes'
 import { reduxStore } from './redux-toolkit/stores/reduxStore'
@@ -39,12 +37,6 @@ function AppContent() {
         if (loading) return;
 
         setLoading(true);
-
-        // FOR GITHUB DEPLOY
-        if ( location.pathname.startsWith(`/${APP_NAME}`) ) {
-            const cleanedPath = location.pathname.slice(APP_NAME.length + 1);
-            navigate(cleanedPath || "/", { replace: true });
-        }
 
         if ( !user && location.pathname.startsWith('/dashboard') ) {
             pushAlert({
@@ -78,7 +70,7 @@ function AppContent() {
 
     return (
         <Routes>
-
+            
             <Route element={ <Layout /> }>
 
                 {/* Public Pages */}
@@ -118,7 +110,7 @@ export default function App() {
      */
     
     return (
-            <BrowserRouter>
+            <BrowserRouter basename={`/${APP_NAME}`}>
                 <Provider store={store} > {/* Redux Classic */}
                     <Provider store={reduxStore}> {/* RTK */}
                     <ConfirmationModalProvider>
