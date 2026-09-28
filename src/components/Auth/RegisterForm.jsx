@@ -1,6 +1,6 @@
 import InputField from "../Forms/InputField";
 import SelectField from "../Forms/SelectField";
-import ConfirmButton from "../Forms/ConfirmButton";
+import { ConfirmButton } from "../Forms/ConfirmButton";
 import { useCallback, useRef, useState } from "react";
 import { authApi } from "../../api/auth";
 import Divider from "../Utilities/Divider";

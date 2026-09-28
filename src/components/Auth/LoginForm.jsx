@@ -1,5 +1,5 @@
 import InputField from "../Forms/InputField";
-import ConfirmButton from "../Forms/ConfirmButton";
+import { ConfirmButton } from "../Forms/ConfirmButton";
 import { useRef, useState } from "react";
 import { authApi } from "../../api/auth";
 import { Link } from "react-router-dom" 
@@ -80,7 +80,7 @@ export default function LoginForm({ classes = ''}) {
         }
         setChecking(false)
     }
-
+    
     return (
         <div className={"transition-all overflow-hidden " + classes}>
             <form onSubmit={handleFormSubmit} 

@@ -6,7 +6,7 @@ export default function withWeatherIcon(OriginalComponent) {
     const newComponent = (props) => {
 
         const getWeatherIcon = (weatherCode, classes, size = 50) => {
-            const w = weatherCode;
+            const w = parseInt(weatherCode);
             let Icon = Cloud;
 
             if ( [0].includes(w)         ) Icon = Sun;

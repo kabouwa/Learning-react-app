@@ -20,7 +20,7 @@ import { store } from "./redux/Stores/CounterStore"
 import { CounterStore } from './pages/Counter/CounterRedux'
 import Counter  from './pages/Counter/Counter'
 import { guestRoutes, routes } from './routes/routes'
-import { productsStore } from './redux-toolkit/stores/ProductsStore'
+import { reduxStore } from './redux-toolkit/stores/reduxStore'
 import { ScrollContainerProvider } from './context/ScrollContainerContext'
 import { DashboardProvider } from './context/DashboardContext'
 import Weather from './pages/Weather/Weather'
@@ -95,7 +95,6 @@ function AppContent() {
                     </Route>
                 {/* </Route> */}
 
-
                 <Route path="*" element={ <NotFound /> } />
             </Route>
 
@@ -111,11 +110,9 @@ export default function App() {
      */
     
     return (
-        <StrictMode>
-
             <BrowserRouter>
                 <Provider store={store} > {/* Redux Classic */}
-                    <Provider store={productsStore}> {/* RTK */}
+                    <Provider store={reduxStore}> {/* RTK */}
                     <ConfirmationModalProvider>
                         <ThemeProvider>
                             <LoadingProvider>
@@ -134,8 +131,6 @@ export default function App() {
                     </Provider>
                 </Provider>
             </BrowserRouter>
-         
-        </StrictMode>
     )
 }
 

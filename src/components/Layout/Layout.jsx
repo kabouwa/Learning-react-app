@@ -1,6 +1,6 @@
 
 import { useEffect, useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import Header from './Header'
 import Footer from './Footer'
 import DateTime from '../Utilities/DateTime';
@@ -17,6 +17,7 @@ export default function Layout() {
     const [sideBarOpened, setSideBarOpened] = useState(false);
     const scrollRef = useScrollContainer();
     const { scrollYProgress } = useScroll({ container: scrollRef });
+    const location = useLocation();
 
     useEffect(() => {
         const handleResize = () => {
@@ -31,7 +32,11 @@ export default function Layout() {
         
         return () => window.removeEventListener('resize', handleResize)
         
-    }, [])
+    }, []);
+
+    useEffect(() => {
+        setSideBarOpened(false);
+    }, [location.pathname]);
     
     return (
        <div className='relative dark:text-white mx-auto bg-gray-100/70 dark:bg-gray-900/90 h-screen max-h-screen overflow-hidden px-1.5 py-2.5'>

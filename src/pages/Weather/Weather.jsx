@@ -7,49 +7,74 @@ import { weatherApi } from './../../api/weather';
 import TodayWeather from "../../components/Weather/TodayWeather";
 import HourlyWeather from "../../components/Weather/HourlyWeather";
 import DailyWeather from "../../components/Weather/DailyWeather";
-
+import { useSelector, useDispatch } from "react-redux";
+import { citySelector, weatherIsSet } from "../../redux-toolkit/selectors/weatherSelector";
+import { resetWeather, setWeather } from "../../redux-toolkit/features/weatherSlice";
 
 export default function Weather() {
     const { pushAlert } = useAlerts();
     const [loading, setLoading] = useState(false);
 
-    const [city, setCity] = useState(null);
-    const [currentWeather, setCurrentWeather] = useState({});
-    const [hourlyWeather, setHourlyWeather] = useState({});
-    const [dailyWeather, setDailyWeather] = useState({});
+    const city = useSelector(citySelector);
+    const weatherAvailable = useSelector(weatherIsSet);
+    const dispatch = useDispatch();
+
+
+    const prepareHourlyWeather = data => {
+        const { hourly: { time, temperature_2m:temp, precipitation_probability:precip, weather_code:codes } } = data;
+        
+        console.log(time);
+        
+        // find current time in data (comparing hour of weather with current hour) if hours is 23 index is 24 the next day
+        const now = new Date().getHours();
+        const sliceTime = now === 23 
+            ? time[24] 
+            : time.find( date => + date.match(/T(\d+):/)[1] > now);
+        
+        // locate index of current time in data
+        const index = time.indexOf(sliceTime);
+        
+        return {
+            ...data,
+            hourly: {
+                ...data.hourly,
+                time:           time.slice(index,  index + 25),                     
+                temperature_2m: temp.slice(index,  index + 25), 
+                weather_code:   codes.slice(index, index + 25), 
+                precipitation_probability : precip.slice(index,  index + 25),                        
+            }
+        } 
+    }
     
     useEffect(() => {
         async function loadCityWeather() {
-            setCurrentWeather({});
-            setHourlyWeather({});
-            setDailyWeather({});
+            dispatch( resetWeather() );
             setLoading(true);
 
             try {
-                const { properties } = city;
-                const { lat, lon } = properties;
+                const { properties: { lat, lon } } = city;
 
                 // Get Current Weather
-                let data = await weatherApi.current(lat, lon);
-                setCurrentWeather(data);
-
+                const currentWeatherData = await weatherApi.current(lat, lon);
                 // Get Hourly Weather
-                data = await weatherApi.hourly(lat, lon);
-
-                // Slicing hourly weather from current time
-                const sliceTime = data.hourly.time.find( date => date.split('T')[1].split(':')[0] > new Date().getHours() );
-                const index = data.hourly.time.indexOf(sliceTime);
-
-                data.hourly.time = data.hourly.time.slice(index, 37);                           
-                data.hourly.temperature_2m = data.hourly.temperature_2m.slice(index, index + 37);                            
-                data.hourly.weather_code = data.hourly.weather_code.slice(index, index + 37);  
-
-                setHourlyWeather(data);
-
+                const hourlyWeatherData = await weatherApi.hourly(lat, lon);
                 // Get Daily Weather
-                data = await weatherApi.daily(lat, lon);  
-                data.daily.time = data.daily.time.map(date => new Date(date).toLocaleDateString('en-US', { weekday: 'short' }));                                  
-                setDailyWeather(data);
+                const dailyWeatherData = await weatherApi.daily(lat, lon);  
+
+
+                const { daily: {time} } = dailyWeatherData;
+
+                dispatch( setWeather({
+                    currentWeather: currentWeatherData,
+                    hourlyWeather: prepareHourlyWeather(hourlyWeatherData),
+                    dailyWeather: {
+                        ...dailyWeatherData,
+                        daily: {
+                            ...dailyWeatherData.daily,
+                            time: time.map(date => new Date(date).toLocaleDateString('en-US', { weekday: 'short' }))    
+                        }
+                    }
+                }));
 
             } catch (error) {
                 pushAlert({
@@ -63,7 +88,7 @@ export default function Weather() {
             }
         }
 
-        if (city)loadCityWeather();  
+        if (Object.values(city).length) loadCityWeather();  
         
     }, [city]);
 
@@ -73,7 +98,7 @@ export default function Weather() {
                 Explore Weather
             </h1>
 
-            <CitySearch setCity={setCity}  />
+            <CitySearch setLoading={setLoading} />
 
             <div className="bg-white/80 dark:bg-gray-700 min-h-120 mx-1 my-4 rounded flex flex-col items-stretch justify-center overflow-x-hidden relative">
 
@@ -83,17 +108,17 @@ export default function Weather() {
                 </div>
 
                 {
-                    !city &&
+                    !Object.values(city).length && !loading &&
                     (<p className="text-gray-400 dark:text-gray-500 text-center">Search and select a city to start !</p>)
                 }
 
                 {
-                    Object.values(currentWeather).length && Object.values(hourlyWeather).length && Object.values(dailyWeather).length 
+                    weatherAvailable
                     ? (
                         <>
-                            <TodayWeather city={city} currentWeather={currentWeather} />
-                            <HourlyWeather hourlyWeather={hourlyWeather} />
-                            <DailyWeather dailyWeather={dailyWeather} />
+                            <TodayWeather />
+                            <HourlyWeather />
+                            <DailyWeather />
                         </>
                     ) : ''
                 }

@@ -4,7 +4,7 @@ import { authApi } from "../../api/auth";
 import { useAlerts } from "../../context/AlertsContext";
 import { useUser } from "../../context/UserContext";
 import countries from "../../data/countries.json";
-import ConfirmButton from "../Forms/ConfirmButton";
+import { ConfirmButton } from "../Forms/ConfirmButton";
 import InputField from "../Forms/InputField";
 import SelectField from "../Forms/SelectField";
 import Divider from "../Utilities/Divider";

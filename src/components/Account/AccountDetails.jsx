@@ -1,7 +1,7 @@
 import { useUser } from "../../context/UserContext";
 import countries from "../../data/countries.json";
 import Divider from "../Utilities/Divider";
-import ConfirmButton from "../Forms/ConfirmButton";
+import { ConfirmButton } from "../Forms/ConfirmButton";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 

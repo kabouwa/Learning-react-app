@@ -1,21 +1,31 @@
 
 import { memo, useCallback, useEffect, useRef, useState } from 'react';
 import InputField from '../Forms/InputField';
-import { geoAutoCompleteApi } from "../../api/geoAutocomplete"
+import { geoLocationApi } from "../../api/geoLoaction"
 import { useAlerts } from "../../context/AlertsContext";
 import { useSearchParams } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { resetCity, resetWeather, setCity } from '../../redux-toolkit/features/weatherSlice';
+import { ConfirmButton } from '../Forms/ConfirmButton';
+import { Locate } from 'lucide-react';
 
-function CitySearch({ setCity }) {
+function CitySearch({ setLoading }) {
+    // RTK
+    const dispatch = useDispatch();
+    // Context
     const { pushAlert } = useAlerts();
-    const [cities, setCities] = useState(null);
+
     const [searchParams, setSearchParams] = useSearchParams();
+    const [cities, setCities] = useState(null);
+    const navigatorCity = useRef(null);
+    const [currentLocIsSet, setCurrentLocIsSet] = useState(false);
     const searchInp = useRef(null);
     const debounceTimer = useRef(null);
 
     const searchCities = useCallback(async (text) => {
         if (!text) return;
         try {
-            const response = await geoAutoCompleteApi.search(text);
+            const response = await geoLocationApi.search(text);
             const data = response.features; 
             setCities(data);
         } catch (error) {
@@ -31,7 +41,7 @@ function CitySearch({ setCity }) {
 
     const handleInputChange = useCallback(() => {
         const city = searchInp.current?.value?.trim();
-        setCities(null);
+        dispatch( resetCity() )
         if(city) {
             setSearchParams({city});
         }else{
@@ -46,7 +56,7 @@ function CitySearch({ setCity }) {
 
     }, []);
 
-    useEffect(() => {        
+    useEffect(() => {     
         function autoCloseDropDownCities (e) {
             if( !['city-search', 'cities-dropdown'].includes(e.target?.id)) setCities(null);
         }
@@ -59,16 +69,9 @@ function CitySearch({ setCity }) {
         } 
     }, []);
 
-    const handleSelectCity = (selectedCity) => {
-        const { properties } = selectedCity;
-        const { name, state, country} = properties;
-
-        searchInp.current.value = `${ name ? name + ',': '' } ${ state ? state + ',': '' } ${country}`;
-        setSearchParams({city: searchInp.current.value});
-
-        // Set DateTime of City in their object
-        selectedCity.date = new Intl.DateTimeFormat('en-GB', {
-            timeZone : selectedCity?.properties?.timezone?.name,
+    const formatDate = timeZone => 
+        new Intl.DateTimeFormat('en-GB', {
+            timeZone,
             year : 'numeric',
             month : 'short',
             day : '2-digit',
@@ -76,15 +79,102 @@ function CitySearch({ setCity }) {
             hour : '2-digit',
 
             hour12 : false
-        }).format(new Date())        
-    
-        setCities(null);
-        setCity(selectedCity);
+    }).format(new Date());
+
+    const updateInputValue = (city) => {
+        const { properties } = city;
+        const { name, state, country} = properties;
+        searchInp.current.value = `${ name ? name + ',': '' } ${ state ? state + ',': '' } ${country}`;
+        setSearchParams({city: searchInp.current.value});
     }
 
+    const handleSelectCity = (selectedCity) => {
+        const { properties } = selectedCity;
+
+        setCurrentLocIsSet(false);
+        updateInputValue(selectedCity);
+
+        // Set DateTime of City in their object
+        selectedCity.date = formatDate(properties?.timezone?.name);      
+    
+        setCities(null);
+        dispatch( setCity({ city: selectedCity}) )
+    }
+
+    // Current User Loaction 
+    const getCitiesByCoordinates  = async (lat, lon) => {
+        if (!lon || !lat) return;
+        dispatch( resetWeather() );
+        try {
+            const response = await geoLocationApi.reverseGeocode(lat, lon);
+            const data = response.features[0]; // first city
+
+            const city =  {
+                ...data,
+                date: formatDate(data?.properties?.timezone?.name)    
+            }
+
+            updateInputValue(city);
+                 
+            dispatch( setCity({city}) );
+            navigatorCity.current = city;
+
+        } catch (error) {
+            pushAlert({
+                type : "error",
+                accent : "Error",
+                message : error.message,
+                autoRemove : true
+            });
+        } finally {
+            // setLoading(false);
+            // after changing city weather parent component run their effect 
+            // which re activate loading and fetch weather
+        }
+    }
+
+    const handleUserGeoLocation = () => {
+        setLoading(true);
+        setCurrentLocIsSet(true);
+
+        // if we already get the navigator city
+        if (navigatorCity.current && !currentLocIsSet) {
+            dispatch( setCity({ city: navigatorCity.current}) );
+            return;
+        }
+
+        navigator.geolocation.getCurrentPosition(
+            data => {
+                const {coords: {longitude, latitude}} = data;
+                
+                getCitiesByCoordinates(latitude, longitude);
+            },
+            // User Deny To Share positon
+            () => {
+                setCurrentLocIsSet(false);
+                setLoading(false);
+                pushAlert({
+                    type : "warning",
+                    message : "Location access was denied. Please allow location access to use your current location..",
+                    autoRemove : true,
+                    clearAlerts : true
+                });
+            }
+        );
+
+    }
+
+    useEffect(() => {     
+        handleUserGeoLocation()
+    }, []);
+
     return (
-        <div className='my-6 relative z-70'>
+        <div className='my-6 relative z-70 flex justify-between'>
             <InputField id='city-search' label="Find your city" clearButton={true} value={searchParams.get('city')} reference={searchInp} onChange={handleInputChange} />
+
+            <ConfirmButton classes='px-4' title="Use current position"onClick={handleUserGeoLocation} disabled={currentLocIsSet} >
+                <Locate size={28} />
+            </ConfirmButton>
 
             {
                 cities &&

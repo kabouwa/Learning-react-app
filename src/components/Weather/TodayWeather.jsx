@@ -2,8 +2,15 @@ import { Clock, Cloud, CloudFog, CloudLightning, CloudRain, CloudRainWind, Cloud
 import Divider from "../Utilities/Divider";
 import StatCard from "../Cards/StatCard";
 import { motion } from "framer-motion";
+import { useSelector } from "react-redux";
+import { citySelector, currentWeatherSelector } from "../../redux-toolkit/selectors/weatherSelector";
+import withWeatherIcon from "../../hoc/withWeatherIcon";
 
-export default function TodayWeather({ currentWeather, city } ){
+function TodayWeather({ getWeatherIcon }){
+    // RTK
+    const currentWeather = useSelector(currentWeatherSelector);
+    const city = useSelector(citySelector);
+
     const { current:curr , current_units:units, daily } = currentWeather;
     const { properties:cProps } = city;
 
@@ -23,23 +30,6 @@ export default function TodayWeather({ currentWeather, city } ){
         if (hour >= 17 && hour < 21) return "Good Evening " + cityName;
         return "Good Night " + cityName;
     }
-    
-    const getWeatherIcon = (size = 200) => {
-        const w = curr?.weather_code;
-        let Icon = Cloud;
-
-        if ( [0].includes(w)         ) Icon = Sun;
-        if ( [1, 2].includes(w)      ) Icon = CloudSun;
-        if ( [3].includes(w)         ) Icon = Cloud;
-        if ( [45, 48].includes(w)    ) Icon = CloudFog;
-        if ( [51, 53, 55].includes(w)) Icon = CloudSunRain;
-        if ( [61, 63, 65].includes(w)) Icon = CloudRainWind;
-        if ( [71, 73, 75].includes(w)) Icon = CloudSunRain;
-        if ( [95, 96, 99].includes(w)) Icon = CloudLightning;
-
-        return <Icon size={size} />
-    }
-
 
     return (
         <div className="flex-1 flex flex-col justify-between items-center gap-4 py-4 px-2 max-w-4xl mx-auto">
@@ -51,17 +41,17 @@ export default function TodayWeather({ currentWeather, city } ){
                 </h1>
 
                 <p className="m-0 text-xl text-center display-6">
-                    {cProps?.name}, {cProps?.country_code?.toUpperCase()} <MapPin className="inline-block m-0 mb-2" />
+                    {cProps?.name}, {cProps?.name != cProps?.city ? cProps?.city + ', ' : ''}{cProps?.country_code?.toUpperCase()} <MapPin className="inline-block m-0 mb-2" />
                 </p>
 
                 <motion.p whileHover={{ scale : 1.03 }} className="m-0 text-sm bg-white/30 rounded text-center py-0.5 my-1">
-                    {city.date.toString()} <Clock size={20} strokeWidth={0.8} className="inline-block m-0 mb-1" />
+                    {city?.date?.toString()} <Clock size={20} strokeWidth={0.8} className="inline-block m-0 mb-1" />
                 </motion.p>
             </div>
 
             {/* Weather Icon */}
-            <motion.div transition={{repeat: Infinity, ease: 'easeInOut', duration: 3}} animate={{ y: ['20px', '-20px', '20px']}} className="my-4">
-                {getWeatherIcon()}
+            <motion.div transition={{repeat: Infinity, ease: 'easeInOut', duration: 8}} animate={{ y: ['0px', '-12px', '4px', '-8px', '0px'],  x: ['0px', '6px', '-4px', '8px', '0px']}} className="my-4">
+                {getWeatherIcon(curr?.weather_code, '', 200)}
             </motion.div>  
 
             {/* Weather Temperature */}
@@ -90,7 +80,7 @@ export default function TodayWeather({ currentWeather, city } ){
             {/* Weather Statistics */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
                 <StatCard icon={CloudRain} label='Precipitation' color="text-blue-500" bg="bg-blue-100" 
-                    value={curr?.precipitation + ' ' + units?.precipitation} />
+                    value={curr?.precipitation_probability + ' ' + units?.precipitation_probability} />
 
                 <StatCard icon={Droplets} label='Humidity' color="text-cyan-500" bg="bg-cyan-100"
                     value={curr?.relative_humidity_2m + ' ' + units?.relative_humidity_2m} />
@@ -106,3 +96,5 @@ export default function TodayWeather({ currentWeather, city } ){
         </div>
     )
 }
+
+export default withWeatherIcon(TodayWeather);
