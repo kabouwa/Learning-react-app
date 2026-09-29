@@ -1,4 +1,4 @@
-import InputField from "../Forms/InputField";
+import { InputField }  from "../Forms/InputField";
 import { ConfirmButton } from "../Forms/ConfirmButton";
 import { useRef, useState } from "react";
 import { authApi } from "../../api/auth";
@@ -86,8 +86,8 @@ export default function LoginForm({ classes = ''}) {
             <form onSubmit={handleFormSubmit} 
                 className="flex flex-col justify-center align-center gap-4 max-w-xl mx-auto my-4 transition-all">
                 
-                <InputField label="Email" error={errors?.email} reference={emailInp} />
-                <InputField label="Password" error={errors?.password} reference={passInput} password={true}  />
+                <InputField label="Email" error={errors?.email} reference={emailInp} value="manager.a@coffee.test" />
+                <InputField label="Password" error={errors?.password} reference={passInput} password={true} value="password"  />
 
                 <ConfirmButton label="Login" type="submit" disabled={checking} />
             </form>

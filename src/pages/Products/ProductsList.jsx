@@ -69,11 +69,11 @@ export default function ProductsList() {
             
             try{
                 let response = await productsApi.list();
-                dispatch( setProducts({products : response.data}) )            
+                dispatch( setProducts({products : response.data}) );   
 
                 response = await productsApi.categories();
-                dispatch( setCategories({categories : response.data}) )                                                 
-
+                dispatch( setCategories({categories : response.data}) );
+                                                              
             }catch (error) { 
                 pushAlert({
                     type : "error",
@@ -126,13 +126,14 @@ export default function ProductsList() {
 
 
             <motion.div transition={{ ease : 'easeInOut' }} initial={{ opacity : 0 }} animate={{ opacity : 1 }} className="animate-fade-in grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-3 my-6"> 
-
                 {
                     !loading && filtredProducts.length
                     ? filtredProducts.map(
-                        product => <ProductCard key={product.slug} product={product} />
+                        product => <ProductCard product={product} />
                     )
-                    : ( <p className="text-center text-gray-400 col-span-4 text-sm">No product founded.</p> )
+                    : !loading
+                    ? ( <p className="text-center text-gray-400 col-span-4 text-sm">No product founded.</p> )
+                    : null
                 }
 
                 {

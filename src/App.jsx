@@ -110,7 +110,8 @@ export default function App() {
      */
     
     return (
-            <BrowserRouter basename={`/${APP_NAME}`}>
+            // <BrowserRouter basename={`/${APP_NAME}`}> // GITHUB HOSTING ONLY
+            <BrowserRouter>
                 <Provider store={store} > {/* Redux Classic */}
                     <Provider store={reduxStore}> {/* RTK */}
                     <ConfirmationModalProvider>

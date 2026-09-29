@@ -1,18 +1,19 @@
-const Ip = ['127.0.0.1','192.168.1.26'][0];
-const Port = '8000';
+const envPathServer = import.meta.env.VITE_COFFE_SHOP_API 
+const Local_IP = ['127.0.0.1','192.168.1.100'][1];
+const Local_Port = '8000';
 
-export const COFFEE_SHOP_API = `http://${Ip}:${Port}/api/v1`;
+export const COFFEE_SHOP_API = envPathServer ? '/api/v1'  : `http://${Local_IP}:${Local_Port}/api/v1`;
 
 export const GEO_API = `https://api.geoapify.com/v1/geocode`;
 
-export const WEATHER_API = `https://api.open-meteo.com/v1/`;
+export const WEATHER_API = `https://api.open-meteo.com/v1`;
 
 export const api = {
-    get    : (server_url, path)      => request(server_url, path , {method: "GET"}),
-    post   : (server_url, path, data) => request(server_url, path , {method: "POST", body: JSON.stringify(data)}),
-    put    : (server_url, path, data) => request(server_url, path , {method: "PUT", body: JSON.stringify(data)}),
+    get    : (server_url, path)       => request(server_url, path , {method: "GET"}),
+    post   : (server_url, path, data) => request(server_url, path , {method: "POST",  body: JSON.stringify(data)}),
+    put    : (server_url, path, data) => request(server_url, path , {method: "PUT",   body: JSON.stringify(data)}),
     patch  : (server_url, path, data) => request(server_url, path , {method: "PATCH", body: JSON.stringify(data)}),
-    delete : (server_url, path)      => request(server_url, path , {method: "DELETE"}),
+    delete : (server_url, path)       => request(server_url, path , {method: "DELETE"}),
 }
 
 
@@ -49,8 +50,8 @@ async function request(server_url, path, options={}) {
         response = await fetch(url, config);
     } catch {
         throw new ApiError(
-            "Unable to connect to the local server.",
-        0,
+            "Unable to connect to the the server.",
+            0,
             null
         )
     }
@@ -59,7 +60,11 @@ async function request(server_url, path, options={}) {
     try{
         body = await response.json();
     } catch (error) {
-        error
+        throw new ApiError(
+            body?.errors || "Unable to attribute connection with server.",
+            0,
+            error
+        );
     }
     
     // if(!response.ok) {        

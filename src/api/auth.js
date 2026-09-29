@@ -3,7 +3,11 @@ import { api, COFFEE_SHOP_API } from "./client";
 const BASE = '/auth';
 
 export const authApi = {
-    register : (user) => api.post(COFFEE_SHOP_API, `${BASE}/register`, user),
+    register : async (user) => {
+        const response = await api.post(COFFEE_SHOP_API, `${BASE}/register`, user);
+        if (response?.token) localStorage.setItem('token', response.token);
+        return response;
+    },
 
     user : () => api.get(COFFEE_SHOP_API, `${BASE}/user`),
 

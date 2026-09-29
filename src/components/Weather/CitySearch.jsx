@@ -1,6 +1,6 @@
 
 import { memo, useCallback, useEffect, useRef, useState } from 'react';
-import InputField from '../Forms/InputField';
+import { InputField }  from '../Forms/InputField';
 import { geoLocationApi } from "../../api/geoLoaction"
 import { useAlerts } from "../../context/AlertsContext";
 import { useSearchParams } from 'react-router-dom';
@@ -169,16 +169,17 @@ function CitySearch({ setLoading }) {
     }, []);
 
     return (
-        <div className='my-6 relative z-70 flex justify-between'>
+        <div className='my-6 relative flex justify-between'>
+
             <InputField id='city-search' label="Find your city" clearButton={true} value={searchParams.get('city')} reference={searchInp} onChange={handleInputChange} />
 
-            <ConfirmButton classes='px-4' title="Use current position"onClick={handleUserGeoLocation} disabled={currentLocIsSet} >
+            <ConfirmButton classes='px-4' title="Use current position" titlePositon={innerWidth > 700 ? "bottom" : "left"} onClick={handleUserGeoLocation} disabled={currentLocIsSet} >
                 <Locate size={28} />
             </ConfirmButton>
 
             {
                 cities &&
-                <div className='w-[98.8%] bg-white rounded-xl absolute top-18 left-1 overflow-hidden max-h-80'>
+                <div className='w-[98.8%] bg-white rounded-xl absolute top-18 left-1 overflow-hidden max-h-80 z-10'>
                     <ul className='text-dark p-1 my-2 rounded-xl' id='cities-dropdown'>
                         {
                             cities.length

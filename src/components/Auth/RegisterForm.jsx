@@ -1,4 +1,4 @@
-import InputField from "../Forms/InputField";
+import { InputField }  from "../Forms/InputField";
 import SelectField from "../Forms/SelectField";
 import { ConfirmButton } from "../Forms/ConfirmButton";
 import { useCallback, useRef, useState } from "react";
@@ -52,7 +52,7 @@ export default function RegisterForm({ classes='' }) {
         const f = formData.current;
 
         const data = {
-            name : f.name?.trim()?.toLowerCase(),
+            name : f.name?.trim(),
             email : f.email?.trim()?.toLowerCase(),
             password : f.password?.trim(),
             password_confirmation : f.password_confirmation?.trim(),
@@ -110,7 +110,7 @@ export default function RegisterForm({ classes='' }) {
                         autoRemove: false,
                         clearAlerts: true
                     });
-                    navigate('/dashboard')
+                    navigate(routes.dashboard);
                 }
 
             }catch (error) {         

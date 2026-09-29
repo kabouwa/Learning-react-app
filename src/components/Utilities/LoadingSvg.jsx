@@ -1,7 +1,7 @@
 import { motion } from "framer-motion"
 
 
-export default function LoadingSvg({ classes, size = 74,  hidden = false }) {
+export function LoadingSvg({ size = 74,  hidden = false }) {
     return (
         <>
             {

@@ -1,7 +1,7 @@
 import { motion } from "framer-motion"
 import CitySearch from "../../components/Weather/CitySearch"
 import { useEffect, useState } from "react"
-import LoadingSvg from "../../components/Utilities/LoadingSvg";
+import { LoadingSvg } from "../../components/Utilities/LoadingSvg";
 import { useAlerts } from "../../context/AlertsContext";
 import { weatherApi } from './../../api/weather';
 import TodayWeather from "../../components/Weather/TodayWeather";
@@ -22,9 +22,7 @@ export default function Weather() {
 
     const prepareHourlyWeather = data => {
         const { hourly: { time, temperature_2m:temp, precipitation_probability:precip, weather_code:codes } } = data;
-        
-        console.log(time);
-        
+                
         // find current time in data (comparing hour of weather with current hour) if hours is 23 index is 24 the next day
         const now = new Date().getHours();
         const sliceTime = now === 23 

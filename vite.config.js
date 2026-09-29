@@ -11,5 +11,5 @@ export default defineConfig({
   server : {
     open: true,
   },
-  base: '/Learning-react-app/'
+  // base: '/Learning-react-app/' // GITHUB HOSTING NEED NAME OF REPO
 })

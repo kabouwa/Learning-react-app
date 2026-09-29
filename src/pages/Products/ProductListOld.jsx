@@ -14,7 +14,7 @@ export default function ProductsListOld() {
 
     useEffect(() => {
         async function loadProducts() {
-            console.log('Loading products, categories from Local Api Server !')
+            // console.log('Loading products, categories from Local Api Server !')
             setLoading(true);
             
             try{

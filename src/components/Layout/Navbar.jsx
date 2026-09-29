@@ -144,8 +144,8 @@ export default function Navbar({ sideBarOpened, setSideBarOpened }) {
                         ) 
                         : (
                             <>
-                            <NavbarLink key={'profile'}  routeData={{title: 'Account', link: routes.account , icon: <UserRoundCog />}} linkStartWith="/dashboard/account" sideBarOpened={sideBarOpened} />
-                            <NavbarLink key={'logout'}  routeData={{title: 'Logout', icon: <LogOut />}} sideBarOpened={sideBarOpened} onClick={handleShowModal} />
+                                <NavbarLink key={'profile'}  routeData={{title: 'Account', link: routes.account , Icon: UserRoundCog }} linkStartWith="/dashboard/account" sideBarOpened={sideBarOpened} />
+                                <NavbarLink key={'logout'}  routeData={{title: 'Logout', Icon: LogOut }} sideBarOpened={sideBarOpened} onClick={handleShowModal} />
                             </>
                         ) 
                         

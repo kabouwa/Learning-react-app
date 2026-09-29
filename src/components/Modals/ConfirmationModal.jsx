@@ -23,7 +23,7 @@ export default function ConfirmationModal() {
         },
         logout: {
             title: `Log out`,
-            icon: <CircleAlert className="text-indigo-500" />,
+            icon: <CircleAlert className="text-orange-500" />,
             iconBg: 'bg-orange-100/90',
             iconButton: <LogOut />,
             bgButton: 'bg-orange-500',

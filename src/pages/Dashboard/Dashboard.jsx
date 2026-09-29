@@ -64,6 +64,7 @@ export default function Dashboard() {
 
 
             {/* Best seller */}
+            
             <div className="bg-white/99 dark:bg-gray-800 w-full rounded-xl py-4 px-6 flex gap-3 items-center justify-between text-dark dark:text-white">
                 <div className={`p-2.5 rounded ${statusIconMap.Pending.color} ${statusIconMap.Pending.bg}`}>
                     <Trophy size={20} />
@@ -74,33 +75,52 @@ export default function Dashboard() {
                     <p className="font-bold text-black/99 dark:text-white m-0">
                         {statistics?.best_selling_product?.name}
                         <span className="text-gray-500 dark:text-gray-300 font-normal text-sm ml-1">
-                            ({statistics?.best_selling_product?.quantity_sold} sold)
+                            {
+                                statistics?.best_selling_product ? (
+                                    `(${statistics?.best_selling_product?.quantity_sold} sold)`
+                                ) : 'No products have been sold yet.'
+                            }
+                            
                         </span>
                     </p>
 
                 </div>
 
-                <Link to={routes.product_show + '/' + statistics?.best_selling_product?.slug} className="bg-indigo-500 text-white px-3 py-2 rounded hover:brightness-95 transition-all">View product</Link>
+                {
+                    statistics?.best_selling_product ? (
+                    <Link to={routes.product_show + '/' + statistics?.best_selling_product?.slug} 
+                        className="bg-indigo-500 text-white px-3 py-2 rounded hover:brightness-95 transition-all">
+                        View product
+                    </Link>
+                    ) : null
+                }
+
             </div>
+          
+
 
             {/* Top products */}
+
+            
             <div className="bg-white/99 dark:bg-gray-800 w-full rounded-xl py-4 px-6 text-dark dark:text-white">
                 <p className="text-gray-500 dark:text-white flex gap-2 items-center">
                     <TrendingUp className="h-4 w-4 text-slate-500 dark:text-slate-300 mr-2" />
                     Top Products
                 </p>
                 <div className="flex flex-col gap-1 mt-3">
-                    {
-                        statistics?.top_products.map(p => (
+                    {   
+                        statistics?.top_products?.length
+                        ? statistics?.top_products.map(p => (
                             <Link to={routes.product_show + '/' + p.slug} key={p.slug   } className="flex items-center justify-between gap-2 hover:bg-gray-100/70 dark:hover:bg-gray-500/30 cursor-pointer rounded py-1 px-2.5 dark:text-white">
                                 <p>{p?.name}</p>
                                 <p className="text-gray-600 dark:text-gray-300">{p?.quantity_sold} sold - ${p?.revenue}</p>
                             </Link>
                         ))
+                        : <span className="text-gray-500 dark:text-gray-300">No products have been sold yet.</span>
                     }
-                </div> 
-
+                </div>
             </div>
+             
 
             {/* Orders by status */}
             <div className="bg-white/99 dark:bg-gray-800 w-full rounded-xl py-4 px-6 text-dark dark:text-white">
@@ -114,7 +134,7 @@ export default function Dashboard() {
                             const conf = statusIconMap[s.status] || statusIconMap.Pending;
                             const Icon = conf.icon;
                             return (
-                                <div key={s.status} className={`flex flex-col items-center justify-center px-4 py-3 rounded-xl             ${conf.color} ${conf.bg}`}>
+                                <div key={s.status} className={`flex flex-col items-center justify-center px-4 py-3 rounded-xl ${conf.color} ${conf.bg}`}>
                                     <Icon className={`w-5 h-5 ${conf.color}`} />
                                     <p className="text-slate-600">{s?.status}</p>
                                     <p className="text-black font-bold">{s?.count}</p>
@@ -133,12 +153,14 @@ export default function Dashboard() {
                     Revenue ({statistics?.period})
                 </p>
                 {
-                    statistics?.revenue_chart.map(r => (
+                    statistics?.revenue_chart?.length
+                    ? statistics?.revenue_chart?.map(r => (
                         <div className="flex items-center justify-between gap-2 mt-3 px-1">
                             <p className="text-slate-600 dark:text-slate-200">{r.label}</p>
-                            <p className="text-black dark:text-white font-bold">$ {r.revenue}</p>
+                            <p className="text-black/99 dark:text-white font-bold">$ {r.revenue}</p>
                         </div> 
                     ))
+                    : <span className="text-gray-500 dark:text-gray-300 inline-block mt-3">No products have been sold yet.</span>
                 }
             </div>
         </motion.div>

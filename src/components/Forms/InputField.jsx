@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Eye, EyeOff, X } from "lucide-react";
 
-export default function InputField({label, classes, reference, placeholder, value, password=false, readonly=false, id, error, clearButton = false, onChange= ()=>{}, onBlur = ()=>{}}) {
+export function InputField({label, classes, reference, placeholder, value, password=false, readonly=false, id, error, clearButton = false, onChange= ()=>{}, onBlur = ()=>{}}) {
     const [isPasswordHidden,setIsPasswordHidden] = useState(true);
 
     const clearInput = (e) => {
@@ -11,7 +11,7 @@ export default function InputField({label, classes, reference, placeholder, valu
 
 
     return (
-        <div className={"flex-1 form-group relative flex flex-col items-stretch mx-1 " + classes}>
+        <div className={"flex-1 form-group relative flex flex-col items-stretch mx-1 min-w-0 " + classes}>
             
             <input type={password && isPasswordHidden ? "password" : "text"} 
                 ref={reference} placeholder={placeholder ? placeholder : password ? '********' : ''}
